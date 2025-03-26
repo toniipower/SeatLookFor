@@ -19,32 +19,6 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 - **Base de datos**: MariaDB
 - **Despliegue**: AWS
 
-## Instalación 🚀
-
-1. Clona este repositorio:
-   ```sh
-   git clone https://github.com/tu-usuario/seatLookFor.git
-   ```
-2. Entra en el directorio del proyecto:
-   ```sh
-   cd seatLookFor
-   ```
-3. Instala las dependencias:
-   ```sh
-   npm install  # Para Angular
-   composer install  # Para Laravel
-   ```
-4. Configura las variables de entorno (`.env`). Ejemplo:
-   ```env
-   DATABASE_URL=tu_conexion_bd
-   API_KEY=tu_api_key
-   ```
-5. Ejecuta el proyecto:
-   ```sh
-   npm run start  # Para Angular
-   php artisan serve  # Para Laravel
-   ```
-
 ## Contribuciones 🤝
 
 ¡Las contribuciones son bienvenidas! 🚀 Si quieres ayudar a mejorar *SeatLookFor*, por favor:
