@@ -19,15 +19,6 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 - **Base de datos**: MariaDB
 - **Despliegue**: AWS
 
-## Contribuciones 🤝
-
-¡Las contribuciones son bienvenidas! 🚀 Si quieres ayudar a mejorar *SeatLookFor*, por favor:
-
-1. Haz un fork del repositorio.
-2. Crea una rama (`git checkout -b feature-nueva`).
-3. Realiza tus cambios y haz commit (`git commit -m "Añadida nueva funcionalidad"`).
-4. Sube los cambios (`git push origin feature-nueva`).
-5. Crea un Pull Request.
 
 ## Equipo 👥
 
