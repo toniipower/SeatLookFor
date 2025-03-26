@@ -28,5 +28,5 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 ## Anteproyecto 📄
 Puedes consultar nuestro anteproyecto en Notion en el siguiente enlace:
 [TFG - SeatLookFor]([https://www.notion.so/TFG-1b984cda3c97803dbb8dd31a2e6bb895?pvs=4](https://branched-juniper-ded.notion.site/TFG-1b984cda3c97803dbb8dd31a2e6bb895))
-
+[TFG - SeatLookFor](https://branched-juniper-ded.notion.site/TFG-1b984cda3c97803dbb8dd31a2e6bb895)
 
