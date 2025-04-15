@@ -2,7 +2,7 @@
 
 ## Descripción 📌
 
-SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asientos en teatros, estadios y otros espacios de eventos con asientos numerados. Así, cualquier persona podrá conocer la vista real desde un asiento antes de comprar su entrada, asegurándose de que obtiene la mejor experiencia sin sorpresas. Además, la plataforma permite redirigir a los usuarios a los sitios oficiales para comprar boletos.
+SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asientos en teatros, estadios y otros espacios de eventos con asientos numerados. Así, cualquier persona podrá conocer la vista real desde un asiento antes de comprar su entrada, asegurándose de que obtiene la mejor experiencia sin sorpresas. Además, la plataforma permite redirigir a los usuarios a los sitios oficiales para comprar entradas .
 
 ## Objetivos principales ✨
 
