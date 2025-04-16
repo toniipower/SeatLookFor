@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('asientos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('asiento', function (Blueprint $table) {
+            $table->id('idAsi');
+            $table->string('nombreAsiento');
+            $table->string('estado');//ocupado, libre e inactivo
+
+            $table->unsignedBigInteger('idEst');
+
+            $table->foreign('idEst')
+            ->references('idEst')
+            ->on('establecimiento')->ondelete('cascade');
+
         });
     }
 
@@ -22,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('asientos');
+        Schema::dropIfExists('asiento');
     }
 };

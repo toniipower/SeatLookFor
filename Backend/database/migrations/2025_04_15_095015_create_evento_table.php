@@ -12,8 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('evento', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('idEve');
+            $table->string('estado');
+            $table->string('valoracion');
+            $table->string('ubicacion');
+            $table->string('tipo');
+            $table->string('titulo');
+            $table->string('descripcion');
+            $table->time('duracion');
+            $table->date('fecha');
+            $table->date('categoria');
+            $table->unsignedSmallInteger('idEst');
+            
+            $table->foreign('idEst')->references('idEst')->on('establecimiento')->onDelete('cascade');
         });
     }
 
