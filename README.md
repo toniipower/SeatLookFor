@@ -29,3 +29,27 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 Puedes consultar nuestro anteproyecto en Notion en el siguiente enlace:
 [TFG - SeatLookFor](https://branched-juniper-ded.notion.site/TFG-1b984cda3c97803dbb8dd31a2e6bb895)
 
+##Datos instalacion
+
+# 🚀 Laravel + Docker - Entorno de Desarrollo
+
+Este proyecto está configurado para ejecutarse en un entorno de desarrollo local utilizando **Laravel**, con contenedores Docker para PHP, Nginx y MySQL. También se utiliza **npm** para gestionar y compilar los assets del frontend mediante **Vite**.
+
+---
+
+## 📥 Clonar el repositorio
+
+Primero, clona el proyecto y accede al directorio:
+
+```bash
+git clone https://github.com/toniipower/SeatLookFor/
+
+
+composer global require laravel/installer
+
+
+npm install && npm run build
+
+php artisan sail:install
+
+./vendor/bin/sail up -d -->Debes  tener abierto docker
