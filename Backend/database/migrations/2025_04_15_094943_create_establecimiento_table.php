@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('establecimiento', function (Blueprint $table) {
             $table->id('idEst');
             $table->string('ubicacion');
-            $table->string('tipo');
+            $table->string('nombre');
 
             $table->unsignedSmallInteger('idEst');
             

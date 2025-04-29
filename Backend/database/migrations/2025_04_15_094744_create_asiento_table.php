@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('asiento', function (Blueprint $table) {
             $table->id('idAsi');
-            $table->string('nombreAsiento');
+           /*  $table->string('nombreAsiento'); */
             $table->string('estado');//ocupado, libre e inactivo
+            $table->string('fila');
+            $table->string('columna');
 
             $table->unsignedBigInteger('idEst');
 

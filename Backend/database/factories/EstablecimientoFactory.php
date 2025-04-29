@@ -17,7 +17,9 @@ class EstablecimientoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'ubicacion' => $this->faker->address,
+            'nombre' => $this->faker->randomElement(['Teatro los Prados', 'Teatro del Viso', 'Teatro Alan Turing']),
+            
         ];
     }
 }

@@ -9,4 +9,26 @@ class Evento extends Model
 {
     /** @use HasFactory<\Database\Factories\EventoFactory> */
     use HasFactory;
+
+
+    protected $table = 'evento';
+
+    // Clave primaria 
+    protected $primaryKey = 'idEve';
+
+    protected $fillable=
+    [
+        'estado',
+        'valoracion',
+        'tipo',
+        'ubicacion',
+        'titulo',
+        'descripcion',
+        'duracion',
+        'fecha',
+        'categoria'
+
+
+    ];
+
 }

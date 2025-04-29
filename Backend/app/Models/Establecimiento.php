@@ -9,4 +9,19 @@ class Establecimiento extends Model
 {
     /** @use HasFactory<\Database\Factories\EstablecimientoFactory> */
     use HasFactory;
+
+
+
+    protected $table = 'establecimiento';
+
+    // Clave primaria 
+    protected $primaryKey = 'idEst';
+
+    protected $fillable=
+    [
+        'ubicacion',
+        'nombre',
+
+
+    ];
 }

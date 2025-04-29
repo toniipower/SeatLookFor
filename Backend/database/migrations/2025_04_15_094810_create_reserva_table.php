@@ -17,15 +17,16 @@ return new class extends Migration
             $table->decimal('precio');
             $table->decimal('descuento');
             $table->decimal('total');
-
+/************************************************ */
             $table->unsignedSmallInteger('idEst');
-            
-            $table->foreign('idEst')->references('idEve')->on('establecimiento')->onDelete('cascade');
+            $table->unsignedSmallInteger('idAsi');
             $table->unsignedSmallInteger('idUsu');
+            
+/************************************************ */
+            $table->foreign('idEst')->references('idEve')->on('establecimiento')->onDelete('cascade');
             
             $table->foreign('idUsu')->references('idUsu')->on('usuario');
 
-            $table->unsignedSmallInteger('idAsi');
             
             $table->foreign('idAsi')->references('idAsi')->on('asiento');
 

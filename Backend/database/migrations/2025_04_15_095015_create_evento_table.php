@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('descripcion');
             $table->time('duracion');
             $table->date('fecha');
-            $table->date('categoria');
+            $table->string('categoria');
             $table->unsignedSmallInteger('idEst');
             
             $table->foreign('idEst')->references('idEst')->on('establecimiento')->onDelete('cascade');

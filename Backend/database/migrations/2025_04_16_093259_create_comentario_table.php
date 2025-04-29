@@ -17,11 +17,22 @@ return new class extends Migration
             $table->decimal('valoracion');
             $table->string('foto');
 
-
             $table->unsignedBigInteger('idUsu');
             $table->unsignedBigInteger('idAsi');
 
             $table->primary(['idUsu', 'idAsi']);
+
+            $table->foreign('idUsu')
+            ->references('idUsu')
+            ->on('usuario')
+            ->restrictOnDelete()
+            ->restrictOnUpdate();
+
+            $table->foreign('idAsi')
+            ->references('idAsi')
+            ->on('asiento')
+            ->restrictOnDelete()
+            ->restrictOnUpdate();
 
         });
     }
