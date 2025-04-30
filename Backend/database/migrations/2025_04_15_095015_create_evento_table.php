@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('evento', function (Blueprint $table) {
             $table->id('idEve');
+            $table->string('titulo');
             $table->string('estado');
             $table->string('valoracion');
             $table->string('ubicacion');
             $table->string('tipo');
-            $table->string('titulo');
             $table->string('descripcion');
+            $table->string('portada');
             $table->time('duracion');
             $table->date('fecha');
-            $table->date('categoria');
-            $table->unsignedSmallInteger('idEst');
+            $table->string('categoria');
+            $table->unsignedBigInteger('idEst');
             
             $table->foreign('idEst')->references('idEst')->on('establecimiento')->onDelete('cascade');
         });

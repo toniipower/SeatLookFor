@@ -14,18 +14,19 @@ return new class extends Migration
         Schema::create('reserva', function (Blueprint $table) {
             $table->id('idRes');
             $table->date('fechaReserva');
-            $table->decimal('precio');
-            $table->decimal('descuento');
-            $table->decimal('total');
-
-            $table->unsignedSmallInteger('idEst');
+            $table->decimal('precio',10,2);
+            $table->decimal('descuento',10,2);
+            $table->decimal('total',10,2);
+/************************************************ */
+            $table->unsignedBigInteger('idEve');
+            $table->unsignedBigInteger('idAsi');
+            $table->unsignedBigInteger('idUsu');
             
-            $table->foreign('idEst')->references('idEve')->on('establecimiento')->onDelete('cascade');
-            $table->unsignedSmallInteger('idUsu');
+/************************************************ */
+            $table->foreign('idEve')->references('idEve')->on('evento')->onDelete('cascade');
             
             $table->foreign('idUsu')->references('idUsu')->on('usuario');
 
-            $table->unsignedSmallInteger('idAsi');
             
             $table->foreign('idAsi')->references('idAsi')->on('asiento');
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\Reserva;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +17,16 @@ class ReservaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'fechaReserva' => $this->faker->date(),
+            'precio' => $this->faker->randomFloat(2, 100, 1000), 
+            'descuento' => $this->faker->randomFloat(2, 0, 100), 
+            'total' => function (array $attributes) {
+                return $attributes['precio'] - $attributes['descuento']; // Total calculado
+            },
+
+            'idEve' => \App\Models\Evento::factory(),
+            'idAsi' => \App\Models\Asiento::factory(), 
+            'idUsu' => \App\Models\Usuario::factory(), 
         ];
     }
 }

@@ -13,15 +13,32 @@ return new class extends Migration
     {
         Schema::create('comentario', function (Blueprint $table) {
 
-            $table->text('comentario');
+            $table->text('opinion');
             $table->decimal('valoracion');
             $table->string('foto');
-
 
             $table->unsignedBigInteger('idUsu');
             $table->unsignedBigInteger('idAsi');
 
             $table->primary(['idUsu', 'idAsi']);
+
+            $table->foreign('idUsu')
+            ->references('idUsu')
+            ->on('usuario')
+            ->restrictOnDelete()
+            ->restrictOnUpdate();
+
+          /*   $table->foreign('idCom')
+            ->references('idCom')
+            ->on('comentario')
+            ->restrictOnDelete()
+            ->restrictOnUpdate(); */
+
+            $table->foreign('idAsi')
+            ->references('idAsi')
+            ->on('asiento')
+            ->restrictOnDelete()
+            ->restrictOnUpdate();
 
         });
     }

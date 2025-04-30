@@ -12,17 +12,22 @@ class Usuario extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+
+    protected $table = 'usuario';
+
+    // Clave primaria 
+    protected $primaryKey = 'idUsu';
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nombre', 'apellido', 'email', 'password', 'estado', 'admin'
     ];
 
+    public $timestamps = false;
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -30,7 +35,7 @@ class Usuario extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'estado'
     ];
 
     /**
@@ -41,8 +46,17 @@ class Usuario extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function comentarios()
+    {
+        return $this->belongsToMany(Asiento::class, 'comentario', 'idUsu', 'idAsi');
+    }
+
+    public function Reservas()
+    {
+        return $this->hasMany(Evento::class,);
     }
 }
