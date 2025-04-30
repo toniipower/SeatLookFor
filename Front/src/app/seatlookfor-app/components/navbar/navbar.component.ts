@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  // Aquí podemos agregar la lógica para la búsqueda si es necesario
+  
 }
