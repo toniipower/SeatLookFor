@@ -13,20 +13,20 @@
 }
 
 .logo {
-  font-family: 'Island Moments', cursive; /* Asegúrate de tener esta fuente o una similar */
+  font-family: 'Island Moments', cursive; 
   font-size: 30px;
-  color: white; /* Asumo que el texto va en blanco para contrastar con el fondo */
+  color: white; 
 }
 
 .search-bar {
   width: 470px;
   height: 50px;
   background-color: white;
-  border-radius: 10px; /* Ajusta el radio según necesites */
-  box-shadow: 8px 7px 3px #998888; /* Sombreado oscuro */
+  border-radius: 10px; 
+  box-shadow: 8px 7px 3px #998888; 
   display: flex;
   align-items: center;
-  padding: 0 20px; /* Espacio para el texto dentro del buscador */
+  padding: 0 20px; 
 }
 
 .search-bar input[type="text"] {
@@ -34,8 +34,8 @@
   height: 100%;
   border: none;
   outline: none;
-  font-size: 16px; /* Ajusta el tamaño de la fuente del placeholder */
-  padding-left: 10px; /* Espacio para el texto dentro del input */
+  font-size: 16px; 
+  padding-left: 10px; 
 }
 
 .search-bar input::placeholder {
