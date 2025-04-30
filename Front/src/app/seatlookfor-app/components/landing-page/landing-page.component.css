@@ -7,73 +7,95 @@
 
 .container {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cards-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
   justify-content: center;
+  gap: 29px;
+  flex-wrap: wrap;
+  padding: 40px 0;
 }
 
 .event-card {
-  width: 300px;
-  height: 200px;
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 367px;
+  height: 340px;
+  border-radius: 25px 25px 120px 25px;
+  box-shadow: 6px 9px 14px #310C51;
+  overflow: visible;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .event-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .event-image {
   width: 100%;
-  height: 100%;
-  position: relative;
-  background: none;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
 }
 
 .event-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: none;
 }
 
-.event-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  color: white;
+.event-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .event-title {
-  margin: 0;
-  font-size: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
   font-weight: bold;
-  background: transparent;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
 }
 
 .event-description {
-  margin: 0.5rem 0 0;
-  font-size: 0.9rem;
-  opacity: 0.9;
-  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--secondary-color);
+  line-height: 1.5;
 }
 
-.card-corner {
+.call-to-action {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, transparent 50%, #800080 50%);
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 20px 0 20px 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 60px;
+  width: 60px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 100% 10%);
+}
+
+.call-to-action:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
