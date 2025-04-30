@@ -13,54 +13,23 @@ class EventoController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Evento::all(), 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        
+        $recientes = Evento::orderBy('fecha', 'desc')
+        ->take($id)
+        ->get();
+
+    if ($recientes->isEmpty()) {
+        return response()->json(['message' => 'No se encontraron eventos'], 404);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEventoRequest $request)
-    {
-        //
+    return response()->json([
+        'recientes' => $recientes
+    ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Evento $evento)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Evento $evento)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEventoRequest $request, Evento $evento)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Evento $evento)
-    {
-        //
-    }
 }
