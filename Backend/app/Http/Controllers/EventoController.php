@@ -16,20 +16,18 @@ class EventoController extends Controller
         return response()->json(Evento::all(), 200);
     }
 
-    public function show($id)
+    public function recientes($id)
     {
-        
         $recientes = Evento::orderBy('fecha', 'desc')
-        ->take($id)
-        ->get();
-
-    if ($recientes->isEmpty()) {
-        return response()->json(['message' => 'No se encontraron eventos'], 404);
-    }
-
-    return response()->json([
-        'recientes' => $recientes
-    ], 200);
+            ->take($id)
+            ->get();
+    
+        if ($recientes->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron eventos'], 404);
+        }
+    
+        return response()->json(['recientes' => $recientes], 200);
+    
     }
 
 }

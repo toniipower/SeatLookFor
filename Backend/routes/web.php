@@ -19,7 +19,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/api/eventos', [EventoController::class, 'index']);
-Route::get('/api/eventos/{id}', [EventoController::class, 'show']);
-
+Route::get('api/eventos', [EventoController::class, 'index']);
+Route::get('api/recientes/{id}', [EventoController::class, 'recientes']);
 require __DIR__.'/auth.php';
