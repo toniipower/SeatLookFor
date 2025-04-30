@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comentario', function (Blueprint $table) {
 
-            $table->text('comentario');
+            $table->text('opinion');
             $table->decimal('valoracion');
             $table->string('foto');
 
@@ -27,6 +27,12 @@ return new class extends Migration
             ->on('usuario')
             ->restrictOnDelete()
             ->restrictOnUpdate();
+
+          /*   $table->foreign('idCom')
+            ->references('idCom')
+            ->on('comentario')
+            ->restrictOnDelete()
+            ->restrictOnUpdate(); */
 
             $table->foreign('idAsi')
             ->references('idAsi')

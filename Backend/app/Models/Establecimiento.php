@@ -11,7 +11,8 @@ class Establecimiento extends Model
     use HasFactory;
 
 
-
+    
+    public $timestamps = false;
     protected $table = 'establecimiento';
 
     // Clave primaria 
@@ -21,7 +22,14 @@ class Establecimiento extends Model
     [
         'ubicacion',
         'nombre',
-
-
     ];
+
+    public function Asientos()
+    {
+        return $this->hasMany(Asiento::class);
+    }
+    public function Eventos()
+    {
+        return $this->hasMany(Evento::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Establecimiento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class EstablecimientoFactory extends Factory
         return [
             'ubicacion' => $this->faker->address,
             'nombre' => $this->faker->randomElement(['Teatro los Prados', 'Teatro del Viso', 'Teatro Alan Turing']),
-            
+            'imagen' => $this->faker->text(100),
         ];
     }
 }

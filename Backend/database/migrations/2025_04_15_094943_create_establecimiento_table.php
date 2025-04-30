@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id('idEst');
             $table->string('ubicacion');
             $table->string('nombre');
+            $table->string('imagen');
 
-            $table->unsignedSmallInteger('idEst');
-            
-            $table->foreign('idEst')->references('idEst')->on('establecimiento')->onDelete('cascade');
         });
     }
 
