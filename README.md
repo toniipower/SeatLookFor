@@ -29,6 +29,9 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 Puedes consultar nuestro anteproyecto en Notion en el siguiente enlace:
 [TFG - SeatLookFor](https://branched-juniper-ded.notion.site/TFG-1b984cda3c97803dbb8dd31a2e6bb895)
 
+## Checkpoint
+[Enlace a video de YT](https://www.youtube.com/watch?v=KySzsRHFuxM&ab_channel=AntonioJes%C3%BAsHerediaLeiva)
+
 ##Datos instalacion
 
 # 🚀 Laravel + Docker - Entorno de Desarrollo
