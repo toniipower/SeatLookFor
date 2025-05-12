@@ -2,40 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 use App\Models\Establecimiento;
 use App\Http\Requests\StoreEstablecimientoRequest;
 use App\Http\Requests\UpdateEstablecimientoRequest;
 
 class EstablecimientoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+  
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function listar(Request $request)
+    {   
+
+       
+        $establecimientos = Establecimiento::all();
+        
+        return view('Establecimiento.listadoEstablecimiento',['establecimientos'=> $establecimientos]);
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEstablecimientoRequest $request)
+    public function eliminar(Establecimiento $establecimiento)
     {
-        //
+        $establecimiento->delete();
+        return to_route("Establecimiento.listar");
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Establecimiento $establecimiento)
+    public function crear(Establecimiento $establecimiento)
     {
         //
     }
@@ -48,19 +51,5 @@ class EstablecimientoController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEstablecimientoRequest $request, Establecimiento $establecimiento)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Establecimiento $establecimiento)
-    {
-        //
-    }
 }
