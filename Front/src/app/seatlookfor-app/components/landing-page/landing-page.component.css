@@ -1,33 +1,26 @@
-:host {
+.landing-page {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-areas: 
-    "header"
-    "main"
+  grid-template-areas:
+    "navbar"
+    "content"
     "footer";
   min-height: 100vh;
-  width: 100%;
-  background-color: var(--background-color);
+  background-color: #f4f4f4; 
 }
 
 app-navbar {
-  grid-area: header;
-  width: 100%;
+  grid-area: navbar;
+  color: white;
 }
 
 .container {
-  grid-area: main;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  grid-area: content;
+  padding: 40px 20px; 
   display: flex;
-  flex-direction: column;
   justify-content: center;
-}
-
-app-footer {
-  grid-area: footer;
-  width: 100%;
+  align-items: center; 
+  min-height: 60vh;
 }
 
 .cards-container {
@@ -35,7 +28,8 @@ app-footer {
   justify-content: center;
   gap: 29px;
   flex-wrap: wrap;
-  padding: 40px 0;
+  width: 100%; 
+  max-width: 1200px; 
 }
 
 .event-card {
@@ -81,14 +75,14 @@ app-footer {
   font-family: 'Inter', sans-serif;
   font-size: 32px;
   font-weight: bold;
-  color: var(--secondary-color);
+  color: var(--secondary-color); 
   margin-bottom: 10px;
 }
 
 .event-description {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
-  color: var(--secondary-color);
+  color: var(--secondary-color); 
   line-height: 1.5;
 }
 
@@ -96,7 +90,7 @@ app-footer {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: var(--primary-color);
+  background-color: var(--primary-color); 
   color: white;
   padding: 15px 30px;
   border: none;
@@ -117,4 +111,10 @@ app-footer {
 .call-to-action:hover {
   opacity: 0.9;
   transform: translateY(-2px);
+}
+
+app-footer {
+  grid-area: footer;
+  color: white;
+  text-align: center;
 }
