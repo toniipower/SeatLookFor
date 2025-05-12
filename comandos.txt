@@ -3,3 +3,9 @@ alias sail="./vendor/bin/sail"
 
 Levantar Laravel (asegurate de tener docker desktop y bbdd abiertos)
 sail up -d
+
+lanzar migraciones
+sail artisan migrate:refresh
+
+seeders
+sail artisan db:seed
