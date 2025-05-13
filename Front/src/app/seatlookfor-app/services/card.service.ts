@@ -8,6 +8,7 @@ import { Evento } from '../models/evento.model';
 })
 export class CardService {
   private apiUrl = 'http://localhost/api/recientes/4';
+  // private apiUrl = 'http://localhost/api/eventos';
 
   constructor(private http: HttpClient) {}
 
@@ -25,12 +26,17 @@ export class CardService {
       map(response => {
         console.log('Respuesta del servidor:', response);
         if (response && response.data) {
+          console.log("No es una array");
+          
           return response.data;
         }
         if (Array.isArray(response)) {
+          console.log("Es un array");
+
           return response;
         }
-        return [];
+        
+        return response.recientes;
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error en la petición:', error);

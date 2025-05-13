@@ -25,6 +25,8 @@ export class LandingPageComponent implements OnInit {
     this.cardService.getCards().subscribe(
       (data) => {
         this.cards = data;
+        console.log(data);
+        
         console.log('Cards recibidas:', this.cards);
       },
       (error) => {
