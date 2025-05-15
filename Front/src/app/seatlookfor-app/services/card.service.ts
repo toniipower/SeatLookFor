@@ -8,7 +8,6 @@ import { Evento } from '../models/evento.model';
 })
 export class CardService {
   private apiUrl = 'http://localhost/api/recientes/4';
-  // private apiUrl = 'http://localhost/api/eventos';
 
   constructor(private http: HttpClient) {}
 
