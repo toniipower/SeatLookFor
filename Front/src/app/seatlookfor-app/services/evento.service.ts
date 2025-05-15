@@ -35,7 +35,7 @@ export class EventoService {
           return response;
         }
         
-        return response.recientes;
+        return response;
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error en la petición:', error);
