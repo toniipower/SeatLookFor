@@ -1,0 +1,81 @@
+.mi-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to left, #520E8D, #FFFFFF);
+  box-shadow: 5px 5px 10px #520E8D;
+  padding: 0 20px 0 0;
+  border-radius: 8px; 
+  height: 180px;
+  margin: 10px;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.mi-card img {
+  color: #565656;
+  height: auto; 
+  max-height: 100%;
+  width: auto; 
+  margin-right: 20px; 
+  border-radius: 4px; 
+  object-fit: contain; 
+}
+
+.mi-card-text {
+  color: #000000;
+  flex-grow: 1; 
+}
+
+.mi-card-button {
+  background-color: #65659A;
+  color: #FFFFFF; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px; 
+  cursor: pointer;
+  font-size: 16px; 
+}
+
+.mi-card-button:hover {
+  opacity: 0.8; 
+}
+
+.pagination-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-controls button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-number {
+  padding: 8px;
+  margin: 0 3px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-number.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}

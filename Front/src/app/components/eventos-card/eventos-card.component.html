@@ -1,0 +1,20 @@
+<div *ngFor="let evento of cards" class="event-card">
+  <div class="mi-card">
+    <img [src]="evento.portada" [alt]="evento.titulo">
+    <div class="mi-card-text">
+      <p> {{ evento.descripcion }} </p>
+    </div>
+    <button class="mi-card-button">Reserva</button>
+  </div>
+</div>
+
+<div class="pagination-controls" *ngIf="!loading && totalPages > 1">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+  <span *ngFor="let page of getPages()" class="page-number"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">{{ page }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+</div>
+
+<div *ngIf="loading">Cargando eventos...</div>
+<div *ngIf="error" class="error-message">{{ error }}</div>
