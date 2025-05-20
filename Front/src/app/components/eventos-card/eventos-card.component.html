@@ -8,6 +8,7 @@
   </div>
 </div>
 
+<!-- paginación -->
 <div class="pagination-controls" *ngIf="!loading && totalPages > 1">
   <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
   <span *ngFor="let page of getPages()" class="page-number"
