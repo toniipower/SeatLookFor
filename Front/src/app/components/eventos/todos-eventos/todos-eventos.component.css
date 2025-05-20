@@ -7,10 +7,20 @@
         "footer";
     min-height: 100vh;
     background-color: var(--background-color);
+    
+}
+
+.eventos-container{
+      align-content: center;
+
 }
 
 .header {
     grid-area: header;
+}
+
+app-navbar {
+  color: #e0e0e0;
 }
 
 app-eventos-card {
@@ -26,4 +36,35 @@ app-footer {
     grid-area: footer;
     color: white;
     text-align: center;
+}
+
+.filtros-container {
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filtros button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.filtros button:hover {
+  background-color: #d0d0d0;
+}
+
+.mensaje-sin-resultados {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-style: italic;
 }

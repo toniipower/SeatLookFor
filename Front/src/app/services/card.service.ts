@@ -7,7 +7,7 @@ import { Evento } from '../models/evento.model';
   providedIn: 'root'
 })
 export class CardService {
-  private apiUrl = 'http://localhost/api/recientes/4';
+  private apiUrl = 'http://localhost/api/recientes/3';
 
   constructor(private http: HttpClient) {}
 
