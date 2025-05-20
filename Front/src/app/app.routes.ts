@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { TodosEventosComponent } from './seatlookfor-app/components/eventos/todos-eventos/todos-eventos.component';
-import { LandingPageComponent } from './seatlookfor-app/components/landing-page/landing-page.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { TodosEventosComponent } from './components/eventos/todos-eventos/todos-eventos.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
-  { path: 'eventos', component: TodosEventosComponent }
+  { path: 'eventos', component: TodosEventosComponent },
 ];
