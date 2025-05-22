@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
     {   
 
         Usuario::factory(10)->create();
-        Asiento::factory()->count(10)->create();
-        Reserva::factory()->count(5)->create();
-        Comentario::factory()->count(5)->create();
+        //Asiento::factory()->count(10)->create();
+        //Reserva::factory()->count(5)->create();
+        //Comentario::factory()->count(5)->create();
         Evento::factory()->count(5)->create();
         $this->call([
             

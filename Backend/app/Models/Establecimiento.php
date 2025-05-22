@@ -22,6 +22,7 @@ class Establecimiento extends Model
     [
         'ubicacion',
         'nombre',
+        'imagen'
     ];
 
     public function Asientos()

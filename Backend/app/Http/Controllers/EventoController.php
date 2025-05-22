@@ -30,4 +30,48 @@ class EventoController extends Controller
     
     }
 
+
+
+
+    
+
+
+
+public function Evento($id)
+{
+    // Traemos el evento, el establecimiento y todos los asientos
+    $evento = Evento::with(['establecimiento.asientos'])->find($id);
+
+    if (!$evento) {
+        return response()->json([
+            'message' => 'Evento no encontrado.'
+        ], 404);
+    }
+
+    // Obtenemos los IDs de los asientos reservados para este evento
+    $asientosReservadosIds = $evento->reservas()->pluck('asiento_id')->toArray();
+
+    return response()->json([
+        'data' => [
+            'id' => $evento->idEve,
+            'nombre' => $evento->nombre,
+            'fecha' => $evento->fecha,
+            'ubicacion' => $evento->ubicacion,
+            'establecimiento' => [
+                'id' => $evento->establecimiento->idEst,
+                'nombre' => $evento->establecimiento->nombre,
+                'direccion' => $evento->establecimiento->direccion,
+                'asientos' => $evento->establecimiento->asientos->map(function ($asiento) use ($asientosReservadosIds) {
+                    return [
+                        'id' => $asiento->idAsi,
+                        'fila' => $asiento->fila,
+                        'columna' => $asiento->columna,
+                        'reservado' => in_array($asiento->id, $asientosReservadosIds),
+                    ];
+                }),
+            ]
+        ]
+    ]);
+}
+
 }

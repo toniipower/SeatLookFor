@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +14,15 @@ return new class extends Migration
     {
         Schema::create('asiento', function (Blueprint $table) {
             $table->id('idAsi');
-           /*  $table->string('nombreAsiento'); */
-            $table->string('estado');//ocupado, libre e inactivo
-            $table->string('fila');
-            $table->string('columna');
+           /*  $table->stringX
+           Y('nombreAsiento'); */
+           
+            $table->string('estado');//ocupado, libre 
+            $table->string('zona');
+            $table->string('ejeX');
+            $table->string('ejeY');
+
+            $table->decimal('precio',10,2);
 
             $table->unsignedBigInteger('idEst');
 

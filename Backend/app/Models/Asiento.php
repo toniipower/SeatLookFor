@@ -20,8 +20,13 @@ class Asiento extends Model
     protected $fillable=
     [
         'estado',
-        'fila',
-        'columna',
+        'zona',
+        'ejeX',
+        'ejeY',
+        'estado',
+        'idEst',
+        'precio'
+    
     ];
 
     public function opinion()
