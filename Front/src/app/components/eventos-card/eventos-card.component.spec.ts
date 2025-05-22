@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeatlookforAppComponent } from './seatlookfor-app.component';
+import { EventosCardComponent } from './eventos-card.component';
 
-describe('SeatlookforAppComponent', () => {
-  let component: SeatlookforAppComponent;
-  let fixture: ComponentFixture<SeatlookforAppComponent>;
+describe('EventosCardComponent', () => {
+  let component: EventosCardComponent;
+  let fixture: ComponentFixture<EventosCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SeatlookforAppComponent]
+      imports: [EventosCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SeatlookforAppComponent);
+    fixture = TestBed.createComponent(EventosCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

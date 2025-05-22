@@ -7,7 +7,6 @@ import { Evento } from '../../models/evento.model';
 
 @Component({
   selector: 'app-landing-page',
-  standalone: true,
   imports: [NavbarComponent, FooterComponent, CommonModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
@@ -25,6 +24,8 @@ export class LandingPageComponent implements OnInit {
     this.cardService.getCards().subscribe(
       (data) => {
         this.cards = data;
+        console.log(data);
+        
         console.log('Cards recibidas:', this.cards);
       },
       (error) => {

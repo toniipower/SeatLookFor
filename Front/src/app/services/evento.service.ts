@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, map, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Evento } from '../models/evento.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CardService {
-  private apiUrl = 'http://localhost/api/recientes/4';
+export class EventoService {
+  private apiUrl = 'http://localhost/api/eventos'; 
 
   constructor(private http: HttpClient) {}
 
-  getCards(): Observable<Evento[]> {
+  getEventos(): Observable<Evento[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -25,12 +25,17 @@ export class CardService {
       map(response => {
         console.log('Respuesta del servidor:', response);
         if (response && response.data) {
+          console.log("No es una array");
+          
           return response.data;
         }
         if (Array.isArray(response)) {
+          console.log("Es un array");
+
           return response;
         }
-        return [];
+        
+        return response;
       }),
       catchError((error: HttpErrorResponse) => {
         console.error('Error en la petición:', error);
