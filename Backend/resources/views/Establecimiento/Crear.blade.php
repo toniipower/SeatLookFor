@@ -98,7 +98,7 @@
         </div>
 
         <div id="canvas"
-             class="relative w-full h-[600px] bg-white border rounded shadow overflow-hidden grid-container"
+             class="relative w-[1000px] h-[600px] bg-white border rounded shadow overflow-hidden grid-container"
              style="grid-template-columns: repeat(20, 50px);">
         </div>
 
@@ -152,8 +152,8 @@
             div.style.top = `${y}px`;
             div.dataset.codigo = codigo;
             div.dataset.zona = zona;
-            div.dataset.x = x;
-            div.dataset.y = y;
+            div.dataset.x = x/50;
+            div.dataset.y = y/50;
 
             makeDraggable(div);
             canvas.appendChild(div);

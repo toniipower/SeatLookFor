@@ -27,7 +27,7 @@ class Establecimiento extends Model
 
     public function Asientos()
     {
-        return $this->hasMany(Asiento::class);
+        return $this->hasMany(Asiento::class,'idEst');
     }
     public function Eventos()
     {

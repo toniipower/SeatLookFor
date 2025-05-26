@@ -37,6 +37,7 @@ Route::post('/establecimientos/asientos', [EstablecimientoController::class, 'gu
 Route::post('/Establecimientos/guardar', [EstablecimientoController::class, 'guardar'])->name('establecimiento.guardar');
 
 
+Route::get('/establecimientos/{idEst}', [EstablecimientoController::class, 'mostrar'])->name('establecimiento.mostrar');
 
 
 

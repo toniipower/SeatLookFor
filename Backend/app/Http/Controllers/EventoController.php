@@ -32,46 +32,38 @@ class EventoController extends Controller
 
 
 
+    public function mostrar($id)
+    {
+        $evento = Evento::with(['establecimiento.asientos'])->findOrFail($id);
 
-    
-
-
-
-public function Evento($id)
-{
-    // Traemos el evento, el establecimiento y todos los asientos
-    $evento = Evento::with(['establecimiento.asientos'])->find($id);
-
-    if (!$evento) {
         return response()->json([
-            'message' => 'Evento no encontrado.'
-        ], 404);
-    }
-
-    // Obtenemos los IDs de los asientos reservados para este evento
-    $asientosReservadosIds = $evento->reservas()->pluck('asiento_id')->toArray();
-
-    return response()->json([
-        'data' => [
-            'id' => $evento->idEve,
-            'nombre' => $evento->nombre,
-            'fecha' => $evento->fecha,
-            'ubicacion' => $evento->ubicacion,
+            'evento' => [
+                'idEve' => $evento->idEve,
+                'titulo' => $evento->titulo,
+                'fecha' => $evento->fecha,
+                'valoracion' => $evento->valoracion,
+                'descripcion' => $evento->descripcion,
+            ],
             'establecimiento' => [
-                'id' => $evento->establecimiento->idEst,
+                'idEst' => $evento->establecimiento->idEst,
                 'nombre' => $evento->establecimiento->nombre,
-                'direccion' => $evento->establecimiento->direccion,
-                'asientos' => $evento->establecimiento->asientos->map(function ($asiento) use ($asientosReservadosIds) {
+                'ubicacion' => $evento->establecimiento->ubicacion,
+                'imagen' => $evento->establecimiento->imagen,
+                'tipo' => $evento->establecimiento->tipo,
+                'asientos' => $evento->establecimiento->asientos->map(function ($a) {
                     return [
-                        'id' => $asiento->idAsi,
-                        'fila' => $asiento->fila,
-                        'columna' => $asiento->columna,
-                        'reservado' => in_array($asiento->id, $asientosReservadosIds),
+                        'idAsi' => $a->idAsi,
+                        'zona' => $a->zona,
+                        'estado' => $a->estado,
+                        'ejeX' => $a->ejeX,
+                        'ejeY' => $a->ejeY,
+                        'precio' => $a->precio,
                     ];
                 }),
-            ]
-        ]
-    ]);
+            ],
+        ]);
+    }
 }
 
-}
+
+

@@ -14,7 +14,7 @@ class EstablecimientoController extends Controller
   
 
     /**
-     * Show the form for creating a new resource.
+     * Listado de los establecimientos 
      */
     public function listar(Request $request)
     {   
@@ -27,7 +27,7 @@ class EstablecimientoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Elimina un establecimiento
      */
     public function eliminar(Establecimiento $establecimiento)
     {
@@ -36,7 +36,7 @@ class EstablecimientoController extends Controller
         
     }
 
-        public function guardarAsientos(Request $request)
+/*         public function guardarAsientos(Request $request)
     {
         foreach ($request->asientos as $asiento) {
             Asiento::create([
@@ -48,7 +48,11 @@ class EstablecimientoController extends Controller
         }
 
         return response()->json(['message' => 'Asientos guardados correctamente.']);
-    }
+    } */
+
+    /**
+     * Guarda los datos del establecimiento nuevo y sus asientos
+     */
 
    public function guardar(Request $request)
     {
@@ -93,5 +97,16 @@ class EstablecimientoController extends Controller
         return to_route('establecimiento.listado');
     }
 
+/**
+ * Muestra un establecimiento
+ *
+ * @param [type] $idEst
+ * @return void
+ */
+public function mostrar($idEst)
+{
+    $establecimiento = Establecimiento::with('Asientos')->findOrFail($idEst);
 
+    return view('Establecimiento.mostrarEstablecimiento', compact('establecimiento'));
+}
 }
