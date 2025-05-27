@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Evento } from '../models/evento.model';
+import { EventoDetalle } from '../models/evento-detalle.model'; // Asegúrate de tener este modelo
+
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +47,24 @@ export class EventoService {
           console.error(`Código de error ${error.status}, ` + `mensaje: ${error.message}`);
         }
         return throwError(() => new Error('Error al obtener los eventos'));
+      })
+    );
+  }
+  
+  /* con este metodo accedemos a los eventos personalizados */
+  getEventoDetalle(id: number): Observable<EventoDetalle> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+  
+    const url = `${this.apiUrl}/${id}`;
+    console.log('Petición de detalle a:', url);
+  
+    return this.http.get<EventoDetalle>(url, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al obtener el evento con detalle:', error);
+        return throwError(() => new Error('Error al obtener el detalle del evento'));
       })
     );
   }

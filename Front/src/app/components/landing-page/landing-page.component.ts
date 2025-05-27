@@ -4,10 +4,11 @@ import { FooterComponent } from '../footer/footer.component';
 import { CardService } from '../../services/card.service';
 import { CommonModule } from '@angular/common';
 import { Evento } from '../../models/evento.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [NavbarComponent, FooterComponent, CommonModule],
+  imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
@@ -18,6 +19,11 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     this.fetchCards();
+  }
+
+  seClico(){
+    console.log("se ha clicado el boton para ir a reservas");
+    
   }
 
   fetchCards() {

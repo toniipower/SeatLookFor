@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-todos-eventos',
-  standalone: true,
   imports: [CommonModule, FooterComponent, EventosCardComponent, RouterModule, NavbarComponent, FormsModule],
   templateUrl: './todos-eventos.component.html',
   styleUrl: './todos-eventos.component.css'

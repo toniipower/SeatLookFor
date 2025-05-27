@@ -1,10 +1,14 @@
 <div *ngFor="let evento of cards" class="event-card">
   <div class="mi-card">
     <img [src]="evento.portada" [alt]="evento.titulo">
+    <div class="title">
+      <p>{{evento.titulo}}  </p>
+    </div>
     <div class="mi-card-text">
       <p> {{ evento.descripcion }} </p>
+      <p> {{ evento.valoracion }} </p>
     </div>
-    <button class="mi-card-button">Reserva</button>
+    <button [routerLink]="['/evento', evento.idEve]" class="mi-card-button">Reserva</button>
   </div>
 </div>
 
