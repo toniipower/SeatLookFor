@@ -1,0 +1,144 @@
+.contenido {
+    display: grid;
+    grid-template-areas:
+        "titulo titulo titulo"
+        "mapa mapa informacion"
+        "comentarios comentarios comentarios";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    
+}
+
+.titulo {
+    padding: 10px;
+    border-radius: 20px;
+    grid-area: titulo;
+    justify-self: center;
+    align-self: start;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+}
+
+.mapa {
+    grid-area: mapa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    max-width: 2000px;
+    min-width: 200px;
+}
+
+
+.informacion {
+    grid-area: informacion;
+    background: var(--grandient-card-to-top);
+    min-height: 100px;
+    min-width: 450px;
+    border-radius: 28px;
+    height: 100%;
+    box-shadow: 3px 3px gray;
+    overflow: hidden;
+    max-width: 550px;
+    justify-self: center;
+}
+
+.portada-establecimiento-card {}
+
+.informacion-contenido {
+    padding: 20px;
+    width: 100%;
+}
+
+.comentarios {
+    border-radius: var(--rounded);
+    grid-area: comentarios;
+    justify-self: start;
+    background-color: yellow;
+    margin: auto;
+    background: var(--grandient-card-to-bot);
+    padding: 50px;
+    max-width: 800px;
+    box-shadow: 3px 3px gray;
+}
+
+.comentarios>p {
+    font-size: 2rem;
+    color: var(--accent-color);
+    text-shadow:
+        1px 1px 0 var(--background-color),
+        -1px -1px 0 var(--background-color),
+        1px -1px 0 var(--background-color),
+        -1px 1px 0 var(--background-color);
+}
+
+.caja-comentario {
+    display: flex;
+    margin: 10px auto;
+    background-color: aliceblue;
+}
+
+.header-caja_comentario {
+    padding: 15px;
+
+}
+
+.perfil-comentario {
+    /* width: 30px; */
+    max-width: 50px;
+    margin: auto;
+}
+
+.descripcion-comentario {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+}
+
+@media (max-width: 1200px) {
+    .contenido {
+        grid-template-areas:
+            "titulo"
+            "mapa"
+            "informacion"
+            "comentarios";
+        grid-template-columns: 1fr;
+    }
+
+    .informacion, .comentarios {
+        max-width: none;
+    }
+
+}
+
+/* @media (max-width: 900px) {
+    .contenido {
+        grid-template-areas:
+            "titulo"
+            "mapa"
+            "informacion"
+            "comentarios";
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .contenido {
+        grid-template-areas:
+            "titulo"
+            "mapa"
+            "informacion"
+            "comentarios";
+        grid-template-columns: 1fr;
+    }
+} */

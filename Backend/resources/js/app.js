@@ -3,7 +3,7 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 
 
-import { createApp } from 'vue'
+// import { createApp } from 'vue'
 
 
 const app = createApp({})

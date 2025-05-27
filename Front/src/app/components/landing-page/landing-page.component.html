@@ -10,7 +10,7 @@
           <h3 class="event-title">{{ evento.titulo }}</h3>
           <p class="event-description">{{ evento.descripcion }}</p>
         </div>
-        <button class="call-to-action"></button>
+        <button class="call-to-action" [routerLink]="['/evento', evento.idEve]" ></button>
       </div>
     </div>
   </div>

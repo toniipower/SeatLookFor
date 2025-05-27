@@ -11,4 +11,5 @@ export interface Evento {
   fecha: string;
   categoria: string;
   idEst: number;
+  
 } 

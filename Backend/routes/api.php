@@ -18,10 +18,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/dashboard', function () {
         return response()->json(['message' => 'Bienvenido al panel de administrador.']);
     });
+});
 
 /**
  * Trae el evento, el establecimiento asignado y los asientos asignados
  */
 Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
-
-});

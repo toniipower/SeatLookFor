@@ -1,0 +1,136 @@
+<div class="vista">
+
+    <app-navbar></app-navbar>
+    <div class="contenido">
+        <div class="titulo">
+            <p> {{ datosEvento?.evento?.titulo }}</p>
+        </div>
+        <div class="mapa">
+            <!-- <img src="images/mapa_asientos1.svg" alt="asientos"> -->
+            <!-- <app-asientos></app-asientos> -->
+
+            <app-asientos *ngIf="datosEvento?.establecimiento" [asientos]="datosEvento?.establecimiento?.asientos || []">
+            </app-asientos>
+
+        </div>
+        <div class="informacion">
+            <div class="portada-establecimiento-card">
+                <img src="images/event1.png" alt="Portada de estableciemiento">
+            </div>
+            <div>
+                <p> {{datosEvento?.establecimiento?.nombre }}  </p>
+            </div>
+            <div class="informacion-contenido">
+
+            </div>
+            <p>Seccion de informacion sobre de evento</p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, dicta vitae id omnis sed quasi inventore
+                tempora aut! Tempora repellendus, molestiae consectetur voluptas laborum soluta et! Nesciunt laboriosam
+                porro magnam.
+                Consectetur voluptatum, perferendis doloremque sapiente eius enim cumque dolores, fugiat, culpa
+                temporibus nihil obcaecati natus provident ipsum deserunt saepe quis reprehenderit repellendus iure qui
+                mollitia exercitationem quaerat. Excepturi, nihil quos.
+                Quos minus voluptatum quibusdam repellat ut. Impedit quis dicta corrupti amet? Nobis cupiditate rerum
+                similique quidem accusantium, consequatur excepturi doloremque eum aut dolorem quis voluptas, iure
+                blanditiis! Autem, reiciendis velit!
+                Quaerat explicabo perspiciatis suscipit neque nisi commodi, earum nihil adipisci ipsa quis
+                necessitatibus ducimus? Iste, ipsum. Dolor cupiditate nisi iure, nemo rerum harum cumque explicabo?
+                Fugit laudantium unde excepturi quis.
+                Hic sint rem sit quasi doloremque fugiat qui architecto ea at. Velit corporis, id dicta aut hic facere
+                tenetur temporibus sequi. Similique quas placeat soluta rerum quaerat corporis ea quam!
+                lorem*2
+            </p>
+        </div>
+        <div class="comentarios">
+            <p>COMENTARIOS</p>
+            <div class="caja-comentario">
+                <div class="header-caja_comentario">
+                    <div class="persona-comentario">
+                        <div class="perfil-comentario">
+                            <img src="images/profile.png" alt="foto perfil">
+                        </div>
+                        <div class="nombre-comentario">
+                            Antonio
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div class="descripcion-comentario">
+                    <div class="valoracion-comentario">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+                    </p>
+                </div>
+            </div>
+            <div class="caja-comentario">
+                <div class="header-caja_comentario">
+                    <div class="persona-comentario">
+                        <div class="perfil-comentario">
+                            <img src="images/profile.png" alt="foto perfil">
+                        </div>
+                        <div class="nombre-comentario">
+                            Antonio
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div class="descripcion-comentario">
+                    <div class="valoracion-comentario">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+                    </p>
+                </div>
+            </div>
+            <div class="caja-comentario">
+                <div class="header-caja_comentario">
+                    <div class="persona-comentario">
+                        <div class="perfil-comentario">
+                            <img src="images/profile.png" alt="foto perfil">
+                        </div>
+                        <div class="nombre-comentario">
+                            Antonio
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div class="descripcion-comentario">
+                    <div class="valoracion-comentario">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
+                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
+                        Pariatur quae ad esse eaque.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <app-footer></app-footer>
+</div>
