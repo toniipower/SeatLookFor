@@ -60,9 +60,11 @@
   background-color: var(--background-color);
 
 }
+
 app-navbar {
   color: #e0e0e0;
 }
+
 app-eventos-card {
   grid-area: content;
   color: white;

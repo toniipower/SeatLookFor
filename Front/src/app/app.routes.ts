@@ -8,10 +8,10 @@ import { EventosPersonalizadosComponent } from './components/eventos/eventos-per
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'eventos', component: TodosEventosComponent },
+  { path: 'evento/:id', component: EventosPersonalizadosComponent },
   { path: 'about', component: AboutComponent },
   { path: 'usuario', component: UsuarioComponent },
   { path: 'reserva', component: EventosPersonalizadosComponent },
-  { path: 'evento/:id', component: EventosPersonalizadosComponent },
   // { path: 'asientos', component: AsientosComponent }
 
 ];
