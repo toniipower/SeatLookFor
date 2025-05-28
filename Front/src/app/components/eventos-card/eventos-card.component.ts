@@ -2,10 +2,11 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Evento } from '../../models/evento.model';
 import { EventoService } from '../../services/evento.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-eventos-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './eventos-card.component.html',
   styleUrl: './eventos-card.component.css'
 })

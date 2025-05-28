@@ -1,0 +1,18 @@
+<p>asientos works!</p>
+<div *ngIf="asientos?.length">
+  <div class="mapa-asientos">
+    <div *ngFor="let asiento of asientos; let i = index" class="asiento" 
+    [ngClass]="asiento.estado" 
+    [style.gridColumn]="asiento.ejeX - 2"
+    [style.gridRow]="asiento.ejeY" [title]="'Zona: ' + asiento.zona + ', Precio: ' + asiento.precio">
+    {{asiento.zona  }}
+    <br>    
+    {{ asiento.ejeX + "-" + asiento.ejeY }}
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="!asientos?.length">
+  <p>No hay asientos disponibles.</p>
+</div>

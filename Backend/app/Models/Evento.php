@@ -39,7 +39,7 @@ class Evento extends Model
     
     public function establecimiento()
     {
-        return $this->belongsTo(Establecimiento::class);
+        return $this->belongsTo(Establecimiento::class, 'idEst');
     }
 
     

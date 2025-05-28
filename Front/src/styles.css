@@ -38,4 +38,41 @@
     --primary-color-rgb: 82, 14, 141;
     --secondary-color: #383B6C;
     --accent-color: #E8B931;
+    --grandient-card: linear-gradient(to left, #520E8D, #FFFFFF);
+    --grandient-card-reverse: linear-gradient(to right, #520E8D, #FFFFFF);
+    --grandient-card-to-top: linear-gradient(to top, #520E8D, #FFFFFF);
+    --grandient-card-to-bot: linear-gradient(to bottom, #520E8D, #FFFFFF);
+    --rounded: 28px;
+    --shadows-box: 3px 3px gray;
   }
+
+
+  /* template generico */
+
+  .vista {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
+  min-height: 100vh;
+  background-color: var(--background-color);
+
+}
+app-navbar {
+  color: #e0e0e0;
+}
+app-eventos-card {
+  grid-area: content;
+  color: white;
+  text-align: center;
+  min-width: 100%;
+  margin: auto;
+  max-width: 90%;
+}
+app-footer {
+  grid-area: footer;
+  color: white;
+  text-align: center;
+}
