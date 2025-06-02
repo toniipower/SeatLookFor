@@ -2,17 +2,17 @@
   <app-navbar></app-navbar>
   <div class="container">
     <div class="cards-container">
-      <div *ngFor="let evento of cards" class="event-card">
-        <div class="event-image">
-          <img [src]="evento.portada" [alt]="evento.titulo">
-        </div>
-        <div class="event-details">
-          <h3 class="event-title">{{ evento.titulo }}</h3>
-          <p class="event-description">{{ evento.descripcion }}</p>
+      <div *ngFor="let evento of cards" class="relative-cta">
+        <div class="cards" [style.--bg-img]="'url(' + evento.portada + ')'">
+          <!-- <img [src]="evento.portada" [alt]="evento.titulo"> -->
+          <div class="event-details">
+            <h3 class="event-title">{{ evento.titulo }}</h3>
+            <p class="event-description">{{ evento.descripcion | acortarDescripcion: 10 }}</p>
+          </div>
         </div>
         <button class="call-to-action" [routerLink]="['/evento', evento.idEve]" ></button>
       </div>
     </div>
   </div>
-  <app-footer></app-footer>
+  <app-footer></app-footer> 
 </div>

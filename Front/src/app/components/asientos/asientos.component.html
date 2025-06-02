@@ -1,16 +1,20 @@
-<p>asientos works!</p>
+<p class="escenario">ESCENARIO</p>
 <div *ngIf="asientos?.length">
   <div class="mapa-asientos">
-    <div *ngFor="let asiento of asientos; let i = index" class="asiento" 
-    [ngClass]="asiento.estado" 
-    [style.gridColumn]="asiento.ejeX - 2"
-    [style.gridRow]="asiento.ejeY" [title]="'Zona: ' + asiento.zona + ', Precio: ' + asiento.precio">
-    {{asiento.zona  }}
-    <br>    
-    {{ asiento.ejeX + "-" + asiento.ejeY }}
+    <div *ngFor="let asiento of asientos; let i = index" 
+         class="asiento" 
+         [ngClass]="{'libre': asiento.estado === 'libre', 
+                    'ocupado': asiento.estado === 'ocupado',
+                    'seleccionado': estaSeleccionado(asiento)}"
+         [style.gridColumn]="asiento.ejeX - 2"
+         [style.gridRow]="asiento.ejeY" 
+         [title]="'Zona: ' + asiento.zona + ', Precio: ' + asiento.precio"
+         (click)="selecionarAsiento(asiento)">
+      {{asiento.zona}}
+      <br>    
+      {{ asiento.ejeX + "-" + asiento.ejeY }}
     </div>
   </div>
-
 </div>
 
 <div *ngIf="!asientos?.length">

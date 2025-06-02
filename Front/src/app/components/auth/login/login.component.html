@@ -1,23 +1,23 @@
-<div class="login-container">
-  <div class="login-card">
-    <h2>Iniciar Sesión</h2>
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Login</h2>
     
-    <form (ngSubmit)="login()" #loginForm="ngForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
       <div class="form-group">
         <label for="email">Email</label>
         <input 
           type="email" 
           id="email" 
-          name="email" 
-          [(ngModel)]="email" 
-          required 
-          email
-          #emailInput="ngModel"
-          [class.is-invalid]="emailInput.invalid && emailInput.touched"
+          formControlName="email" 
+          placeholder="tu@email.com"
+          [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
         >
-        <div class="error-message" *ngIf="emailInput.invalid && emailInput.touched">
+        <span class="error-message" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          El email es requerido
+        </span>
+        <span class="error-message" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
           Por favor, introduce un email válido
-        </div>
+        </span>
       </div>
 
       <div class="form-group">
@@ -25,29 +25,22 @@
         <input 
           type="password" 
           id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          required
-          #passwordInput="ngModel"
-          [class.is-invalid]="passwordInput.invalid && passwordInput.touched"
+          formControlName="password" 
+          placeholder="Tu contraseña"
+          [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
         >
-        <div class="error-message" *ngIf="passwordInput.invalid && passwordInput.touched">
+        <span class="error-message" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
           La contraseña es requerida
-        </div>
+        </span>
       </div>
 
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
-      </div>
-
-      <button 
-        type="submit" 
-        [disabled]="loginForm.invalid || loading"
-        class="login-button"
-      >
-        <span *ngIf="!loading">Iniciar Sesión</span>
-        <span *ngIf="loading">Cargando...</span>
+      <button type="submit" [disabled]="!loginForm.valid" class="submit-button">
+        Iniciar Sesión
       </button>
+
+      <div class="auth-links">
+        <p>¿No tienes una cuenta? <a routerLink="/registro">Regístrate</a></p>
+      </div>
     </form>
   </div>
 </div>

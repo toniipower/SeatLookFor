@@ -5,8 +5,8 @@
       <p>{{evento.titulo}}  </p>
     </div>
     <div class="mi-card-text">
-      <p> {{ evento.descripcion }} </p>
-      <p> {{ evento.valoracion }} </p>
+      <!-- <p> {{ evento.descripcion }} </p> -->
+      <p> Nota: {{ evento.valoracion }} </p>
     </div>
     <button [routerLink]="['/evento', evento.idEve]" class="mi-card-button">Reserva</button>
   </div>

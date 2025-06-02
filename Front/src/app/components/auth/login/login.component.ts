@@ -1,53 +1,66 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  loginForm: FormGroup;
   errorMessage = '';
   loading = false;
 
   constructor(
-    private auth: AuthService,
-    private router: Router
+    private fb: FormBuilder,
+    private auth: AuthService
   ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
     console.log('LoginComponent inicializado');
   }
 
-  login() {
-    console.log('Iniciando proceso de login');
-    this.loading = true;
-    this.errorMessage = '';
+  onSubmit() {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      this.loading = true;
+      this.errorMessage = '';
 
-    console.log('Datos de login:', { email: this.email, passwordLength: this.password.length });
+      console.log('Datos de login:', { email: this.loginForm.value.email, passwordLength: this.loginForm.value.password.length });
 
-    this.auth.login(this.email, this.password).subscribe({
-      next: (res) => {
-        console.log('Login exitoso, respuesta:', res);
-        this.loading = false;
-        // La redirección se maneja en el servicio
-      },
-      error: (err) => {
-        console.error('Error en login:', err);
-        this.loading = false;
-        this.errorMessage = err.error?.message || 'Error al iniciar sesión';
-        if (err.status === 401) {
-          this.errorMessage = 'Credenciales incorrectas';
-        } else if (err.status === 0) {
-          this.errorMessage = 'No se pudo conectar con el servidor';
+      this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
+        next: (res) => {
+          console.log('Login exitoso, respuesta:', res);
+          this.loading = false;
+          // La redirección se maneja en el servicio
+        },
+        error: (err) => {
+          console.error('Error en login:', err);
+          this.loading = false;
+          
+          if (err.status === 419) {
+            this.errorMessage = 'Error de autenticación CSRF. Por favor, recarga la página e intenta nuevamente.';
+          } else if (err.status === 401) {
+            this.errorMessage = 'Credenciales incorrectas';
+          } else if (err.status === 0) {
+            this.errorMessage = 'No se pudo conectar con el servidor';
+          } else {
+            this.errorMessage = err.error?.message || 'Error al iniciar sesión';
+          }
+          console.log('Mensaje de error mostrado:', this.errorMessage);
         }
-        console.log('Mensaje de error mostrado:', this.errorMessage);
-      }
-    });
+      });
+    }
   }
 }

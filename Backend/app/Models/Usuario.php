@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 class Usuario extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
-
+    use HasFactory, HasApiTokens, Notifiable;
 
     protected $table = 'usuario';
 
@@ -24,7 +24,10 @@ class Usuario extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'nombre', 'apellido', 'email', 'password', 'estado', 'admin'
+        'nombre',
+        'email',
+        'password',
+        'admin',
     ];
 
     public $timestamps = false;
@@ -35,7 +38,7 @@ class Usuario extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'estado'
+        'remember_token',
     ];
 
     /**
@@ -43,12 +46,11 @@ class Usuario extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'admin' => 'boolean',
+    ];
 
     public function comentarios()
     {

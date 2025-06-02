@@ -5,10 +5,11 @@ import { CardService } from '../../services/card.service';
 import { CommonModule } from '@angular/common';
 import { Evento } from '../../models/evento.model';
 import { RouterLink } from '@angular/router';
+import { AcortarDescripcionPipe } from './acortar-descripcion.pipe';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink],
+  imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink, AcortarDescripcionPipe],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
@@ -39,4 +40,6 @@ export class LandingPageComponent implements OnInit {
       }
     );
   }
+
+  
 }

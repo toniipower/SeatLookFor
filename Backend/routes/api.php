@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventoController;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 
-// Ruta de prueba para verificar que el archivo se carga correctamente
+// Rutas públicas
 Route::get('/test', function () {
     return response()->json(['message' => 'API funcionando']);
 });
@@ -18,51 +19,35 @@ Route::get('/test', function () {
 Route::get('/eventos', [EventoController::class, 'index']);
 Route::get('/recientes/{id}', [EventoController::class, 'recientes']);
 
+// Ruta para obtener el token CSRF
+Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
-// Rutas protegidas para administradores
-Route::middleware('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return response()->json(['message' => 'Bienvenido al panel de administrador.']);
+// Rutas de autenticación con middleware de sesión
+Route::middleware(['web'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+});
+
+// Rutas protegidas
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', [AuthController::class, 'user']);
+    
+    // Rutas de administrador
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return response()->json(['message' => 'Bienvenido al panel de administrador.']);
+        });
     });
 });
 
 /**
  * Trae el evento, el establecimiento asignado y los asientos asignados
  */
-
 Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
 
 
 
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-
-});
-Route::middleware('auth:sanctum', 'admin')->get('/user', function (Request $request) {
-    
-    return view('Establecimiento.Crear');
-
-});
-
-
-Route::middleware('auth:sanctum')->post('/admin-token', function (Request $request) {
-    $user = $request->user();
-
-    if ($user->role !== 'admin') {
-        return response()->json(['message' => 'No autorizado'], 403);
-    }
-
-    $temporaryToken = base64_encode(Str::random(40)); // ejemplo
-    Cache::put("admin-login:$temporaryToken", $user->id, now()->addMinutes(2));
-
-    return response()->json([
-        'redirect_url' => url("/admin/login?token=$temporaryToken")
-    ]);
-});
-
-
+/* Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::get('/admin/login', function (Request $request) {
@@ -71,11 +56,14 @@ Route::get('/admin/login', function (Request $request) {
     $userId = Cache::pull("admin-login:$token"); // una vez usado, se borra
 
     if (!$userId) {
-        abort(403, 'Token inválido o expirado');
+        abort(403, 'Token invÃ¡lido o expirado');
     }
 
     Auth::loginUsingId($userId);
 
-    return redirect('/admin/dashboard'); // o donde quieras
-});
+    return redirect('/establecimientos'); // o donde quieras
+}); */
+
+
+
 
