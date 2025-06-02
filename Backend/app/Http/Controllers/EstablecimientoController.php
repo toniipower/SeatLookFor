@@ -22,8 +22,7 @@ class EstablecimientoController extends Controller
        
         $establecimientos = Establecimiento::all();
         
-        return view('Establecimiento.listadoEstablecimiento',['establecimientos'=> $establecimientos]);
-        
+        return view('Establecimiento.listadoEstablecimiento', ['establecimientos' => $establecimientos]);
     }
 
     /**

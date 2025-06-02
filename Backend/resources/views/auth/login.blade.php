@@ -41,7 +41,7 @@
                         <button type="submit" class="w-full md:w-auto px-6 py-3 bg-[#540d6e] text-white rounded-xl hover:bg-[#350675]">Login</button>
                     </div>
                 </form>
-                <p class="text-center text-sm text-gray-600 mt-4">Don't have an account? <a href="#" class="text-[#540d6e] font-semibold">Sign up</a></p>
+                <p class="text-center text-sm text-gray-600 mt-4">Don't have an account? <a href="{{ route('register') }}" class="text-[#540d6e] font-semibold">Sign up</a></p>
             </div>
         </div>
     </div>

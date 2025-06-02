@@ -13,10 +13,10 @@
     font-family: sans-serif;
   }
   
-  img, picture, video, canvas, svg {
+/*   img, picture, video, canvas, svg {
     display: block;
     max-width: 100%;
-  }
+  } */
   
   input, button, textarea, select {
     font: inherit;
@@ -37,6 +37,7 @@
     --primary-color: #520E8D;
     --primary-color-rgb: 82, 14, 141;
     --secondary-color: #383B6C;
+    --secondary-color-tr: #383b6c2d;
     --accent-color: #E8B931;
     --grandient-card: linear-gradient(to left, #520E8D, #FFFFFF);
     --grandient-card-reverse: linear-gradient(to right, #520E8D, #FFFFFF);
@@ -60,12 +61,14 @@
   background-color: var(--background-color);
 
 }
+
 app-navbar {
   color: #e0e0e0;
 }
+
 app-eventos-card {
   grid-area: content;
-  color: white;
+  /* color: white; */
   text-align: center;
   min-width: 100%;
   margin: auto;
@@ -76,3 +79,5 @@ app-footer {
   color: white;
   text-align: center;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

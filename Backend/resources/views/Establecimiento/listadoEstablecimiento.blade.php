@@ -2,7 +2,8 @@
     <body class="bg-gray-100 min-h-screen">
         <div class="container mx-auto py-10 px-4">
             <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">Nuestros Establecimientos</h1>
-
+            {{-- <h2>{{  Auth::user()->nombre }}</h2> --}}
+            {{Auth::user()->nombre}}
             <!-- Contenedor de Tarjetas -->
             <div id="establecimientos-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
 
