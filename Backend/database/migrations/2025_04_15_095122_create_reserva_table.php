@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reserva', function (Blueprint $table) {
             $table->id('idRes');
             $table->date('fechaReserva');
-            $table->decimal('total',10,2);
+            $table->decimal('totalPrecio',10,2);
 /************************************************ */
             $table->unsignedBigInteger('idEve');
             $table->unsignedBigInteger('idAsi');

@@ -29,7 +29,7 @@ class Asiento extends Model
     
     ];
 
-    public function opinion()
+    public function opiniones()
     {
         return $this->belongsToMany(Asiento::class, 'opinion', 'idUsu', 'idPer');
     }
@@ -38,7 +38,7 @@ class Asiento extends Model
     
     public function asientoReservado()
     {
-        return $this->hasMany(Reserva::class,);
+        return $this->hasMany(Reserva::class,'idAsi');
     }
 
     public function establecimiento()

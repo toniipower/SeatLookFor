@@ -25,19 +25,23 @@ Route::middleware('auth')->group(function () {
 
     Route::post('establecimiento/{id}', [EstablecimientoController::class, 'eliminar'])
         ->name('establecimiento.eliminar');
+
     Route::get('/establecimientos/crear', function () {
         return view('Establecimiento.Crear');
     })->name('establecimientos.crear');
+
     Route::post('/establecimientos/asientos', [EstablecimientoController::class, 'guardarAsientos'])
         ->name('establecimientos.asientos.guardar');
+
     Route::post('/Establecimientos/guardar', [EstablecimientoController::class, 'guardar'])
         ->name('establecimiento.guardar');
+        
     Route::get('/establecimientos/{idEst}', [EstablecimientoController::class, 'mostrar'])
         ->name('establecimiento.mostrar');
 
     // Ruta principal para el dashboard o listado
-    Route::get('/establecimientos', [EstablecimientoController::class, 'index'])
-        ->name('establecimientos.index');
+    Route::get('/establecimientos/{id}', [EstablecimientoController::class, 'mostrar'])
+        ->name('establecimientos.mostrar');
 });
 
 
@@ -72,3 +76,12 @@ Route::post('/login', function (Request $request) {
         'user' => Auth::user()
     ]);
 });
+
+/************************************************************************************* */
+/*                              Eventos
+/************************************************************************************* */
+
+
+Route::get('/eventos/crear', [EventoController::class, 'formularioCrear'])->name('eventos.crear');
+Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
+Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');

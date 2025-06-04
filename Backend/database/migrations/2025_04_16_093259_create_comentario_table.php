@@ -24,9 +24,7 @@ return new class extends Migration
 
             $table->foreign('idUsu')
             ->references('idUsu')
-            ->on('usuario')
-            ->restrictOnDelete()
-            ->restrictOnUpdate();
+            ->on('usuario');
 
           /*   $table->foreign('idCom')
             ->references('idCom')
@@ -36,9 +34,8 @@ return new class extends Migration
 
             $table->foreign('idAsi')
             ->references('idAsi')
-            ->on('asiento')
-            ->restrictOnDelete()
-            ->restrictOnUpdate();
+            ->on('asiento');
+         
 
         });
     }
@@ -47,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('comentario');
     }
 };

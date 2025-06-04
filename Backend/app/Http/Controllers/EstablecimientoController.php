@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asiento;
+use App\Models\Zona; // Asegúrate de importar el modelo
 
 use Illuminate\Http\Request;
 use App\Models\Establecimiento;
@@ -19,10 +20,10 @@ class EstablecimientoController extends Controller
     public function listar(Request $request)
     {   
 
-       
-        $establecimientos = Establecimiento::all();
-        
-        return view('Establecimiento.listadoEstablecimiento', ['establecimientos' => $establecimientos]);
+   // Carga todos los establecimientos, 6 por página
+    $establecimientos = Establecimiento::paginate(6);
+
+    return view('Establecimiento.listadoEstablecimiento', compact('establecimientos'));
     }
 
     /**
@@ -53,48 +54,69 @@ class EstablecimientoController extends Controller
      * Guarda los datos del establecimiento nuevo y sus asientos
      */
 
-   public function guardar(Request $request)
-    {
-        // Validar establecimiento
-       $request->validate([
-            'nombre' => 'required|string|max:255',
-            'ubicacion' => 'required|string|max:255',
-            'imagen' => 'required|string|max:255',
-        ]);
 
-      $establecimiento = Establecimiento::create([
-            'nombre' => $request->input('nombre'),
-            'ubicacion' => $request->input('ubicacion'),
-            'imagen' => $request->input('imagen') 
-        ]);
+public function guardar(Request $request)
+{
+    // Validar establecimiento
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'ubicacion' => 'required|string|max:255',
+        'imagen' => 'required|string|max:255',
+    ]);
 
-        // Procesar los asientos desde un string JSON
-        $asientosRaw = $request->input('asientos');
-        $asientos = json_decode($asientosRaw, true);
+    // Crear el establecimiento
+    $establecimiento = Establecimiento::create([
+        'nombre' => $request->input('nombre'),
+        'ubicacion' => $request->input('ubicacion'),
+        'imagen' => $request->input('imagen')
+    ]);
 
-        if (!is_array($asientos) || empty($asientos)) {
-            return back()->with('error', 'No se proporcionaron asientos válidos.')->withInput();
-        }
+    // Procesar los asientos desde el JSON
+    $asientosRaw = $request->input('asientos');
+    $asientos = json_decode($asientosRaw, true);
 
-        foreach ($asientos as $item) {
-            // Validación manual ligera
-            if (!isset($item['estado'], $item['zona'], $item['ejeX'], $item['ejeY'], $item['precio'])) {
-                continue;
-            }
-
-            Asiento::create([
-                'estado' => $item['estado'],
-                'zona' => $item['zona'],
-                'ejeX' => $item['ejeX'],
-                'ejeY' => $item['ejeY'],
-                'precio' => $item['precio'],
-                'idEst' => $establecimiento->idEst,
-            ]);
-        }
-
-   
-        return to_route('establecimiento.listado');
+    if (!is_array($asientos) || empty($asientos)) {
+        return back()->with('error', 'No se proporcionaron asientos válidos.')->withInput();
     }
+
+    // Extraer zonas únicas, excluyendo el "escenario"
+    $zonas = collect($asientos)
+        ->pluck('zona')
+        ->filter(fn($z) => strtolower($z) !== 'escenario')
+        ->unique();
+  
+        
+        
+        // Crear zonas si no existen aún
+        foreach ($zonas as $zonaNombre) {
+        dump($zonaNombre);
+ dump(['nombre' => $zonaNombre]);
+
+        Zona::firstOrCreate(
+            ["nombre" => $zonaNombre],
+          
+        );
+    }
+
+    // Guardar los asientos
+    foreach ($asientos as $item) {
+        if (!isset($item['estado'], $item['zona'], $item['ejeX'], $item['ejeY'], $item['precio'])) {
+            continue;
+        }
+
+        Asiento::create([
+            'estado' => $item['estado'],
+            'zona' => $item['zona'],
+            'ejeX' => $item['ejeX'],
+            'ejeY' => $item['ejeY'],
+            'precio' => $item['precio'],
+            'idEst' => $establecimiento->idEst,
+        ]);
+    }
+
+    return to_route('establecimiento.listado');
+}
+
 
 /**
  * Muestra un establecimiento
