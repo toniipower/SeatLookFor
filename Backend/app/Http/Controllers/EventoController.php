@@ -70,32 +70,22 @@ class EventoController extends Controller
     public function formularioCrear()
 {
     $establecimientos = Establecimiento::all();
-    return view('eventos.CrearEvento', compact('establecimientos'));
+    return view('Evento.CrearEvento', compact('establecimientos'));
 }
 
 public function obtenerZonas($idEst)
 {
-    // Supongamos que 'nombreZona' está en la tabla asiento
-    $asientos = Asiento::where('idEst', $idEst)->get();
+    $zonas = Asiento::where('idEst', $idEst)
+        ->select('zona')
+        ->distinct()
+        ->get()
+        ->map(function ($asiento) {
+            return [
+                'nombre' => $asiento->zona
+            ];
+        });
 
-    $zonasAgrupadas = $asientos->groupBy('nombreZona');
-
-    $zonasFinales = [];
-
-    foreach ($zonasAgrupadas as $nombreZona => $grupo) {
-        // Crear zona si no existe aún
-        $zona = \App\Models\Zona::firstOrCreate([
-            'nombre' => $nombreZona,
-            'idEst' => $idEst,
-        ]);
-
-        $zonasFinales[] = [
-            'idZona' => $zona->idZona,
-            'nombre' => $zona->nombre,
-        ];
-    }
-
-    return response()->json($zonasFinales);
+    return response()->json($zonas);
 }
 }
 

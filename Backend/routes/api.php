@@ -19,6 +19,7 @@ Route::get('/test', function () {
 // Rutas de eventos
 Route::get('/eventos', [EventoController::class, 'index']);
 Route::get('/recientes/{id}', [EventoController::class, 'recientes']);
+Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas']);
 
 // Ruta para obtener el token CSRF
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);

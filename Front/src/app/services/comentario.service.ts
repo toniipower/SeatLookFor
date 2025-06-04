@@ -8,7 +8,8 @@ import { Comentario } from '../models/comentario.model';
   providedIn: 'root'
 })
 export class ComentarioService {
-  private apiUrl = `${environment.apiUrl}/comentarios`;
+  // private apiUrl = `${environment.apiUrl}/comentarios`;
+  private apiUrl = 'http://localhost';
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +27,12 @@ export class ComentarioService {
 
   eliminarComentario(idComentario: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${idComentario}`, {
+      withCredentials: true
+    });
+  }
+
+  getImagenAsiento(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/imagenes/asiento1`, {
       withCredentials: true
     });
   }

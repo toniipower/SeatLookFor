@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void {
         Schema::create('zona', function (Blueprint $table) {
-            $table->integer('idZona')->primary();
+            $table->id('idZona');
             $table->string('nombre');
         });
     }
