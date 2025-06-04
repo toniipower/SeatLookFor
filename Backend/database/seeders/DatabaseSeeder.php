@@ -24,12 +24,15 @@ class DatabaseSeeder extends Seeder
         //Asiento::factory()->count(10)->create();
         //Reserva::factory()->count(5)->create();
         //Comentario::factory()->count(5)->create();
-        Evento::factory()->count(5)->create();
+       
         $this->call([
             
      
-            EstablecimientoSeeder::class
-    
+            EstablecimientoSeeder::class,
+            UsuarioSeeder::class
+            
         ]);
+
+         Evento::factory()->count(5)->create();
     }
 }

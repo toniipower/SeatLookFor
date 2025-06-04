@@ -24,6 +24,9 @@ class Reserva extends Model
         'precio',
         'descuento',
         'fechaReserva',
+        'idAsi',
+        'idUsu',
+        'idEve',
     
     ];
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('estado');
-            $table->boolean('admin');
+            $table->boolean('admin')->default(false);
           
    
         });
