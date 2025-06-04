@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Evento } from '../models/evento.model';
-import { EventoDetalle } from '../models/evento-detalle.model'; // Asegúrate de tener este modelo
+import { EventoDetalle } from '../models/evento-detalle.model';
 
 
 @Injectable({

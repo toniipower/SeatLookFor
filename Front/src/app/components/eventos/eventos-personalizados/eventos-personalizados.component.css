@@ -9,7 +9,7 @@
   padding: 25px;
   box-sizing: border-box;
   text-align: center;
-  z-index: 100;
+  z-index: 15;
   order: 3;
   transition: all 0.3s ease-in-out;
   max-width: 900px;
@@ -103,8 +103,9 @@ h3 {
 }
 
 button {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--dorado);
+  color: #000000;
+  box-shadow: 3px 3px 2px var(--dorado);
   border: none;
   padding: 12px 25px;
   border-radius: 6px;
@@ -112,10 +113,12 @@ button {
   font-size: 1.1rem;
   transition: background-color 0.3s ease;
   margin-top: 20px;
+  transition: all 0.3s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--dorado);
+  box-shadow: 0 0 8px var(--dorado);
 }
 
 .caja-comentario {

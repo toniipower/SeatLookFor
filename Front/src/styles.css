@@ -8,10 +8,8 @@
     box-sizing: border-box;
   }
   
-  html, body {
-    height: 100%;
-    font-family: sans-serif;
-  }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
 /*   img, picture, video, canvas, svg {
     display: block;
@@ -33,11 +31,13 @@
   
   /* variables globales*/
   :root {
-    --background-color: #F9E8D9;
-    --primary-color: #520E8D;
+    --background-color: #121212;
+    --primary-color: #800020;
     --primary-color-rgb: 82, 14, 141;
-    --secondary-color: #383B6C;
-    --secondary-color-tr: #383b6c2d;
+    --font-color-light: #FFFFFF;
+    --secondary-color: #1F1F1F;
+    --secondary-color-tr: #2A2A2A;
+    --dorado: #FFD700;
     --accent-color: #E8B931;
     --grandient-card: linear-gradient(to left, #520E8D, #FFFFFF);
     --grandient-card-reverse: linear-gradient(to right, #520E8D, #FFFFFF);
@@ -79,5 +79,4 @@ app-footer {
   color: white;
   text-align: center;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

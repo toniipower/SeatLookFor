@@ -26,17 +26,17 @@
 }
 
 .asiento.libre {
-    background-color: #8fdb8c;
+    background-color: #90EE90;
 }
 
 .asiento.ocupado {
-    background-color: #e06666;
+    background-color: #FF6C47;
     cursor: not-allowed;
 }
 
 .asiento.seleccionado {
-    background-color: #4CAF50;
-    border: 2px solid #2E7D32;
+    background-color: #D4AF37;
+    border: 2px solid #b6931f;
     transform: scale(1.05);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
