@@ -33,6 +33,7 @@
   :root {
     --background-color: #121212;
     --primary-color: #800020;
+    --primary-color-tr: #7219319c;
     --primary-color-rgb: 82, 14, 141;
     --font-color-light: #FFFFFF;
     --font-color-dark: #000000;
@@ -45,7 +46,7 @@
     --grandient-card-to-top: linear-gradient(to top, #520E8D, #FFFFFF);
     --grandient-card-to-bot: linear-gradient(to bottom, #520E8D, #FFFFFF);
     --rounded: 28px;
-    --shadows-box: 3px 3px gray;
+    --shadows-box: 11px 14px 4px var(--primary-color-tr);
   }
 
 
@@ -59,6 +60,7 @@
     "content"
     "footer";
   min-height: 100vh;
+  min-width: fit-content;
   background-color: var(--background-color);
 
 }

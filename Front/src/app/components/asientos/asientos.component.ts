@@ -6,7 +6,6 @@ import { ComentarioFormComponent } from '../comentario-form/comentario-form.comp
 import { Comentario } from '../../models/comentario.model';
 @Component({
   selector: 'app-asientos',
-  standalone: true,
   imports: [CommonModule, ComentarioFormComponent],
   templateUrl: './asientos.component.html',
   styleUrl: './asientos.component.css'
