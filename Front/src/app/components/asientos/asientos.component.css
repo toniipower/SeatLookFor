@@ -7,7 +7,7 @@
     padding: 10px;
     /* border: 1px solid #ccc; */
     max-width: fit-content;
-    
+    position: relative;
 }
 
 .asiento {
@@ -43,4 +43,21 @@
 
 .asiento:hover:not(.ocupado) {
     transform: scale(1.1);
+}
+
+.tooltip-imagen {
+    position: fixed;
+    z-index: 1000;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    pointer-events: none;
+}
+
+.tooltip-imagen img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 4px;
+    display: block;
 }

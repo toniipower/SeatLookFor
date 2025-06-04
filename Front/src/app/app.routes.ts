@@ -6,6 +6,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { EventosPersonalizadosComponent } from './components/eventos/eventos-personalizados/eventos-personalizados.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
+import { AsientosComponent } from './components/asientos/asientos.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -25,7 +26,9 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
-  // { path: 'asientos', component: AsientosComponent }
-  
-
+  { 
+    path: 'asientos/:idEvento', 
+    component: AsientosComponent,
+    canActivate: [authGuard]
+  }
 ];

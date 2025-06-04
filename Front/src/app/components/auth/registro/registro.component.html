@@ -19,16 +19,16 @@
       </div>
 
       <div class="form-group">
-        <label for="apellidos">Apellidos</label>
+        <label for="apellido">Apellido</label>
         <input 
           type="text" 
-          id="apellidos" 
-          formControlName="apellidos" 
-          placeholder="Tus apellidos"
-          [class.error]="registroForm.get('apellidos')?.invalid && registroForm.get('apellidos')?.touched"
+          id="apellido" 
+          formControlName="apellido" 
+          placeholder="Tu apellido"
+          [class.error]="registroForm.get('apellido')?.invalid && registroForm.get('apellido')?.touched"
         >
-        <span class="error-message" *ngIf="registroForm.get('apellidos')?.hasError('required') && registroForm.get('apellidos')?.touched">
-          Los apellidos son requeridos
+        <span class="error-message" *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.touched">
+          El apellido es requerido
         </span>
       </div>
 
@@ -62,22 +62,30 @@
           La contraseña es requerida
         </span>
         <span class="error-message" *ngIf="registroForm.get('password')?.hasError('minlength') && registroForm.get('password')?.touched">
-          La contraseña debe tener al menos 6 caracteres
+          La contraseña debe tener al menos 8 caracteres
         </span>
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Confirmar Contraseña</label>
+        <label for="password_confirmation">Confirmar Contraseña</label>
         <input 
           type="password" 
-          id="confirmPassword" 
-          formControlName="confirmPassword" 
+          id="password_confirmation" 
+          formControlName="password_confirmation" 
           placeholder="Confirma tu contraseña"
-          [class.error]="registroForm.get('confirmPassword')?.invalid && registroForm.get('confirmPassword')?.touched"
+          [class.error]="registroForm.get('password_confirmation')?.invalid && registroForm.get('password_confirmation')?.touched"
         >
-        <span class="error-message" *ngIf="registroForm.get('confirmPassword')?.hasError('required') && registroForm.get('confirmPassword')?.touched">
+        <span class="error-message" *ngIf="registroForm.get('password_confirmation')?.hasError('required') && registroForm.get('password_confirmation')?.touched">
           Por favor, confirma tu contraseña
         </span>
+      </div>
+
+      <div class="error-message" *ngIf="registroForm.hasError('mismatch')">
+        Las contraseñas no coinciden
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
       </div>
 
       <button type="submit" [disabled]="!registroForm.valid" class="submit-button">

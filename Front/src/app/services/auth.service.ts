@@ -185,4 +185,33 @@ export class AuthService {
       })
     );
   }
+
+  register(nombre: string, apellido: string, email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/register`,
+      { 
+        nombre, 
+        apellido, 
+        email, 
+        password,
+        password_confirmation: password 
+      },
+      {
+        withCredentials: true,
+        headers: this.getHeaders()
+      }
+    ).pipe(
+      tap(response => {
+        if (response.user) {
+          this.currentUserSubject.next(response.user);
+          this.isAuthenticatedSubject.next(true);
+          this.router.navigate(['/']);
+        }
+      }),
+      catchError(error => {
+        console.error('Error en registro:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }

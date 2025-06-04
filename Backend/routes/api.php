@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventoController;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
+use App\Http\Controllers\ComentarioController;
 
 
 // Rutas públicas
@@ -27,6 +28,9 @@ Route::middleware(['web'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
+// Ruta de registro sin middleware web
+Route::post('/register', [AuthController::class, 'register']);
 
 // Rutas protegidas
 Route::middleware(['auth:sanctum'])->group(function () {
