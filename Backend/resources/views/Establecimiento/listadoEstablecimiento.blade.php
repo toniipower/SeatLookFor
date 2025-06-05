@@ -1,10 +1,15 @@
 <x-layout.nav>
     <div class="container mx-auto py-10 px-4">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">Nuestros Establecimientos</h1>
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">Nuestros Establecimientos</h1>
+            <a href="{{ route('establecimientos.crear') }}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                Crear Establecimiento
+            </a>
+        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($establecimientos as $est)
-                <a href="{{ route('establecimientos.mostrar', $est->idEst) }}" class="block group">
+                <a href="{{ route('establecimiento.mostrar', $est->idEst) }}" class="block group">
                     <div class="bg-white shadow-md hover:shadow-xl transition rounded-xl overflow-hidden">
                         <img src="{{ $est->imagen }}" alt="{{ $est->nombre }}" class="object-cover w-full h-48 group-hover:scale-105 transition-transform">
                         <div class="p-4">

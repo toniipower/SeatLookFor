@@ -12,33 +12,31 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comentario', function (Blueprint $table) {
-
+            $table->id('idCom');
             $table->text('opinion');
-            $table->decimal('valoracion');
-            $table->string('foto');
-
+            $table->decimal('valoracion', 3, 1);
+            $table->string('foto')->nullable();
             $table->unsignedBigInteger('idUsu');
             $table->unsignedBigInteger('idAsi');
-
-            $table->primary(['idUsu', 'idAsi']);
+            $table->unsignedBigInteger('idEve')->nullable();
 
             $table->foreign('idUsu')
-            ->references('idUsu')
-            ->on('usuario');
-
-          /*   $table->foreign('idCom')
-            ->references('idCom')
-            ->on('comentario')
-            ->restrictOnDelete()
-            ->restrictOnUpdate(); */
+                ->references('idUsu')
+                ->on('usuario')
+                ->onDelete('cascade');
 
             $table->foreign('idAsi')
-            ->references('idAsi')
-            ->on('asiento');
-         
+                ->references('idAsi')
+                ->on('asiento')
+                ->onDelete('cascade');
 
+            $table->foreign('idEve')
+                ->references('idEve')
+                ->on('evento')
+                ->onDelete('cascade');
         });
     }
+
     /**
      * Reverse the migrations.
      */

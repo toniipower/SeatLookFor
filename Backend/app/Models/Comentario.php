@@ -22,11 +22,11 @@ class Comentario extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'comentario',
-        'foto',
+        'opinion',
         'valoracion',
+        'foto',
         'idUsu',
-        'idAsi',
+        'idAsi'
     ];
 
     public function usuario(){

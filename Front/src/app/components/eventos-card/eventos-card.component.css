@@ -1,8 +1,9 @@
 .mi-card {
   display: flex;
   align-items: center;
-  background: linear-gradient(to left, #520E8D, #FFFFFF);
-  box-shadow: 5px 5px 10px #520E8D;
+  /* background: linear-gradient(to left, #520E8D, #FFFFFF); */
+  background-color: #FFFFFF;
+  box-shadow: 5px 5px 10px var(--primary-color);
   padding: 0 20px 0 0;
   border-radius: 8px;
   height: 180px;
@@ -10,6 +11,7 @@
   max-width: 1000px;
   margin: 30px auto;
   justify-content: center;
+  transition: all 0.3s;
 }
 
 .mi-card img {
@@ -18,37 +20,43 @@
   max-height: 100%;
   width: 220px;
   margin-right: 20px;
-  border-radius: 4px;
+  border-radius: 8px 0 0 8px;
   object-fit: cover;
+  transition: all 0.3s;
 }
 
 .mi-card > .title{
   color: #000000;
-  font-size: x-large;
-  font-weight: bold;
+  font-size: large;
+  /* font-weight: bold; */
   width: 30px;
   /* font-variant: small-caps; */
 }
 
 .mi-card-text {
-  font-size: large;
-  font-weight: bold;
-  color: #000000;
+  /* font-size: large; */
+  /* font-weight: bold; */
+  color: var(--secondary-color);
   flex-grow: 1;
 }
 
 .mi-card-button {
-  background-color: #65659A;
-  color: #FFFFFF;
+  color: #000000;
+  background-color: var(--dorado);
   border: none;
+  box-shadow: 3px 4px 2px var(--dorado);
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  transition: all 0.3s;
 }
 
 .mi-card-button:hover {
+  box-shadow: 3px 4px 10px var(--dorado);
+  border: none;
   opacity: 0.8;
+  font-weight: 500;
 }
 
 .pagination-controls {
@@ -91,7 +99,7 @@
   text-align: center;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .mi-card {
     display: flex;
     align-items: center;
@@ -100,11 +108,12 @@
     padding: 0 0 20px 0;
     margin: 20px;
     gap: 20px;
+    border-radius: 8px;
+    overflow: auto;
 
   }
 
   .mi-card img {
-
     margin-right: auto;
     max-width: 100%;
     min-height: 100%;

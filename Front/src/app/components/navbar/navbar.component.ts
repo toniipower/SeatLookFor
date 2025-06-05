@@ -1,7 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Usuario } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +11,20 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   isUserMenuOpen = false;
+  currentUser: Usuario | null = null;
 
   constructor(
     private auth: AuthService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.auth.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
 
   toggleUserMenu() {
     this.isUserMenuOpen = !this.isUserMenuOpen;
@@ -31,8 +39,15 @@ export class NavbarComponent {
   }
 
   logout() {
-    this.auth.logout();
-    this.isUserMenuOpen = false;
+    this.auth.logout().subscribe({
+      next: () => {
+        this.isUserMenuOpen = false;
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Error al cerrar sesión:', error);
+      }
+    });
   }
 
   navigateToUserOrRegister() {

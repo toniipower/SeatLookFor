@@ -18,7 +18,12 @@ return [
 'allowed_methods' => ['*'],
 
 // Aquí va el dominio o dominios de tu frontend Angular
-'allowed_origins' => ['http://localhost:4200'],
+'allowed_origins' => [
+    'http://localhost:4200',
+    'http://34.205.74.0',
+    'http://34.205.74.0:80',
+    'http://34.205.74.0:4200'
+],
 
 'allowed_origins_patterns' => [],
 

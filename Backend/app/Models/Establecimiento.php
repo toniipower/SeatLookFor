@@ -10,27 +10,24 @@ class Establecimiento extends Model
     /** @use HasFactory<\Database\Factories\EstablecimientoFactory> */
     use HasFactory;
 
-
-    
-    public $timestamps = false;
     protected $table = 'establecimiento';
-
-    // Clave primaria 
     protected $primaryKey = 'idEst';
+    public $timestamps = false;
 
-    protected $fillable=
-    [
-        'ubicacion',
+    protected $fillable = [
         'nombre',
-        'imagen'
+        'ubicacion',
+        'imagen',
+        'tipo'
     ];
 
-    public function Asientos()
+    public function eventos()
     {
-        return $this->hasMany(Asiento::class,'idEst');
+        return $this->hasMany(Evento::class, 'idEst');
     }
-    public function Eventos()
+
+    public function asientos()
     {
-        return $this->hasMany(Evento::class);
+        return $this->hasMany(Asiento::class, 'idEst');
     }
 }

@@ -16,8 +16,7 @@ class Evento extends Model
     // Clave primaria 
     protected $primaryKey = 'idEve';
 
-    protected $fillable=
-    [
+    protected $fillable = [
         'estado',
         'valoracion',
         'tipo',
@@ -26,9 +25,9 @@ class Evento extends Model
         'descripcion',
         'duracion',
         'fecha',
-        'categoria'
-
-
+        'categoria',
+        'idEst',
+        'portada'
     ];
 
     public function ReservaDeEventos()

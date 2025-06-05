@@ -9,7 +9,9 @@
          [style.gridColumn]="asiento.ejeX - 2"
          [style.gridRow]="asiento.ejeY" 
          [title]="'Zona: ' + asiento.zona + ', Precio: ' + asiento.precio"
-         (click)="selecionarAsiento(asiento)">
+         (click)="selecionarAsiento(asiento)"
+         (mouseenter)="mostrarImagen($event, asiento)"
+         (mouseleave)="ocultarImagen()">
       {{asiento.zona}}
       <br>    
       {{ asiento.ejeX + "-" + asiento.ejeY }}
@@ -20,3 +22,23 @@
 <div *ngIf="!asientos?.length">
   <p>No hay asientos disponibles.</p>
 </div>
+
+<!-- Tooltip con imágenes de comentarios -->
+<div class="tooltip-imagen" *ngIf="mostrarTooltip" [style.left.px]="tooltipX" [style.top.px]="tooltipY">
+  <div class="tooltip-contenido">
+    <div *ngFor="let comentario of comentariosAsiento" class="imagen-comentario">
+      <img [src]="comentario.foto" [alt]="'Comentario de ' + comentario.usuario?.nombre">
+      <div class="info-comentario">
+        <p class="usuario">{{comentario.usuario?.nombre}} {{comentario.usuario?.apellido}}</p>
+        <p class="valoracion">⭐ {{comentario.valoracion}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario de comentarios -->
+<!-- <app-comentario-form 
+  *ngIf="asientoSeleccionado"
+  [asientoSeleccionado]="asientoSeleccionado"
+  (comentarioCreado)="onComentarioCreado()">
+</app-comentario-form> -->

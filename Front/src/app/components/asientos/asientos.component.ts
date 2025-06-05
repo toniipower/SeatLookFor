@@ -1,18 +1,39 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Asiento } from '../../models/asiento.model';
 import { CommonModule } from '@angular/common';
-
+import { ComentarioService } from '../../services/comentario.service';
+import { ComentarioFormComponent } from '../comentario-form/comentario-form.component';
+import { Comentario } from '../../models/comentario.model';
 @Component({
   selector: 'app-asientos',
-  imports: [CommonModule],
+  imports: [CommonModule, ComentarioFormComponent],
   templateUrl: './asientos.component.html',
   styleUrl: './asientos.component.css'
 })
-export class AsientosComponent {
+export class AsientosComponent implements OnInit {
   @Input() asientos: Asiento[] = [];
   @Output() asientosSeleccionadosChange = new EventEmitter<Asiento[]>();
 
   asientosSeleccionados: Asiento[] = [];
+  mostrarTooltip = false;
+  tooltipX = 0;
+  tooltipY = 0;
+  comentariosAsiento: Comentario[] = [];
+  asientoSeleccionado: Asiento | null = null;
+
+  constructor(private comentarioService: ComentarioService) {}
+
+  ngOnInit() {
+    return true
+    // Cargar comentarios para cada asiento
+ /*    this.asientos.forEach(asiento => {
+      this.comentarioService.getComentariosAsiento(asiento.idAsi).subscribe(
+        comentarios => {
+          asiento.comentarios = comentarios;
+        }
+      );
+    }); */
+  }
 
   selecionarAsiento(asiento: Asiento) {
     if (asiento.estado === 'ocupado') return;
@@ -23,8 +44,12 @@ export class AsientosComponent {
 
     if (index === -1) {
       this.asientosSeleccionados.push(asiento);
+      this.asientoSeleccionado = asiento;
     } else {
       this.asientosSeleccionados.splice(index, 1);
+      if (this.asientoSeleccionado?.idAsi === asiento.idAsi) {
+        this.asientoSeleccionado = null;
+      }
     }
 
     this.asientosSeleccionadosChange.emit(this.asientosSeleccionados);
@@ -35,4 +60,27 @@ export class AsientosComponent {
       a.ejeX === asiento.ejeX && a.ejeY === asiento.ejeY
     );
   }
+
+  mostrarImagen(event: MouseEvent, asiento: Asiento) {
+    if (asiento.comentarios?.some(c => c.foto)) {
+      this.mostrarTooltip = true;
+      this.tooltipX = event.clientX + 10;
+      this.tooltipY = event.clientY + 10;
+      this.comentariosAsiento = asiento.comentarios.filter(c => c.foto);
+    }
+  }
+
+  ocultarImagen() {
+    this.mostrarTooltip = false;
+  }
+
+/*   onComentarioCreado() {
+    if (this.asientoSeleccionado) {
+      this.comentarioService.getComentariosAsiento(this.asientoSeleccionado.idAsi).subscribe(
+        comentarios => {
+          this.asientoSeleccionado!.comentarios = comentarios;
+        }
+      );
+    }
+  } */
 }

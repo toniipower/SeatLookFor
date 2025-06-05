@@ -25,13 +25,13 @@ export class EventosCardComponent implements OnChanges {
 
   constructor(private eventoService: EventoService) { }
 
-/*   ngOnInit() {
-    if (this.eventos && this.eventos.length > 0) {
-      this.totalItems = this.eventos.length;
-      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-      this.updatePagedCards();
-    }
-  } */
+  /*   ngOnInit() {
+      if (this.eventos && this.eventos.length > 0) {
+        this.totalItems = this.eventos.length;
+        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+        this.updatePagedCards();
+      }
+    } */
 
   ngOnChanges() {
     if (this.eventos && this.eventos.length > 0) {
@@ -59,14 +59,21 @@ export class EventosCardComponent implements OnChanges {
   // Paginación desde el frontend
   fetchCards() {
     this.loading = true;
+    const baseUrl = "http://localhost:8080"; // Asegúrate de poner el puerto correcto
+
     this.eventoService.getEventos().subscribe(
       (data) => {
-        this.eventos = data; // Guarda todos los eventos
+        this.eventos = data.map(evento => ({
+          ...evento,
+          portada: `${baseUrl}/${evento.portada}`
+        }));
+        console.log('Eventos con portada completa:', this.eventos);
+
         this.totalItems = this.eventos.length;
         this.totalPages = Math.ceil(this.totalItems / this.pageSize);
         this.updatePagedCards(); // Llama a la función para paginar
         this.loading = false;
-        console.log('Eventos recibidos:', this.eventos);
+        console.log('Eventos recibidos con portada completa:', this.eventos);
       },
       (error) => {
         this.error = 'Error eventos.';

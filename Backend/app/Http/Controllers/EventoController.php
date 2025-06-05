@@ -8,6 +8,8 @@ use App\Models\Reserva;
 use App\Models\Establecimiento;
 use App\Http\Requests\StoreEventoRequest;
 use App\Http\Requests\UpdateEventoRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EventoController extends Controller
 {
@@ -32,7 +34,11 @@ class EventoController extends Controller
         return response()->json(['recientes' => $recientes], 200);
     }
 
-
+    public function listar()
+    {
+        $eventos = Evento::with('establecimiento')->paginate(6);
+        return view('Evento.listadoEventos', compact('eventos'));
+    }
 
 public function mostrar($id)
 {
@@ -88,11 +94,10 @@ public function mostrar($id)
     }
 }
 
-
     public function formularioCrear()
     {
         $establecimientos = Establecimiento::all();
-        return view('eventos.CrearEvento', compact('establecimientos'));
+        return view('Evento.CrearEvento', compact('establecimientos'));
     }
 
     public function obtenerZonas($idEst)

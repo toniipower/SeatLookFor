@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Routing\Controller as BaseController;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('web');
+        // Quitamos el middleware web para el registro
     }
 
     public function login(Request $request)
@@ -130,5 +132,47 @@ class AuthController extends BaseController
         Auth::login($user);
         
         return redirect()->route('establecimiento.listado');
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'apellido' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:usuario',
+                'password' => 'required|string|min:8|confirmed',
+            ]);
+
+            $usuario = Usuario::create([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'estado' => true,
+                'admin' => false
+            ]);
+
+            event(new Registered($usuario));
+
+            return response()->json([
+                'message' => 'Usuario registrado exitosamente',
+                'user' => $usuario
+            ], 201);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('Error en registro', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'message' => 'Error al registrar usuario'
+            ], 500);
+        }
     }
 }
