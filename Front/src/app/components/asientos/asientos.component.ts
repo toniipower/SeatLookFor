@@ -24,14 +24,15 @@ export class AsientosComponent implements OnInit {
   constructor(private comentarioService: ComentarioService) {}
 
   ngOnInit() {
+    return true
     // Cargar comentarios para cada asiento
-    this.asientos.forEach(asiento => {
+ /*    this.asientos.forEach(asiento => {
       this.comentarioService.getComentariosAsiento(asiento.idAsi).subscribe(
         comentarios => {
           asiento.comentarios = comentarios;
         }
       );
-    });
+    }); */
   }
 
   selecionarAsiento(asiento: Asiento) {
@@ -73,7 +74,7 @@ export class AsientosComponent implements OnInit {
     this.mostrarTooltip = false;
   }
 
-  onComentarioCreado() {
+/*   onComentarioCreado() {
     if (this.asientoSeleccionado) {
       this.comentarioService.getComentariosAsiento(this.asientoSeleccionado.idAsi).subscribe(
         comentarios => {
@@ -81,5 +82,5 @@ export class AsientosComponent implements OnInit {
         }
       );
     }
-  }
+  } */
 }

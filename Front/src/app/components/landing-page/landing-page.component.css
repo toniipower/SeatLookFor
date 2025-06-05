@@ -11,6 +11,11 @@
   display: relative;
 }
 
+h2 span {
+  display: inline-block;
+  will-change: transform;
+  color: yellow;
+}
 app-navbar {
   grid-area: navbar;
   color: white;

@@ -19,11 +19,11 @@ export class ComentarioService {
     });
   }
 
-  getComentariosAsiento(idAsiento: number): Observable<Comentario[]> {
+/*   getComentariosAsiento(idAsiento: number): Observable<Comentario[]> {
     return this.http.get<Comentario[]>(`${this.apiUrl}/asiento/${idAsiento}`, {
       withCredentials: true
     });
-  }
+  } */
 
   eliminarComentario(idComentario: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${idComentario}`, {
