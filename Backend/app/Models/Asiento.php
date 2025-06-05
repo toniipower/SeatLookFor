@@ -28,11 +28,12 @@ class Asiento extends Model
         'precio'
     
     ];
+public function usuariosComentaron()
+{
+    return $this->belongsToMany(Usuario::class, 'comentario', 'idAsi', 'idUsu')
+                ->withPivot('opinion', 'valoracion', 'foto');
+}
 
-    public function opiniones()
-    {
-        return $this->belongsToMany(Asiento::class, 'opinion', 'idUsu', 'idPer');
-    }
 
 
     

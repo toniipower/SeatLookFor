@@ -54,13 +54,22 @@ class Usuario extends Authenticatable
         'admin' => 'boolean',
     ];
 
-    public function comentarios()
+/*     public function comentarios()
     {
         return $this->belongsToMany(Asiento::class, 'comentario', 'idUsu', 'idAsi');
     }
-
+ */
     public function Reservas()
     {
         return $this->hasMany(Evento::class,);
     }
+
+
+    public function asientosComentados()
+{
+    return $this->belongsToMany(Asiento::class, 'comentario', 'idUsu', 'idAsi')
+                ->withPivot('opinion', 'valoracion', 'foto')
+                ->withTimestamps();
+}
+
 }

@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Auth;                
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventoController;
-use Illuminate\Support\Str;
+use App\Http\Controllers\ComentarioController;
+use Illuminate\Support\Facades\Auth;                
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use App\Http\Controllers\ComentarioController;
 
@@ -51,24 +52,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
 
 
-
-/* Route::post('/login', [AuthController::class, 'login']);
-
-
-Route::get('/admin/login', function (Request $request) {
-    $token = $request->query('token');
-
-    $userId = Cache::pull("admin-login:$token"); // una vez usado, se borra
-
-    if (!$userId) {
-        abort(403, 'Token invÃ¡lido o expirado');
-    }
-
-    Auth::loginUsingId($userId);
-
-    return redirect('/establecimientos'); // o donde quieras
-}); */
-
+/**
+ * Permite a los usuarios comentar sobre los asientos
+ */
+Route::post('/asientos/{idAsi}/comentar', [ComentarioController::class, 'comentar']);
+    /*  ->middleware('auth:sanctum'); */
 
 
 

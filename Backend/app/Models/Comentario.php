@@ -29,18 +29,11 @@ class Comentario extends Model
         'idAsi'
     ];
 
-    public function usuario()
-    {
+    public function usuario(){
         return $this->belongsTo(Usuario::class, 'idUsu');
     }
-
-    public function asiento()
-    {
-        return $this->belongsTo(Asiento::class, 'idAsi');
+    public function asiento(){
+         return $this->belongsTo(Asiento::class, 'idAsi');
     }
 
-    public function evento()
-    {
-        return $this->belongsTo(Evento::class, 'idEve');
-    }
 }
