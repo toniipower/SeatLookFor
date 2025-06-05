@@ -42,10 +42,10 @@ class Evento extends Model
         return $this->belongsTo(Establecimiento::class, 'idEst');
     }
 
-    
-    public function comentarios()
-    {
-        return $this->hasMany(Comentario::class);
-    }
+public function asientos()
+{
+    return $this->belongsToMany(Asiento::class, 'asientos_evento', 'idEve', 'idAsi')
+                ->withPivot('precio');
+}
 
 }
