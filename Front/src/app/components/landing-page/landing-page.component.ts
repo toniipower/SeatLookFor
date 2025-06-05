@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CardService } from '../../services/card.service';
@@ -17,10 +17,10 @@ import { animate } from 'motion';
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent implements OnInit, AfterViewInit  {
+export class LandingPageComponent implements OnInit, AfterViewInit {
   cards: Evento[] = [];
 
- ngAfterViewInit() {
+  ngAfterViewInit() {
     const spans = document.querySelectorAll('h2 span');
 
     animate(spans, {
@@ -32,39 +32,43 @@ export class LandingPageComponent implements OnInit, AfterViewInit  {
         from: '-1turn',
         delay: 0
       },
-      delay: (_:any, i:any) => i * 0.05,
+      delay: (_: any, i: any) => i * 0.05,
       easing: 'ease-in-out',
       loop: true,
       loopDelay: 1
-    }as any);
+    } as any);
   }
 
 
 
-constructor(private cardService: CardService) { }
+  constructor(private cardService: CardService) { }
 
-ngOnInit() {
-  this.fetchCards();
-}
+  ngOnInit() {
+    this.fetchCards();
+  }
 
-seClico(){
-  console.log("se ha clicado el boton para ir a reservas");
+  seClico() {
+    console.log("se ha clicado el boton para ir a reservas");
 
-}
+  }
 
 fetchCards() {
-  this.cardService.getCards().subscribe(
-    (data) => {
-      this.cards = data;
-      console.log(data);
+    const baseUrl = 'http://localhost'; // O usa environment.backendUrl
 
-      console.log('Cards recibidas:', this.cards);
-    },
-    (error) => {
-      console.error('Error fetching cards:', error);
-    }
-  );
-}
+    this.cardService.getCards().subscribe(
+      (data) => {
+        this.cards = data.map(evento => ({
+                 
+          ...evento,
+          portada: `${baseUrl}/${evento.portada}`
+        }));
 
-  
+        console.log('Cards con URL de imagen:', this.cards);
+      },
+      (error) => {
+        console.error('Error al obtener los eventos:', error);
+      }
+    );
+  }
+
 }
