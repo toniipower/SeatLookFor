@@ -34,8 +34,6 @@ public function usuariosComentaron()
                 ->withPivot('opinion', 'valoracion', 'foto');
 }
 
-
-
     
     public function asientoReservado()
     {
