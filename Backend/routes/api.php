@@ -9,7 +9,6 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Auth;                
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
-use App\Http\Controllers\ComentarioController;
 
 
 // Rutas públicas

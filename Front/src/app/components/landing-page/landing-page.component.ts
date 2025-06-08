@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CardService } from '../../services/card.service';
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Evento } from '../../models/evento.model';
 import { RouterLink } from '@angular/router';
 import { AcortarDescripcionPipe } from './acortar-descripcion.pipe';
-import { animate } from 'motion';
+
 
 
 
@@ -17,31 +17,16 @@ import { animate } from 'motion';
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements OnInit {
+  animatedText = "Nuestras Recomendaciones"
   cards: Evento[] = [];
-
-  ngAfterViewInit() {
-    const spans = document.querySelectorAll('h2 span');
-
-    animate(spans, {
-      y: [
-        { to: '-2.75rem', easing: 'ease-out', duration: 0.6 },
-        { to: '0', easing: 'ease-out', duration: 0.8, delay: 0.1 }
-      ],
-      rotate: {
-        from: '-1turn',
-        delay: 0
-      },
-      delay: (_: any, i: any) => i * 0.05,
-      easing: 'ease-in-out',
-      loop: true,
-      loopDelay: 1
-    } as any);
-  }
-
-
+  letters: string[] = [];
 
   constructor(private cardService: CardService) { }
+
+  /* ngOnInit() {
+    this.letters = this.animatedText.split('');
+  } */
 
   ngOnInit() {
     this.fetchCards();
@@ -52,13 +37,13 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
 
   }
 
-fetchCards() {
+  fetchCards() {
     const baseUrl = 'http://localhost'; // O usa environment.backendUrl
 
     this.cardService.getCards().subscribe(
       (data) => {
         this.cards = data.map(evento => ({
-                 
+
           ...evento,
           portada: `${baseUrl}/${evento.portada}`
         }));
@@ -70,5 +55,4 @@ fetchCards() {
       }
     );
   }
-
 }
