@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Evento } from '../../models/evento.model';
 import { EventoService } from '../../services/evento.service';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-eventos-card',
+  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './eventos-card.component.html',
   styleUrl: './eventos-card.component.css'
@@ -13,74 +14,52 @@ import { RouterModule } from '@angular/router';
 export class EventosCardComponent implements OnChanges {
   @Input() eventos: Evento[] = [];
   cards: Evento[] = [];
-  loading: boolean = true;
+
+  loading = true;
   error: string | null = null;
 
-
-
+  private readonly baseUrl = 'http://localhost';
   pageSize = 4;
   currentPage = 1;
   totalItems = 0;
   totalPages = 0;
 
-  constructor(private eventoService: EventoService) { }
-
-  /*   ngOnInit() {
-      if (this.eventos && this.eventos.length > 0) {
-        this.totalItems = this.eventos.length;
-        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-        this.updatePagedCards();
-      }
-    } */
+  constructor(private eventoService: EventoService) {}
 
   ngOnChanges() {
-    if (this.eventos && this.eventos.length > 0) {
-      this.totalItems = this.eventos.length;
-      this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-      this.currentPage = 1;
-      this.updatePagedCards();
-    } else {
-      this.cards = [];
-      this.totalItems = 0;
-      this.totalPages = 0;
+    if (!this.eventos || this.eventos.length === 0) {
+      this.resetPagination();
+      return;
     }
 
+    this.eventos = this.eventos.map(e => ({
+      ...e,
+      portada: this.transformImageUrl(e.portada)
+    }));
+
+    this.totalItems = this.eventos.length;
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+    this.currentPage = 1;
+    this.updatePagedCards();
     this.loading = false;
   }
 
-
-  updatePagedCards() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.totalItems);
-    this.cards = this.eventos.slice(startIndex, endIndex);
+  private transformImageUrl(url: string): string {
+    if (!url) return '';
+    return url.startsWith('http') ? url : `${this.baseUrl}/images/eventos/${url.split('/').pop()}`;
   }
 
+  private resetPagination() {
+    this.cards = [];
+    this.totalItems = 0;
+    this.totalPages = 0;
+    this.loading = false;
+  }
 
-  // Paginación desde el frontend
-  fetchCards() {
-    this.loading = true;
-    const baseUrl = "http://localhost:8080"; // Asegúrate de poner el puerto correcto
-
-    this.eventoService.getEventos().subscribe(
-      (data) => {
-        this.eventos = data.map(evento => ({
-          ...evento,
-          portada: `${baseUrl}/${evento.portada}`
-        }));
-        console.log('Eventos con portada completa:', this.eventos);
-
-        this.totalItems = this.eventos.length;
-        this.totalPages = Math.ceil(this.totalItems / this.pageSize);
-        this.updatePagedCards(); // Llama a la función para paginar
-        this.loading = false;
-        console.log('Eventos recibidos con portada completa:', this.eventos);
-      },
-      (error) => {
-        this.error = 'Error eventos.';
-        this.loading = false;
-        console.error('Error eventos:', error);
-      }
-    );
+  updatePagedCards() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.cards = this.eventos.slice(start, end);
   }
 
   nextPage() {
@@ -98,14 +77,13 @@ export class EventosCardComponent implements OnChanges {
   }
 
   goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+    if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.updatePagedCards();
     }
   }
 
   getPages(): number[] {
-    const pageCount = Math.ceil(this.totalItems / this.pageSize);
-    return Array.from({ length: pageCount }, (_, i) => i + 1);
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

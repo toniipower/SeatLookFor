@@ -7,12 +7,12 @@ import { EventoService } from '../../../services/evento.service';
 import { AsientosComponent } from '../../asientos/asientos.component';
 import { CommonModule } from '@angular/common';
 import { Asiento } from '../../../models/asiento.model';
-import { ComentarioFormComponent } from '../../comentario-form/comentario-form.component';
+// import { ComentarioFormComponent } from '../../comentario-form/comentario-form.component';
 
 @Component({
   selector: 'eventos-personalizados',
   standalone: true,
-  imports: [NavbarComponent, FooterComponent, AsientosComponent, CommonModule, ComentarioFormComponent],
+  imports: [NavbarComponent, FooterComponent, AsientosComponent, CommonModule],
   templateUrl: './eventos-personalizados.component.html',
   styleUrl: './eventos-personalizados.component.css'
 })

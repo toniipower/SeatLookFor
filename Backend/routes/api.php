@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 
-
 // Rutas públicas
 Route::get('/test', function () {
     return response()->json(['message' => 'API funcionando']);
