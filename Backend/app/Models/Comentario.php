@@ -26,7 +26,8 @@ class Comentario extends Model
         'valoracion',
         'foto',
         'idUsu',
-        'idAsi'
+        'idAsi',
+        'idEve'
     ];
 
     public function usuario(){

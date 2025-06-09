@@ -24,35 +24,21 @@ Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obte
 // Ruta para obtener el token CSRF
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
-// Rutas de autenticación con middleware de sesión
-Route::middleware(['web'])->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-});
+// Rutas de autenticación API
+Route::post('/login', [AuthController::class, 'login'])->middleware('api');
+Route::post('/register', [AuthController::class, 'register'])->middleware('api');
 
-// Ruta de registro sin middleware web
-Route::post('/register', [AuthController::class, 'register']);
-
-// Rutas protegidas
+// Rutas protegidas API
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
     
-    // Rutas de administrador
-    Route::middleware('admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return response()->json(['message' => 'Bienvenido al panel de administrador.']);
-        });
-    });
+    // Rutas de comentarios
+    Route::post('/asientos/{id}/comentar', [ComentarioController::class, 'comentar']);
+    Route::get('/asientos/{id}/comentarios', [ComentarioController::class, 'getComentarios']);
 });
 
 /**
  * Trae el evento, el establecimiento asignado y los asientos asignados
  */
 Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
-
-
-/**
- * Permite a los usuarios comentar sobre los asientos
- */
-
-Route::middleware('auth:sanctum')->post('/asientos/{id}/comentar', [ComentarioController::class, 'comentar']);

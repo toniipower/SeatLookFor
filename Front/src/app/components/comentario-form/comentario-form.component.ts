@@ -142,29 +142,74 @@ export class ComentarioFormComponent {
     this.comentarioForm.patchValue({ valoracion: valor });
   }
 
-  onFileSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-      // Crear preview
+  private async compressImage(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => {
-        this.previewUrl = reader.result as string;
-      };
       reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Comprimir la imagen con calidad 0.7
+          const compressedImage = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(compressedImage);
+        };
+        img.onerror = reject;
+      };
+      reader.onerror = reject;
+    });
+  }
+
+  async onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        this.selectedFile = file;
+        // Comprimir la imagen antes de crear la vista previa
+        this.previewUrl = await this.compressImage(file);
+      } catch (error) {
+        console.error('Error al procesar la imagen:', error);
+        alert('Error al procesar la imagen');
+      }
     }
   }
 
   onSubmit() {
-    if (this.comentarioForm.valid && this.selectedFile) {
-      const formData = new FormData();
-      formData.append('opinion', this.comentarioForm.get('opinion')?.value);
-      formData.append('valoracion', this.comentarioForm.get('valoracion')?.value);
-      formData.append('foto', this.selectedFile);
-      formData.append('idAsi', this.asientoSeleccionado.idAsi);
+    if (this.comentarioForm.valid) {
+      const comentario = {
+        opinion: this.comentarioForm.get('opinion')?.value,
+        valoracion: this.comentarioForm.get('valoracion')?.value,
+        foto: this.previewUrl || undefined
+      };
 
-      this.comentarioService.crearComentario(formData).subscribe({
-        next: () => {
+      console.log('Enviando comentario:', comentario);
+
+      this.comentarioService.crearComentario(this.asientoSeleccionado.idAsi, comentario).subscribe({
+        next: (response) => {
+          console.log('Comentario creado:', response);
           this.comentarioCreado.emit();
           this.comentarioForm.reset();
           this.selectedFile = null;
@@ -172,6 +217,7 @@ export class ComentarioFormComponent {
         },
         error: (error) => {
           console.error('Error al crear el comentario:', error);
+          alert(error.error?.mensaje || 'Error al crear el comentario');
         }
       });
     }

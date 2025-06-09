@@ -27,7 +27,7 @@
 <div class="tooltip-imagen" *ngIf="mostrarTooltip" [style.left.px]="tooltipX" [style.top.px]="tooltipY">
   <div class="tooltip-contenido">
     <div *ngFor="let comentario of comentariosAsiento" class="imagen-comentario">
-      <img [src]="comentario.foto" [alt]="'Comentario de ' + comentario.usuario?.nombre">
+      <img [src]="'http://localhost/' + comentario.foto" [alt]="'Comentario de ' + comentario.usuario?.nombre">
       <div class="info-comentario">
         <p class="usuario">{{comentario.usuario?.nombre}} {{comentario.usuario?.apellido}}</p>
         <p class="valoracion">⭐ {{comentario.valoracion}}</p>

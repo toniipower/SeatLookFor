@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('idCom');
             $table->text('opinion');
             $table->decimal('valoracion', 3, 1);
-            $table->string('foto')->nullable();
+            $table->mediumText('foto')->nullable();
             $table->unsignedBigInteger('idUsu');
             $table->unsignedBigInteger('idAsi');
             $table->unsignedBigInteger('idEve')->nullable();

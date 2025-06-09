@@ -31,21 +31,39 @@ class AuthController extends BaseController
 
             $credentials = $request->only('email', 'password');
             
-            // Intentar autenticar usando el modelo Usuario
-            if (!Auth::guard('web')->attempt($credentials)) {
+            if (!Auth::attempt($credentials)) {
                 Log::warning('Credenciales inválidas', ['email' => $request->email]);
                 return response()->json([
                     'message' => 'Credenciales inválidas'
                 ], 401);
             }
 
-            $user = Auth::guard('web')->user();
-            Log::info('Login exitoso', ['user_id' => $user->idUsu]);
+            $user = Auth::user();
+            
+            // Si es una petición API (desde el frontend)
+            if ($request->expectsJson()) {
+                // Revocar tokens anteriores
+                $user->tokens()->delete();
+                // Crear nuevo token
+                $token = $user->createToken('auth-token')->plainTextToken;
+                
+                Log::info('Login API exitoso', ['user_id' => $user->idUsu]);
 
-            return response()->json([
-                'user' => $user,
-                'message' => 'Login exitoso'
-            ]);
+                return response()->json([
+                    'user' => $user,
+                    'token' => $token,
+                    'message' => 'Login exitoso'
+                ]);
+            }
+            
+            // Si es una petición web (desde el backend)
+            Log::info('Login web exitoso', ['user_id' => $user->idUsu]);
+            
+            if ($user->admin) {
+                return redirect()->route('dashboard');
+            }
+            
+            return redirect()->route('home');
 
         } catch (ValidationException $e) {
             Log::error('Error de validación en login', [
@@ -70,9 +88,15 @@ class AuthController extends BaseController
     public function logout(Request $request)
     {
         try {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            // Si es una petición API
+            if ($request->expectsJson()) {
+                $request->user()->currentAccessToken()->delete();
+            } else {
+                // Si es una petición web
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
             
             return response()->json([
                 'message' => 'Logout exitoso'
