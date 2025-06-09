@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,6 @@ class ComentariosSeeder extends Seeder
             ];
         }
 
-        DB::table('comentarios')->insert($comentarios);
+        DB::table('comentario')->insert($comentarios);
     }
 }

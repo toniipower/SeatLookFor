@@ -17,7 +17,7 @@ class AsientosSeeder extends Seeder
                 'ejeX' => $i % 5, // 5 columnas
                 'ejeY' => intdiv($i, 5), // 4 filas
                 'precio' => 0.00,
-                'idEst' => 13,
+                'idEst' => 3,
             ];
         }
 
