@@ -9,9 +9,8 @@ use App\Models\Reserva;
 use App\Models\Comentario;
 use App\Models\Evento;
 use App\Models\Establecimiento;
-use ComentarioSeeder as GlobalComentarioSeeder;
-use Database\Seeders\ComentarioSeeder;
 use Database\Seeders\AsientosSeeder;
+use Database\Seeders\ComentariosSeeder;
 
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;

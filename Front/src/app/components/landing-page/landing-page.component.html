@@ -1,8 +1,15 @@
 <div class="landing-page">
+  <div class="spotlight-container">
+    <div class="spotlight spotlight-left" style="--angle: 50deg;"></div>
+    <div class="spotlight spotlight-right" style="--angle: -50deg;"></div>
+    <div class="spotlight spotlight-semi-left" style="--angle: 104deg;"></div>
+    <div class="spotlight spotlight-semi-right" style="--angle: -104deg;"></div>
+  </div>
+  
   <app-navbar></app-navbar>
   <h1 class="my-animated-title large grid centered square-grid text-xl">
-  <span *ngFor="let letter of letters" class="letter">{{ letter === ' ' ? '&nbsp;' : letter }}</span>
-</h1>
+    <span *ngFor="let letter of letters" class="letter">{{ letter === ' ' ? '&nbsp;' : letter }}</span>
+  </h1>
   <div class="ante-container">
     <div class="recomendaciones">
       <h3>Nuestras Recomendaciones</h3>
@@ -23,3 +30,4 @@
     </div>
     <app-footer></app-footer>
   </div>
+</div>

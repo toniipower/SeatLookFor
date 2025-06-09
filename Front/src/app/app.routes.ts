@@ -8,6 +8,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { RegistroComponent } from './components/auth/registro/registro.component';
 import { AsientosComponent } from './components/asientos/asientos.component';
 import { authGuard } from './guards/auth.guard';
+import { ResumenReservaComponent } from './components/resumen-reserva/resumen-reserva.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -23,6 +24,11 @@ export const routes: Routes = [
     path: 'reserva', 
     component: EventosPersonalizadosComponent,
     canActivate: [authGuard]
+  },
+  { 
+    path: 'resumen', 
+    component: ResumenReservaComponent,
+    // canActivate: [authGuard]
   },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
