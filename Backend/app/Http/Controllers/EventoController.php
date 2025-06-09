@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Evento;
 use App\Models\Asiento;
 use App\Models\Reserva;
-use App\Models\Establecimiento;
-use App\Http\Requests\StoreEventoRequest;
-use App\Http\Requests\UpdateEventoRequest;
 use Illuminate\Http\Request;
+use App\Models\Establecimiento;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreEventoRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateEventoRequest;
 
 class EventoController extends Controller
 {
@@ -96,26 +98,100 @@ public function mostrar($id)
 
     public function formularioCrear()
     {
-        $establecimientos = Establecimiento::all();
+        $establecimientos = Establecimiento::with("asientos")->get();;
         return view('Evento.CrearEvento', compact('establecimientos'));
     }
 
     public function obtenerZonas($idEst)
+{
+    $asientos = Asiento::where('idEst', $idEst)->get();
+
+    $zonasAgrupadas = $asientos->groupBy('nombreZona');
+    $zonasFinales = [];
+
+    foreach ($zonasAgrupadas as $nombreZona => $grupo) {
+        $zona = \App\Models\Zona::firstOrCreate([
+            'nombre' => $nombreZona,
+            'idEst' => $idEst,
+        ]);
+
+        $zonasFinales[] = [
+            'idZona' => $zona->idZona,
+            'nombre' => $zona->nombre,
+            'asientos' => $grupo->map(function ($a) {
+                return [
+                    'id' => $a->idAsi,
+                    'zona' => $a->zona,
+                    'ejeX' => $a->ejeX,
+                    'ejeY' => $a->ejeY,
+                    'estado' => $a->estado,
+                    'precio' => $a->precio,
+                ];
+            })->values(),
+        ];
+    }
+
+    return response()->json($zonasFinales);
+}
+
+
+
+      public function guardar(Request $request)
     {
-        // Supongamos que 'nombreZona' está en la tabla asiento
-        $asientos = Asiento::where('idEst', $idEst)->get();
-
-        $zonasAgrupadas = $asientos->groupBy('nombreZona');
-
+        try {
+            $validator = Validator::make($request->all(), [
+                'titulo' => 'required|string|max:255',
+                'descripcion' => 'required|string',
+                'fecha' => 'required|date',
+                'establecimiento_id' => 'required|exists:establecimiento,idEst',
+                'estado' => 'required|in:activo,cancelado,completado',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
         $zonasFinales = [];
 
-        foreach ($zonasAgrupadas as $nombreZona => $grupo) {
-            // Crear zona si no existe aún
-            $zona = \App\Models\Zona::firstOrCreate([
-                'nombre' => $nombreZona,
-                'idEst' => $idEst,
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $evento = new Evento();
+            $evento->titulo = $request->titulo;
+            $evento->descripcion = $request->descripcion;
+            $evento->fecha = $request->fecha;
+            $evento->idEst = $request->establecimiento_id;
+            $evento->estado = $request->estado;
+            $evento->valoracion = '0';
+            $evento->tipo = 'evento';
+            $evento->ubicacion = 'Por determinar';
+            $evento->categoria = 'general';
+            $evento->duracion = '01:00:00';
+
+            if ($request->hasFile('imagen')) {
+                $imagen = $request->file('imagen');
+                $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+                $imagen->move(public_path('images/eventos'), $nombreImagen);
+                $evento->portada = 'images/eventos/' . $nombreImagen;
+            } else {
+                $evento->portada = 'images/eventos/default.jpg';
+            }
+
+
+            $evento->save();
+
+            Log::info('Evento guardado exitosamente', ['id' => $evento->idEve]);
+
+            return redirect()->route('eventos.listado')
+                ->with('success', 'Evento creado exitosamente');
+        } catch (Exception $e) {
+            Log::error('Error al guardar evento: ' . $e->getMessage(), [
+                'exception' => $e,
+                'request_data' => $request->all()
             ]);
 
+            return redirect()->back()
+                ->with('error', 'Error al crear el evento: ' . $e->getMessage())
+                ->withInput();
             $zonasFinales[] = [
                 'idZona' => $zona->idZona,
                 'nombre' => $zona->nombre,
@@ -124,4 +200,13 @@ public function mostrar($id)
 
         return response()->json($zonasFinales);
     }
+
+
+    public function visualizar (Request $request){
+
+        
+    }
 }
+
+    
+

@@ -1,10 +1,11 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class AsientosSeeder extends Seeder
-{
+{   
     public function run()
     {
         $asientos = [];
@@ -20,6 +21,6 @@ class AsientosSeeder extends Seeder
             ];
         }
 
-        DB::table('asientos')->insert($asientos);
+        DB::table('asiento')->insert($asientos);
     }
 }

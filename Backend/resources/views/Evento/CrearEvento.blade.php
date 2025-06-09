@@ -19,12 +19,6 @@
         </div>
     @endif
 
-    <!-- Debug info -->
-    <div class="bg-gray-100 p-4 mb-4 rounded">
-        <p>Ruta actual: {{ request()->route()->getName() }}</p>
-        <p>Método: {{ request()->method() }}</p>
-    </div>
-
     <form action="{{ route('eventos.guardar') }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded px-6 py-6 space-y-5">
         @csrf
         <input type="hidden" name="_method" value="POST">
@@ -63,6 +57,21 @@
             </select>
         </div>
 
+        <!-- ZONAS Y PRECIOS -->
+        <div id="zonas-content" class="mt-6 space-y-4">
+            <!-- Aquí se cargarán las zonas dinámicamente -->
+        </div>
+
+        <!-- MAPA DE ASIENTOS -->
+        <div id="mapa-asientos-container" class="mt-6 hidden">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Mapa de Asientos</h2>
+            <div class="overflow-x-auto">
+                <div id="mapa-asientos" class="relative bg-white border rounded-xl shadow p-4 mx-auto" style="width: 1000px; height: 600px;">
+                    <!-- Asientos se insertan aquí -->
+                </div>
+            </div>
+        </div>
+
         <div>
             <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
             <select name="estado" id="estado" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -86,34 +95,62 @@
     </form>
 </div>
 
+<!-- SCRIPT PARA ZONAS Y MAPA DE ASIENTOS -->
 <script>
-    document.getElementById('idEst').addEventListener('change', function () {
+    document.getElementById('establecimiento_id').addEventListener('change', function () {
         const idEst = this.value;
         const zonasContent = document.getElementById('zonas-content');
+        const mapaContainer = document.getElementById('mapa-asientos-container');
+        const mapaAsientos = document.getElementById('mapa-asientos');
+
         zonasContent.innerHTML = '<p class="text-sm text-gray-500">Cargando zonas...</p>';
+        mapaAsientos.innerHTML = '';
+        mapaContainer.classList.add('hidden');
+
+        if (!idEst) return;
 
         fetch(`/zonas-por-establecimiento/${idEst}`)
             .then(response => response.json())
             .then(zonas => {
                 zonasContent.innerHTML = '';
+                mapaAsientos.innerHTML = '';
+                mapaContainer.classList.remove('hidden');
 
                 if (zonas.length === 0) {
                     zonasContent.innerHTML = '<p class="text-red-500 text-sm">Este establecimiento no tiene zonas registradas.</p>';
                     return;
                 }
 
-                zonas.forEach((zona, index) => {
+                zonas.forEach((zona) => {
+                    // Precio por zona
                     zonasContent.innerHTML += `
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">${zona.nombre}</label>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">${zona.nombre} - Precio</label>
                             <input type="hidden" name="zonas[]" value="${zona.idZona}">
-                            <input type="number" name="precios[]" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Precio para ${zona.nombre}" required>
+                            <input type="number" name="precios[]" step="0.01" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Precio para ${zona.nombre}" required>
                         </div>
                     `;
+
+                    // Render asientos en el mapa
+                    zona.asientos.forEach(asiento => {
+                        const div = document.createElement('div');
+                        div.className = "absolute text-[11px] font-semibold text-white flex items-center justify-center rounded-md shadow-sm";
+                        div.style.width = "40px";
+                        div.style.height = "40px";
+                        div.style.left = `${asiento.ejeX * 50 + 5}px`;
+                        div.style.top = `${asiento.ejeY * 50 + 5}px`;
+                        div.style.backgroundColor = asiento.estado === 'ocupado' ? '#9ca3af' : '#22c55e';
+                        div.title = `Zona: ${asiento.zona} | Precio: €${Number(asiento.precio).toFixed(2)}`;
+                        div.innerText = asiento.zona;
+
+                        mapaAsientos.appendChild(div);
+                    });
                 });
             })
             .catch(() => {
                 zonasContent.innerHTML = '<p class="text-red-500 text-sm">Error al cargar las zonas.</p>';
+                mapaAsientos.innerHTML = '';
+                mapaContainer.classList.add('hidden');
             });
     });
 </script>

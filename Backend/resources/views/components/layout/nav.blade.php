@@ -132,7 +132,7 @@
 
                     <!-- Right side buttons -->
                     <div class="flex items-center space-x-4">
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" {{-- action={{ route('logout') }} --}}>
                             @csrf
                             <button type="submit" class="text-gray-500 hover:text-gray-600 flex items-center space-x-2">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

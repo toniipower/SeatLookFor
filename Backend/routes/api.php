@@ -57,5 +57,3 @@ Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
 Route::post('/asientos/{idAsi}/comentar', [ComentarioController::class, 'comentar']);
     /*  ->middleware('auth:sanctum'); */
 
-
-

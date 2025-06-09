@@ -83,3 +83,5 @@ Route::get('/eventos/crear', [EventoController::class, 'formularioCrear'])->name
 Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
 Route::get('/eventos/{idEve}', [EventoController::class, 'mostrar'])->name('eventos.mostrar');
 Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');
+
+
