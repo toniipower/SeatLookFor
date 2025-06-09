@@ -4,21 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Zona extends Model
+class zona extends Model
 {
     protected $table = 'zona';
+
+    // Clave primaria 
     protected $primaryKey = 'idZona';
-    public $timestamps = false;
+     public $timestamps = false;
+    protected $fillable=
+    [
+       
+        "estado",
+        "zona"
 
-    protected $fillable = ['nombre', 'idEst'];
 
-    public function establecimiento()
-    {
-        return $this->belongsTo(Establecimiento::class, 'idEst', 'idEst');
-    }
+    ];
+
+
 
     public function eventos()
     {
-        return $this->belongsToMany(Evento::class, 'zona_evento', 'idZona', 'idEve');
+        return $this->belongsToMany(Evento::class, 'zona-eventos', 'idZona', 'idEve');
     }
 }
