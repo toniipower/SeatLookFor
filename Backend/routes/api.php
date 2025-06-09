@@ -54,6 +54,5 @@ Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
 /**
  * Permite a los usuarios comentar sobre los asientos
  */
-Route::post('/asientos/{idAsi}/comentar', [ComentarioController::class, 'comentar']);
-    /*  ->middleware('auth:sanctum'); */
 
+Route::middleware('auth:sanctum')->post('/asientos/{id}/comentar', [ComentarioController::class, 'comentar']);
