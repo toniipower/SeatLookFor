@@ -43,7 +43,14 @@ public function usuariosComentaron()
     public function establecimiento()
     {
         return $this->belongsTo(Establecimiento::class);
+        
     }
+
+    public function eventos()
+{
+    return $this->belongsToMany(Evento::class, 'asientos_evento', 'idAsi', 'idEve')
+                ->withPivot('precio');
+}
 
 
 }

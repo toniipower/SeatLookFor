@@ -102,14 +102,15 @@ public function mostrar($id)
         return view('Evento.CrearEvento', compact('establecimientos'));
     }
 
-    public function obtenerZonas($idEst)
+  public function obtenerZonas($idEst)
 {
     $asientos = Asiento::where('idEst', $idEst)->get();
 
-    $zonasAgrupadas = $asientos->groupBy('nombreZona');
+    $zonasAgrupadas = $asientos->groupBy('zona'); // agrupamos por zona real
     $zonasFinales = [];
 
     foreach ($zonasAgrupadas as $nombreZona => $grupo) {
+        // Busca o crea la zona por nombre y establecimiento
         $zona = \App\Models\Zona::firstOrCreate([
             'nombre' => $nombreZona,
             'idEst' => $idEst,
@@ -136,70 +137,78 @@ public function mostrar($id)
 
 
 
-      public function guardar(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'titulo' => 'required|string|max:255',
-                'descripcion' => 'required|string',
-                'fecha' => 'required|date',
-                'establecimiento_id' => 'required|exists:establecimiento,idEst',
-                'estado' => 'required|in:activo,cancelado,completado',
-                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-            ]);
-        $zonasFinales = [];
+public function guardar(Request $request)
+{
+    try {
+        $validator = Validator::make($request->all(), [
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string',
+            'fecha' => 'required|date',
+            'hora' => 'required',
+            'establecimiento_id' => 'required|exists:establecimiento,idEst',
+            'estado' => 'required|in:activo,cancelado,completado',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-
-            $evento = new Evento();
-            $evento->titulo = $request->titulo;
-            $evento->descripcion = $request->descripcion;
-            $evento->fecha = $request->fecha;
-            $evento->idEst = $request->establecimiento_id;
-            $evento->estado = $request->estado;
-            $evento->valoracion = '0';
-            $evento->tipo = 'evento';
-            $evento->ubicacion = 'Por determinar';
-            $evento->categoria = 'general';
-            $evento->duracion = '01:00:00';
-
-            if ($request->hasFile('imagen')) {
-                $imagen = $request->file('imagen');
-                $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-                $imagen->move(public_path('images/eventos'), $nombreImagen);
-                $evento->portada = 'images/eventos/' . $nombreImagen;
-            } else {
-                $evento->portada = 'images/eventos/default.jpg';
-            }
-
-
-            $evento->save();
-
-            Log::info('Evento guardado exitosamente', ['id' => $evento->idEve]);
-
-            return redirect()->route('eventos.listado')
-                ->with('success', 'Evento creado exitosamente');
-        } catch (Exception $e) {
-            Log::error('Error al guardar evento: ' . $e->getMessage(), [
-                'exception' => $e,
-                'request_data' => $request->all()
-            ]);
-
-            return redirect()->back()
-                ->with('error', 'Error al crear el evento: ' . $e->getMessage())
-                ->withInput();
-            $zonasFinales[] = [
-                'idZona' => $zona->idZona,
-                'nombre' => $zona->nombre,
-            ];
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        return response()->json($zonasFinales);
+        if (!$request->has('asientos_seleccionados') || count($request->input('asientos_seleccionados')) === 0) {
+            return redirect()->back()->withErrors(['asientos_seleccionados' => 'Debe seleccionar al menos un asiento.'])->withInput();
+        }
+
+        $evento = new Evento();
+        $evento->titulo = $request->titulo;
+        $evento->descripcion = $request->descripcion;
+        $evento->fecha = $request->fecha . ' ' . $request->hora;
+        $evento->idEst = $request->establecimiento_id;
+        $evento->estado = $request->estado;
+        $evento->valoracion = 0;
+        $evento->tipo = 'evento';
+        $evento->ubicacion = 'Por determinar';
+        $evento->categoria = 'general';
+        $evento->duracion = '01:00:00';
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('images/eventos'), $nombreImagen);
+            $evento->portada = 'images/eventos/' . $nombreImagen;
+        } else {
+            $evento->portada = 'images/eventos/default.jpg';
+        }
+
+        $evento->save();
+
+        $asientosSeleccionados = $request->input('asientos_seleccionados', []);
+        $asientosZonas = $request->input('asientos_zonas', []); // key: idAsi => idZona
+        $zonas = $request->input('zonas', []);
+        $precios = $request->input('precios', []);
+
+        $zonaPrecioMap = [];
+        foreach ($zonas as $i => $zonaId) {
+            $zonaPrecioMap[$zonaId] = $precios[$i] ?? 0;
+        }
+
+        foreach ($asientosSeleccionados as $idAsi) {
+            $idZona = $asientosZonas[$idAsi] ?? null;
+            if (!$idZona || !isset($zonaPrecioMap[$idZona])) continue;
+
+            $evento->asientos()->syncWithoutDetaching([
+                $idAsi => ['precio' => $zonaPrecioMap[$idZona]]
+            ]);
+        }
+
+        return redirect()->route('eventos.listado')->with('success', 'Evento creado correctamente.');
+    } catch (\Exception $e) {
+        Log::error('Error al guardar evento: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Error al crear el evento.')->withInput();
     }
+}
+
+
+
 
 
     public function visualizar (Request $request){

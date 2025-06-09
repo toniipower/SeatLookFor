@@ -41,10 +41,10 @@ class Evento extends Model
         return $this->belongsTo(Establecimiento::class, 'idEst');
     }
 
-public function asientos()
-{
-    return $this->belongsToMany(Asiento::class, 'asientos_evento', 'idEve', 'idAsi')
-                ->withPivot('precio');
-}
+        public function asientos()
+        {
+            return $this->belongsToMany(Asiento::class, 'asientos_evento', 'idEve', 'idAsi')
+                        ->withPivot('precio');
+        }
 
 }

@@ -21,138 +21,155 @@
 
     <form action="{{ route('eventos.guardar') }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded px-6 py-6 space-y-5">
         @csrf
-        <input type="hidden" name="_method" value="POST">
 
+        <!-- Campos básicos del evento -->
         <div>
-            <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
-            <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+            <label for="titulo">Título</label>
+            <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" class="w-full border rounded" required>
         </div>
 
         <div>
-            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-            <textarea name="descripcion" id="descripcion" rows="3" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>{{ old('descripcion') }}</textarea>
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion" class="w-full border rounded" required>{{ old('descripcion') }}</textarea>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4">
             <div>
-                <label for="fecha" class="block text-sm font-medium text-gray-700">Fecha</label>
-                <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                <label for="fecha">Fecha</label>
+                <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" class="w-full border rounded" required>
             </div>
-
             <div>
-                <label for="hora" class="block text-sm font-medium text-gray-700">Hora</label>
-                <input type="time" name="hora" id="hora" value="{{ old('hora') }}" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                <label for="hora">Hora</label>
+                <input type="time" name="hora" id="hora" value="{{ old('hora') }}" class="w-full border rounded" required>
             </div>
         </div>
 
         <div>
-            <label for="establecimiento_id" class="block text-sm font-medium text-gray-700">Establecimiento</label>
-            <select name="establecimiento_id" id="establecimiento_id" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                <option value="">Seleccione un establecimiento</option>
+            <label for="establecimiento_id">Establecimiento</label>
+            <select name="establecimiento_id" id="establecimiento_id" class="w-full border rounded" required>
+                <option value="">Seleccione uno</option>
                 @foreach ($establecimientos as $est)
-                    <option value="{{ $est->idEst }}" {{ old('establecimiento_id') == $est->idEst ? 'selected' : '' }}>
-                        {{ $est->nombre }}
-                    </option>
+                    <option value="{{ $est->idEst }}">{{ $est->nombre }}</option>
                 @endforeach
             </select>
         </div>
 
-        <!-- ZONAS Y PRECIOS -->
-        <div id="zonas-content" class="mt-6 space-y-4">
-            <!-- Aquí se cargarán las zonas dinámicamente -->
-        </div>
+        <!-- Contenedor de zonas y precios -->
+        <div id="zonas-content" class="mt-6 space-y-4"></div>
 
-        <!-- MAPA DE ASIENTOS -->
+        <!-- Mapa de asientos -->
         <div id="mapa-asientos-container" class="mt-6 hidden">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Mapa de Asientos</h2>
+            <h2 class="text-xl font-semibold text-center mb-4">Mapa de Asientos</h2>
             <div class="overflow-x-auto">
-                <div id="mapa-asientos" class="relative bg-white border rounded-xl shadow p-4 mx-auto" style="width: 1000px; height: 600px;">
-                    <!-- Asientos se insertan aquí -->
-                </div>
+                <div id="mapa-asientos" class="relative bg-gray-100 border rounded-xl p-4 mx-auto" style="width: 1000px; height: 600px;"></div>
             </div>
         </div>
 
+        <!-- Contenedor para inputs ocultos -->
+        <div id="asientos-seleccionados-container"></div>
+
+        @error('asientos_seleccionados')
+            <p class="text-red-600 text-sm mt-2 text-center">{{ $message }}</p>
+        @enderror
+
         <div>
-            <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-            <select name="estado" id="estado" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                <option value="activo" {{ old('estado') == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="cancelado" {{ old('estado') == 'cancelado' ? 'selected' : '' }}>Cancelado</option>
-                <option value="completado" {{ old('estado') == 'completado' ? 'selected' : '' }}>Completado</option>
+            <label for="estado">Estado</label>
+            <select name="estado" id="estado" class="w-full border rounded" required>
+                <option value="activo">Activo</option>
+                <option value="cancelado">Cancelado</option>
+                <option value="completado">Completado</option>
             </select>
         </div>
 
         <div>
-            <label for="imagen" class="block text-sm font-medium text-gray-700">Imagen del evento</label>
-            <input type="file" name="imagen" id="imagen" class="mt-1 w-full" accept="image/*">
-            <p class="mt-1 text-sm text-gray-500">Formatos permitidos: JPEG, PNG, JPG, GIF. Máximo 2MB.</p>
+            <label for="imagen">Imagen</label>
+            <input type="file" name="imagen" id="imagen" class="w-full" accept="image/*">
         </div>
 
-        <div>
-            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
-                Guardar Evento
-            </button>
-        </div>
+        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Guardar Evento</button>
     </form>
 </div>
 
-<!-- SCRIPT PARA ZONAS Y MAPA DE ASIENTOS -->
+<!-- Script para cargar zonas y asientos -->
 <script>
-    document.getElementById('establecimiento_id').addEventListener('change', function () {
-        const idEst = this.value;
-        const zonasContent = document.getElementById('zonas-content');
-        const mapaContainer = document.getElementById('mapa-asientos-container');
-        const mapaAsientos = document.getElementById('mapa-asientos');
+document.getElementById('establecimiento_id').addEventListener('change', function () {
+    const idEst = this.value;
+    const zonasContent = document.getElementById('zonas-content');
+    const mapaContainer = document.getElementById('mapa-asientos-container');
+    const mapaAsientos = document.getElementById('mapa-asientos');
+    const asientoInputContainer = document.getElementById('asientos-seleccionados-container');
 
-        zonasContent.innerHTML = '<p class="text-sm text-gray-500">Cargando zonas...</p>';
-        mapaAsientos.innerHTML = '';
-        mapaContainer.classList.add('hidden');
+    zonasContent.innerHTML = '<p>Cargando zonas...</p>';
+    mapaAsientos.innerHTML = '';
+    asientoInputContainer.innerHTML = '';
+    mapaContainer.classList.add('hidden');
 
-        if (!idEst) return;
+    if (!idEst) return;
 
-        fetch(`/zonas-por-establecimiento/${idEst}`)
-            .then(response => response.json())
-            .then(zonas => {
-                zonasContent.innerHTML = '';
-                mapaAsientos.innerHTML = '';
-                mapaContainer.classList.remove('hidden');
+    fetch(`/zonas-por-establecimiento/${idEst}`)
+        .then(response => response.json())
+        .then(zonas => {
+            zonasContent.innerHTML = '';
+            mapaAsientos.innerHTML = '';
+            mapaContainer.classList.remove('hidden');
 
-                if (zonas.length === 0) {
-                    zonasContent.innerHTML = '<p class="text-red-500 text-sm">Este establecimiento no tiene zonas registradas.</p>';
-                    return;
-                }
+            zonas.forEach(zona => {
+                // Input de precio por zona
+                zonasContent.innerHTML += `
+                    <div class="mb-4">
+                        <label>${zona.nombre} - Precio</label>
+                        <input type="hidden" name="zonas[]" value="${zona.idZona}">
+                        <input type="number" name="precios[]" step="0.01" class="w-full border rounded" required placeholder="Precio zona ${zona.nombre}">
+                    </div>
+                `;
 
-                zonas.forEach((zona) => {
-                    // Precio por zona
-                    zonasContent.innerHTML += `
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">${zona.nombre} - Precio</label>
-                            <input type="hidden" name="zonas[]" value="${zona.idZona}">
-                            <input type="number" name="precios[]" step="0.01" class="mt-1 w-full rounded border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Precio para ${zona.nombre}" required>
-                        </div>
-                    `;
+                zona.asientos.forEach(asiento => {
+                    const div = document.createElement('div');
+                    div.className = "absolute text-xs text-white flex items-center justify-center rounded cursor-pointer font-bold";
+                    div.style.width = "40px";
+                    div.style.height = "40px";
+                    div.style.left = `${asiento.ejeX * 50 + 5}px`;
+                    div.style.top = `${asiento.ejeY * 50 + 5}px`;
+                    div.style.backgroundColor = "#22c55e";
+                    div.innerText = `Z-${asiento.zona}`;
+                    div.dataset.id = asiento.id;
 
-                    // Render asientos en el mapa
-                    zona.asientos.forEach(asiento => {
-                        const div = document.createElement('div');
-                        div.className = "absolute text-[11px] font-semibold text-white flex items-center justify-center rounded-md shadow-sm";
-                        div.style.width = "40px";
-                        div.style.height = "40px";
-                        div.style.left = `${asiento.ejeX * 50 + 5}px`;
-                        div.style.top = `${asiento.ejeY * 50 + 5}px`;
-                        div.style.backgroundColor = asiento.estado === 'ocupado' ? '#9ca3af' : '#22c55e';
-                        div.title = `Zona: ${asiento.zona} | Precio: €${Number(asiento.precio).toFixed(2)}`;
-                        div.innerText = asiento.zona;
+                    div.addEventListener('click', () => {
+                        const selector = `input[name='asientos_seleccionados[]'][value='${asiento.id}']`;
 
-                        mapaAsientos.appendChild(div);
+                        if (div.classList.toggle('seleccionado')) {
+                            div.style.backgroundColor = "#3b82f6"; // azul
+
+                            const inputId = document.createElement('input');
+                            inputId.type = 'hidden';
+                            inputId.name = 'asientos_seleccionados[]';
+                            inputId.value = asiento.id;
+                            inputId.dataset.id = asiento.id;
+                            asientoInputContainer.appendChild(inputId);
+
+                            const inputZona = document.createElement('input');
+                            inputZona.type = 'hidden';
+                            inputZona.name = `asientos_zonas[${asiento.id}]`;
+                            inputZona.value = zona.idZona;
+                            asientoInputContainer.appendChild(inputZona);
+                        } else {
+                            div.style.backgroundColor = "#22c55e"; // verde
+
+                            const input1 = document.querySelector(`input[name='asientos_seleccionados[]'][value='${asiento.id}']`);
+                            const input2 = document.querySelector(`input[name='asientos_zonas[${asiento.id}]']`);
+                            if (input1) input1.remove();
+                            if (input2) input2.remove();
+                        }
                     });
+
+                    mapaAsientos.appendChild(div);
                 });
-            })
-            .catch(() => {
-                zonasContent.innerHTML = '<p class="text-red-500 text-sm">Error al cargar las zonas.</p>';
-                mapaAsientos.innerHTML = '';
-                mapaContainer.classList.add('hidden');
             });
-    });
+        })
+        .catch(() => {
+            zonasContent.innerHTML = '<p class="text-red-600 text-sm">Error al cargar zonas.</p>';
+        });
+});
 </script>
 
 </x-layout.nav>

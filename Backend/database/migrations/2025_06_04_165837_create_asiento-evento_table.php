@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void {
         Schema::create('asientos_evento', function (Blueprint $table) {
-             $table->integer('idAE')->primary();
+            $table->id('idAE');
             $table->decimal('precio');
             $table->unsignedBigInteger('idAsi');
             $table->unsignedBigInteger('idEve');

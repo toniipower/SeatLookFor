@@ -90,10 +90,12 @@ public function guardar(Request $request)
         // Crear zonas si no existen aún
         foreach ($zonas as $zonaNombre) {
         dump($zonaNombre);
- dump(['nombre' => $zonaNombre]);
+ dump(['nombre' => $zonaNombre,
+        'idEst' => $establecimiento->idEst]);
 
         Zona::firstOrCreate(
-            ["nombre" => $zonaNombre],
+            ["nombre" => $zonaNombre,   
+             'idEst' => $establecimiento->idEst],
           
         );
     }

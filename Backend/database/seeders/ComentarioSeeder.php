@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ComentariosSeeder extends Seeder
+class ComentarioSeeder extends Seeder
 {
     public function run()
     {
