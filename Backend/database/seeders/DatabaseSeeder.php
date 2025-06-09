@@ -9,8 +9,9 @@ use App\Models\Reserva;
 use App\Models\Comentario;
 use App\Models\Evento;
 use App\Models\Establecimiento;
-use AsientosSeeder;
-use ComentariosSeeder;
+use Database\Seeders\AsientosSeeder;
+use Database\Seeders\ComentariosSeeder;
+
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -30,10 +31,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             
      
-            EstablecimientoSeeder::class,
-            //UsuarioSeeder::class,
+            // EstablecimientoSeeder::class,
+            // UsuarioSeeder::class,
             AsientosSeeder::class,
-            ComentariosSeeder::class,
+            // ComentariosSeeder::class,
             
         ]);
 
