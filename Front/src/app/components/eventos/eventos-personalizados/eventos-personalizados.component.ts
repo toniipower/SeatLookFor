@@ -66,7 +66,10 @@ export class EventosPersonalizadosComponent implements OnInit {
   }
 
   calcularTotal(): number {
-    return this.asientosSeleccionados.reduce((total, asiento) => total + asiento.precio, 0);
+    return this.asientosSeleccionados.reduce((total, asiento) => {
+      const precio = typeof asiento.precio === 'string' ? parseFloat(asiento.precio) : asiento.precio;
+      return total + precio;
+    }, 0);
   }
 
   onComentarioCreado() {

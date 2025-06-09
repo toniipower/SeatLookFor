@@ -8,11 +8,11 @@
                 <h4>Asientos seleccionados:</h4>
                 <ul>
                     <li *ngFor="let asiento of asientosSeleccionados">
-                        Zona: {{asiento.zona}} - Fila {{asiento.ejeX}}, Asiento {{asiento.ejeY}} - Precio: {{asiento.precio}}€
+                        Zona: {{asiento.zona}} - Fila {{asiento.ejeX}}, Asiento {{asiento.ejeY}} - Precio: {{asiento.precio | number:'1.2-2'}}€
                         <button class="btn-eliminar" (click)="eliminarAsiento(asiento)">✕</button>
                     </li>
                 </ul>
-                <p>Total: {{calcularTotal()}}€</p>
+                <p>Total: {{calcularTotal() | number:'1.2-2'}}€</p>
             </div>
             <p *ngIf="asientosSeleccionados.length === 0">
                 No has seleccionado ningún asiento todavía.
@@ -24,8 +24,8 @@
         </div>
 
         <div class="mapa">
-            <app-asientos *ngIf="datosEvento?.establecimiento"
-                [asientos]="datosEvento?.establecimiento?.asientos || []"
+            <app-asientos *ngIf="datosEvento"
+                [asientos]="datosEvento?.asientos || []"
                 (asientosSeleccionadosChange)="onAsientosSeleccionados($event)">
             </app-asientos>
         </div>
