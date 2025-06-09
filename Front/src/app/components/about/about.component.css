@@ -12,6 +12,17 @@
     gap: 20px;
 }
 
+.about-card-header {
+    display: flex;
+    gap: 20px;
+    justify-content: baseline;
+    padding-bottom: 10px;
+    align-items: self-end;
+}
+.about-card-header img{
+    width: 120px;
+}
+
 .paco {
     display: flex;
     flex-direction: column;
@@ -49,7 +60,6 @@
     font-size: 2rem;
     font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 10px;
 }
 
 .about-card p {
