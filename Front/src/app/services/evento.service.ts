@@ -22,7 +22,8 @@ export class EventoService {
     console.log('Realizando petición a:', this.apiUrl);
 
     return this.http.get<any>(this.apiUrl, { 
-      headers
+      headers,
+      withCredentials: true
     }).pipe(
       map(response => {
         console.log('Respuesta del servidor:', response);
@@ -61,7 +62,10 @@ export class EventoService {
     const url = `${this.apiUrl}/${id}`;
     console.log('Petición de detalle a:', url);
   
-    return this.http.get<EventoDetalle>(url, { headers }).pipe(
+    return this.http.get<EventoDetalle>(url, { 
+      headers,
+      withCredentials: true
+    }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error al obtener el evento con detalle:', error);
         return throwError(() => new Error('Error al obtener el detalle del evento'));

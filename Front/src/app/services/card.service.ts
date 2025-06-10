@@ -21,7 +21,8 @@ export class CardService {
     console.log('Realizando petición a:', this.apiUrl);
 
     return this.http.get<any>(this.apiUrl, { 
-      headers
+      headers,
+      withCredentials: true
     }).pipe(
       map(response => {
         console.log('Respuesta del servidor:', response);

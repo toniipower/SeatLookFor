@@ -24,7 +24,8 @@ return [
     'email/verification-notification',
     'user/profile-information',
     'user/password',
-    'user/confirm-password'
+    'user/confirm-password',
+    'recientes/*'
 ],
 
 'allowed_methods' => ['*'],
@@ -35,26 +36,15 @@ return [
     'http://localhost',
     'http://seatlookfor.duckdns.org',
     'https://seatlookfor.duckdns.org',
-    'http://34.205.74.0',
-    'http://34.205.74.0:80',
-    'http://34.205.74.0:4200'
+    'http://seatlookforadmin.duckdns.org',
+    'https://seatlookforadmin.duckdns.org'
 ],
 
 'allowed_origins_patterns' => [],
 
-'allowed_headers' => [
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authorization',
-    'X-CSRF-TOKEN',
-    'X-XSRF-TOKEN'
-],
+'allowed_headers' => ['*'],
 
-'exposed_headers' => [
-    'Access-Control-Allow-Origin',
-    'Access-Control-Allow-Credentials'
-],
+'exposed_headers' => ['*'],
 
 'max_age' => 0,
 
