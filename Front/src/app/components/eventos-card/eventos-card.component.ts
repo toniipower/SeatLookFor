@@ -3,6 +3,7 @@ import { Evento } from '../../models/evento.model';
 import { EventoService } from '../../services/evento.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-eventos-card',
@@ -18,7 +19,7 @@ export class EventosCardComponent implements OnChanges {
   loading = true;
   error: string | null = null;
 
-  private readonly baseUrl = 'http://localhost';
+  private readonly baseUrl = environment.apiUrl.replace('/api', '');
   pageSize = 4;
   currentPage = 1;
   totalItems = 0;

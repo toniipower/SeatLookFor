@@ -5,6 +5,7 @@ import { ComentarioService } from '../../services/comentario.service';
 import { ComentarioFormComponent } from '../comentario-form/comentario-form.component';
 import { Comentario } from '../../models/comentario.model';
 import { ReservaService } from '../../services/reserva.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-asientos',
@@ -25,6 +26,7 @@ export class AsientosComponent implements OnInit {
   asientoSeleccionado: Asiento | null = null;
   imagenActual = 0;
   mouseEnTooltip = false;
+  baseUrl = environment.apiUrl.replace('/api', '');
 
   constructor(
     private comentarioService: ComentarioService,
@@ -120,5 +122,11 @@ export class AsientosComponent implements OnInit {
         }
       );
     }
+  }
+
+  getFotoComentario(foto?: string): string {
+    if (!foto) return 'assets/images/no-image.png';
+    if (foto.startsWith('http')) return foto;
+    return `${this.baseUrl}/${foto}`;
   }
 }

@@ -36,7 +36,7 @@
               *ngIf="comentariosAsiento.length > 1">❮</button>
       
       <div class="imagen-comentario">
-        <img [src]="'http://localhost/' + comentariosAsiento[imagenActual].foto" 
+        <img [src]="getFotoComentario(comentariosAsiento[imagenActual].foto)" 
              [alt]="'Comentario de ' + comentariosAsiento[imagenActual].usuario?.nombre">
         <div class="info-comentario">
           <p class="usuario">{{comentariosAsiento[imagenActual].nombre}} {{comentariosAsiento[imagenActual].apellido}}</p>
@@ -64,3 +64,8 @@
   [asientoSeleccionado]="asientoSeleccionado"
   (comentarioCreado)="onComentarioCreado()">
 </app-comentario-form>
+
+<!-- Botón de confirmación -->
+<div class="acciones">
+  <button [disabled]="asientosSeleccionados.length === 0" routerLink="/resumen">Confirmar Reserva</button>
+</div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import { environment } from '../../environments/environment';
 
 interface AuthResponse {
   user: Usuario;
@@ -18,7 +19,7 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost/api';
+  private apiUrl = environment.apiUrl;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
@@ -58,7 +59,7 @@ export class AuthService {
           this.isAuthenticatedSubject.next(true);
 
           if (response.user.admin) {
-            window.location.href = 'http://localhost/establecimientos';
+            window.location.href = `${environment.apiUrl.replace('/api', '')}/establecimientos`;
           } else {
             this.router.navigate(['/']);
           }

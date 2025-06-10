@@ -3,13 +3,13 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Evento } from '../models/evento.model';
 import { EventoDetalle } from '../models/evento-detalle.model';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost/api/eventos'; 
+  private apiUrl = `${environment.apiUrl}/eventos`;
 
   constructor(private http: HttpClient) {}
 

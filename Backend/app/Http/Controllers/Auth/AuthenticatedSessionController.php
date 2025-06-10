@@ -50,6 +50,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('http://localhost:4200/');
+        return redirect(config('app.frontend_url', 'https://seatlook.duckdns.org'));
     }
 }

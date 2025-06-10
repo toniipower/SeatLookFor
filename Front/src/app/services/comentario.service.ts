@@ -8,7 +8,7 @@ import { Comentario } from '../models/comentario.model';
   providedIn: 'root'
 })
 export class ComentarioService {
-  private apiUrl = 'http://localhost/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -52,12 +52,10 @@ export class ComentarioService {
    *  Cambiado por paco
    */
 
-getComentariosPorEvento(idEvento: number): Observable<{ comentarios: Comentario[] }> {
-  return this.http.get<{ comentarios: Comentario[] }>(
-    `${this.apiUrl}/eventos/${idEvento}/comentarios`
-  );
-}
-
-
+  getComentariosPorEvento(idEvento: number): Observable<{ comentarios: Comentario[] }> {
+    return this.http.get<{ comentarios: Comentario[] }>(
+      `${this.apiUrl}/eventos/${idEvento}/comentarios`
+    );
+  }
 } 
 

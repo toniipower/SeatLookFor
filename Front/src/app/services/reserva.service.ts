@@ -3,12 +3,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Asiento } from '../models/asiento.model';
 import { Reserva } from '../models/reserva.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
-  private apiUrl = 'http://localhost/api';
+  private apiUrl = environment.apiUrl;
   private asientosSeleccionados = new BehaviorSubject<Asiento[]>([]);
   asientosSeleccionados$ = this.asientosSeleccionados.asObservable();
 

@@ -10,6 +10,7 @@ import { Asiento } from '../../../models/asiento.model';
 import { Comentario } from '../../../models/comentario.model'; // 🔄 CAMBIO: importar modelo de comentario
 import { ComentarioService } from '../../../services/comentario.service'; // 🔄 CAMBIO: importar servicio de comentarios
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'eventos-personalizados',
@@ -122,9 +123,9 @@ export class EventosPersonalizadosComponent implements OnInit {
   }
 
   getFotoComentario(foto?: string): string {
-    if (!foto) return 'assets/images/no-image.png'; // imagen por defecto
+    if (!foto) return 'assets/images/no-image.png';
     if (foto.startsWith('http')) return foto;
-    return `http://localhost/${foto}`; // ajusta la base URL si tu backend usa otra
+    return `${environment.apiUrl.replace('/api', '')}/${foto}`;
   }
 
   confirmarReserva() {

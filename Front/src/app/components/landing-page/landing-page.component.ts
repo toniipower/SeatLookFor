@@ -6,13 +6,11 @@ import { CommonModule } from '@angular/common';
 import { Evento } from '../../models/evento.model';
 import { RouterLink } from '@angular/router';
 import { AcortarDescripcionPipe } from './acortar-descripcion.pipe';
-
-
-
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-landing-page',
+  standalone: true,
   imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink, AcortarDescripcionPipe],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
@@ -21,6 +19,7 @@ export class LandingPageComponent implements OnInit {
   animatedText = "Nuestras Recomendaciones"
   cards: Evento[] = [];
   letters: string[] = [];
+  baseUrl = environment.apiUrl.replace('/api', '');
 
   constructor(private cardService: CardService) { }
 
@@ -38,14 +37,11 @@ export class LandingPageComponent implements OnInit {
   }
 
   fetchCards() {
-    const baseUrl = 'http://localhost'; // O usa environment.backendUrl
-
     this.cardService.getCards().subscribe(
       (data) => {
         this.cards = data.map(evento => ({
-
           ...evento,
-          portada: `${baseUrl}/${evento.portada}`
+          portada: `${this.baseUrl}/${evento.portada}`
         }));
 
         console.log('Cards con URL de imagen:', this.cards);
