@@ -10,12 +10,19 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Auth;                
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
+use App\Http\Controllers\ApiAuthenticationController;
 
 
 // Rutas públicas
 Route::get('/test', function () {
     return response()->json(['message' => 'API funcionando']);
 });
+
+
+
+Route::post('/login', [ApiAuthenticationController::class, 'login'])->name('login');
+Route::middleware('auth:sanctum')->post('/logout', [ApiAuthenticationController::class, 'logout']);
+
 
 // Rutas de eventos
 Route::get('/eventos', [EventoController::class, 'index']);
