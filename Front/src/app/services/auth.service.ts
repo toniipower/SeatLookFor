@@ -142,4 +142,8 @@ export class AuthService {
       })
     );
   }
+
+  get currentUserValue(): Usuario | null {
+    return this.currentUserSubject.value;
+  }
 }

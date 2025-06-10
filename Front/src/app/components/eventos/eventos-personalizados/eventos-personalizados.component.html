@@ -17,7 +17,7 @@
             <p *ngIf="asientosSeleccionados.length === 0">
                 No has seleccionado ningún asiento todavía.
             </p>
-            <button [disabled]="asientosSeleccionados.length === 0">Confirmar Reserva</button>
+            <button [disabled]="asientosSeleccionados.length === 0" (click)="confirmarReserva()">Confirmar Reserva</button>
         </div>
         <div class="titulo">
             <p> {{ datosEvento?.evento?.titulo }}</p>

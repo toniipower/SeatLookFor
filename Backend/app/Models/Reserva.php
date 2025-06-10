@@ -21,16 +21,12 @@ class Reserva extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'precio',
-        'descuento',
         'fechaReserva',
         'idAsi',
         'idUsu',
         'idEve',
         'totalPrecio'
-    
     ];
-
 
     public function evento()
     {
@@ -46,8 +42,4 @@ class Reserva extends Model
     {
         return $this->belongsTo(Usuario::class);
     }
-
-
-
-
 }

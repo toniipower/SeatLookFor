@@ -16,7 +16,7 @@ class ReservaController extends Controller
 public function crearReserva(Request $request)
 {
     $validated = $request->validate([
-        'precio' => 'required|numeric|min:0',
+        'totalPrecio' => 'required|numeric|min:0',
         'fechaReserva' => 'required|date',
         'idAsientos' => 'required|array|min:1',
         'idAsientos.*' => 'integer|exists:asiento,idAsi',
@@ -31,7 +31,7 @@ public function crearReserva(Request $request)
     try {
         foreach ($validated['idAsientos'] as $idAsiento) {
             $reserva = Reserva::create([
-                'precio' => $validated['precio'],
+                'totalPrecio' => $validated['totalPrecio'],
                 'fechaReserva' => $validated['fechaReserva'],
                 'idAsi' => $idAsiento,
                 'idUsu' => $usuario->idUsu,

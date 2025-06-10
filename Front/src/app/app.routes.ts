@@ -26,9 +26,9 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   { 
-    path: 'resumen', 
+    path: 'resumen/:idEvento', 
     component: ResumenReservaComponent,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },

@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { EventoDetalle } from '../../../models/evento-detalle.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { EventoService } from '../../../services/evento.service';
 import { AsientosComponent } from '../../asientos/asientos.component';
 import { CommonModule } from '@angular/common';
 import { Asiento } from '../../../models/asiento.model';
 import { Comentario } from '../../../models/comentario.model'; // 🔄 CAMBIO: importar modelo de comentario
 import { ComentarioService } from '../../../services/comentario.service'; // 🔄 CAMBIO: importar servicio de comentarios
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'eventos-personalizados',
   standalone: true,
-  imports: [NavbarComponent, FooterComponent, AsientosComponent, CommonModule],
+  imports: [NavbarComponent, FooterComponent, AsientosComponent, CommonModule, RouterModule],
   templateUrl: './eventos-personalizados.component.html',
   styleUrl: './eventos-personalizados.component.css'
 })
@@ -30,7 +31,9 @@ export class EventosPersonalizadosComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private eventoService: EventoService,
-    private comentarioService: ComentarioService // 🔄 CAMBIO: inyectar servicio
+    private comentarioService: ComentarioService, // 🔄 CAMBIO: inyectar servicio
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -124,7 +127,11 @@ export class EventosPersonalizadosComponent implements OnInit {
     return `http://localhost/${foto}`; // ajusta la base URL si tu backend usa otra
   }
 
-
-
-  
+  confirmarReserva() {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.router.navigate(['/resumen', this.datosEvento?.evento?.idEve]);
+  }
 }
