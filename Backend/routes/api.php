@@ -32,10 +32,10 @@ Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obte
 // Ruta para obtener el token CSRF
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
-// Rutas de autenticación API
+/* // Rutas de autenticación API
 Route::post('/login', [AuthController::class, 'login'])->middleware('api');
 Route::post('/register', [AuthController::class, 'register'])->middleware('api');
-
+ */
 // Rutas protegidas API
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
