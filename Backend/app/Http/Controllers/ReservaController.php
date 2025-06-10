@@ -2,65 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Reserva;
-use App\Http\Requests\StoreReservaRequest;
-use App\Http\Requests\UpdateReservaRequest;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class ReservaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+
+
+public function crearReserva(Request $request)
+{
+    $validated = $request->validate([
+        'precio' => 'required|numeric|min:0',
+        'fechaReserva' => 'required|date',
+        'idAsientos' => 'required|array|min:1',
+        'idAsientos.*' => 'integer|exists:asiento,idAsi',
+        'idEve' => 'required|integer|exists:evento,idEve',
+    ]);
+
+    $usuario = $request->user();
+
+    $reservas = [];
+
+    DB::beginTransaction();
+    try {
+        foreach ($validated['idAsientos'] as $idAsiento) {
+            $reserva = Reserva::create([
+                'precio' => $validated['precio'],
+                'fechaReserva' => $validated['fechaReserva'],
+                'idAsi' => $idAsiento,
+                'idUsu' => $usuario->idUsu,
+                'idEve' => $validated['idEve'],
+            ]);
+
+            $reservas[] = $reserva;
+        }
+
+        DB::commit();
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['error' => 'Error al crear reservas.'], 500);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    // Generar el PDF
+    $pdf = Pdf::loadView('pdf.entrada', ['reservas' => $reservas, 'usuario' => $usuario]);
+    $filename = 'entrada_' . now()->timestamp . '.pdf';
+    Storage::put('public/entradas/' . $filename, $pdf->output());
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReservaRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reserva $reserva)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Reserva $reserva)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReservaRequest $request, Reserva $reserva)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reserva $reserva)
-    {
-        //
-    }
+    return response()->json([
+        'message' => 'Reservas creadas con éxito',
+        'pdf_url' => asset('storage/entradas/' . $filename),
+    ], 201);
+}
 }

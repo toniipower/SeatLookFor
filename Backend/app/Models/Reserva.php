@@ -27,6 +27,7 @@ class Reserva extends Model
         'idAsi',
         'idUsu',
         'idEve',
+        'totalPrecio'
     
     ];
 

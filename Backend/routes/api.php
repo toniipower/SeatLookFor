@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Auth;                
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
@@ -36,6 +37,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Rutas de comentarios
     Route::post('/asientos/{id}/comentar', [ComentarioController::class, 'comentar']);
     Route::get('/asientos/{id}/comentarios', [ComentarioController::class, 'getComentarios']);
+
+    Route::post('/reservas', [ReservaController::class, 'crearReserva']);
 });
 
 /**
@@ -47,3 +50,8 @@ Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
  * Trae los comentarios de un evento
  */
 Route::get('/eventos/{id}/comentarios', [EventoController::class, 'comentariosPorEvento']);
+
+/**
+ * 
+ */
+

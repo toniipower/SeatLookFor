@@ -73,11 +73,28 @@
         @enderror
 
         <div>
-            <label for="estado">Estado</label>
-            <select name="estado" id="estado" class="w-full border rounded" required>
-                <option value="activo">Activo</option>
-                <option value="cancelado">Cancelado</option>
-                <option value="completado">Completado</option>
+            <label for="tipo">Tipo</label>
+            <select name="tipo" id="tipo" class="w-full border rounded" required>
+                <option value="">Selecciona un tipo</option>
+                <option value="Teatro">Teatro</option>
+                <option value="Orquesta">Orquesta</option>
+                <option value="Musical">Musical</option>
+                <option value="Concierto">Concierto</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="categoria">Categoría</label>
+            <select name="categoria" id="categoria" class="w-full border rounded" required>
+                <option value="">Selecciona una categoría</option>
+                <option value="Drama">Drama</option>
+                <option value="Familiar">Familiar</option>
+                <option value="Clásica">Clásica</option>
+                <option value="Musical">Musical</option>
+                <option value="Barroco">Barroco</option>
+                <option value="Fantasía">Fantasía</option>
+                <option value="Suspenso">Suspenso</option>
+                <option value="Comedia">Comedia</option>
             </select>
         </div>
 

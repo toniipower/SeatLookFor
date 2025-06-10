@@ -70,7 +70,7 @@ public function mostrar($id)
                 return [
                     'idAsi' => $a->idAsi,
                     'zona' => $a->zona,
-                    'estado' => in_array($a->idAsi, $asientosReservadosIds) ? 'reservado' : 'libre',
+                    'estado' => in_array($a->idAsi, $asientosReservadosIds) ? 'ocupado' : 'libre',
                     'ejeX' => $a->ejeX,
                     'ejeY' => $a->ejeY,
                     'precio' => $a->pivot->precio ?? null,
@@ -141,15 +141,17 @@ public function mostrar($id)
 public function guardar(Request $request)
 {
     try {
-        $validator = Validator::make($request->all(), [
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'fecha' => 'required|date',
-            'hora' => 'required',
-            'establecimiento_id' => 'required|exists:establecimiento,idEst',
-            'estado' => 'required|in:activo,cancelado,completado',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+       $validator = Validator::make($request->all(), [
+                'titulo' => 'required|string|max:255',
+                'descripcion' => 'required|string',
+                'fecha' => 'required|date',
+                'hora' => 'required',
+                'establecimiento_id' => 'required|exists:establecimiento,idEst',
+                'tipo' => 'required|in:Teatro,Orquesta,Musical,Concierto',
+                'categoria' => 'required|in:Drama,Familiar,Clásica,Musical,Barroco,Fantasía,Suspenso,Comedia',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -164,11 +166,11 @@ public function guardar(Request $request)
         $evento->descripcion = $request->descripcion;
         $evento->fecha = $request->fecha . ' ' . $request->hora;
         $evento->idEst = $request->establecimiento_id;
-        $evento->estado = $request->estado;
+        $evento->estado = "activo";
         $evento->valoracion = 0;
-        $evento->tipo = 'evento';
+        $evento->tipo = $request->tipo;
+        $evento->categoria = $request->categoria;
         $evento->ubicacion = 'Por determinar';
-        $evento->categoria = 'general';
         $evento->duracion = '01:00:00';
 
         if ($request->hasFile('imagen')) {
