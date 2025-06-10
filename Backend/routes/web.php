@@ -28,11 +28,33 @@ Route::post('/', function () {
     return redirect()->route('login');
 });
 
-/* // Rutas de autenticación
-require __DIR__.'/auth.php'; */
+// Rutas de autenticación
+Route::post('/login', function (Request $request) {
+    $credentials = $request->only('email', 'password');
+
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Credenciales incorrectas'], 401);
+    }
+
+    $user = Auth::user();
+    $token = $user->createToken('auth-token')->plainTextToken;
+
+    return response()->json([
+        'message' => 'Login correcto',
+        'user' => $user,
+        'token' => $token
+    ]);
+})->middleware('cors');
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return response()->json(['message' => 'Logout correcto']);
+})->middleware('cors');
 
 // Rutas protegidas
-/* Route::middleware('auth')->group(function () { */
+Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -61,27 +83,6 @@ require __DIR__.'/auth.php'; */
     Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
     Route::get('/eventos/{idEve}', [EventoController::class, 'mostrar'])->name('eventos.mostrar');
     Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');
-/* }); */
-
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
-
-    if (!Auth::attempt($credentials)) {
-        return response()->json(['message' => 'Credenciales incorrectas'], 401);
-    }
-
-    return response()->json([
-        'message' => 'Login correcto',
-        'user' => Auth::user()
-    ]);
 });
-
-
-
-Route::get('/eventos', [EventoController::class, 'listar'])->name('eventos.listado');
-Route::get('/eventos/crear', [EventoController::class, 'formularioCrear'])->name('eventos.crear');
-Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
-Route::get('/eventos/{idEve}', [EventoController::class, 'mostrar'])->name('eventos.mostrar');
-Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');
 
 

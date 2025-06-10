@@ -13,7 +13,19 @@ return [
 |
 */
 
-'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout'],
+'paths' => [
+    'api/*',
+    'sanctum/csrf-cookie',
+    'login',
+    'logout',
+    'register',
+    'forgot-password',
+    'reset-password',
+    'email/verification-notification',
+    'user/profile-information',
+    'user/password',
+    'user/confirm-password'
+],
 
 'allowed_methods' => ['*'],
 
@@ -30,9 +42,19 @@ return [
 
 'allowed_origins_patterns' => [],
 
-'allowed_headers' => ['*'],
+'allowed_headers' => [
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'Authorization',
+    'X-CSRF-TOKEN',
+    'X-XSRF-TOKEN'
+],
 
-'exposed_headers' => [],
+'exposed_headers' => [
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Credentials'
+],
 
 'max_age' => 0,
 
