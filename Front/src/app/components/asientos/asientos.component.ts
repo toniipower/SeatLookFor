@@ -20,6 +20,8 @@ export class AsientosComponent implements OnInit {
   tooltipY = 0;
   comentariosAsiento: Comentario[] = [];
   asientoSeleccionado: Asiento | null = null;
+  imagenActual = 0;
+  mouseEnTooltip = false;
 
   constructor(private comentarioService: ComentarioService) {}
 
@@ -67,11 +69,40 @@ export class AsientosComponent implements OnInit {
       this.tooltipX = event.clientX + 10;
       this.tooltipY = event.clientY + 10;
       this.comentariosAsiento = asiento.comentarios.filter(c => c.foto);
+      this.imagenActual = 0;
     }
   }
 
+  siguienteImagen() {
+    if (this.imagenActual < this.comentariosAsiento.length - 1) {
+      this.imagenActual++;
+    } else {
+      this.imagenActual = 0;
+    }
+  }
+
+  anteriorImagen() {
+    if (this.imagenActual > 0) {
+      this.imagenActual--;
+    } else {
+      this.imagenActual = this.comentariosAsiento.length - 1;
+    }
+  }
+
+  mouseEntraTooltip() {
+    this.mouseEnTooltip = true;
+  }
+
+  mouseSaleTooltip() {
+    this.mouseEnTooltip = false;
+    this.ocultarImagen();
+  }
+
   ocultarImagen() {
-    this.mostrarTooltip = false;
+    if (!this.mouseEnTooltip) {
+      this.mostrarTooltip = false;
+      this.imagenActual = 0;
+    }
   }
 
   onComentarioCreado() {

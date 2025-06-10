@@ -24,14 +24,36 @@
 </div>
 
 <!-- Tooltip con imágenes de comentarios -->
-<div class="tooltip-imagen" *ngIf="mostrarTooltip" [style.left.px]="tooltipX" [style.top.px]="tooltipY">
+<div class="tooltip-imagen" *ngIf="mostrarTooltip" 
+     [style.left.px]="tooltipX" 
+     [style.top.px]="tooltipY"
+     (mouseenter)="mouseEntraTooltip()"
+     (mouseleave)="mouseSaleTooltip()">
   <div class="tooltip-contenido">
-    <div *ngFor="let comentario of comentariosAsiento" class="imagen-comentario">
-      <img [src]="'http://localhost/' + comentario.foto" [alt]="'Comentario de ' + comentario.usuario?.nombre">
-      <div class="info-comentario">
-        <p class="usuario">{{comentario.nombre}} {{comentario.apellido}}</p>
-        <p class="valoracion">⭐ {{comentario.valoracion}}</p>
+    <div class="carrusel">
+      <button class="btn-navegacion anterior" 
+              (click)="anteriorImagen()" 
+              *ngIf="comentariosAsiento.length > 1">❮</button>
+      
+      <div class="imagen-comentario">
+        <img [src]="'http://localhost/' + comentariosAsiento[imagenActual].foto" 
+             [alt]="'Comentario de ' + comentariosAsiento[imagenActual].usuario?.nombre">
+        <div class="info-comentario">
+          <p class="usuario">{{comentariosAsiento[imagenActual].nombre}} {{comentariosAsiento[imagenActual].apellido}}</p>
+          <p class="valoracion">⭐ {{comentariosAsiento[imagenActual].valoracion}}</p>
+        </div>
       </div>
+
+      <button class="btn-navegacion siguiente" 
+              (click)="siguienteImagen()" 
+              *ngIf="comentariosAsiento.length > 1">❯</button>
+    </div>
+    <div class="indicadores" *ngIf="comentariosAsiento.length > 1">
+      <span *ngFor="let comentario of comentariosAsiento; let i = index" 
+            [class.activo]="i === imagenActual"
+            (click)="imagenActual = i">
+        ●
+      </span>
     </div>
   </div>
 </div>
