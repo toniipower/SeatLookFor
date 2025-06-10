@@ -56,19 +56,14 @@ class ComentarioController extends Controller
                 $fotoPath = 'storage/images/comentarios/' . $imageName;
             }
 
-            // Crear o actualizar comentario del usuario sobre ese asiento
-            $comentario = Comentario::updateOrCreate(
-                [
-                    'idUsu' => $usuario->idUsu,
-                    'idAsi' => $idAsi,
-                ],
-                [
-                    'opinion' => $request->opinion,
-                    'valoracion' => $request->valoracion,
-                    'foto' => $fotoPath,
-                    'idEve' => null
-                ]
-            );
+          $comentario = Comentario::create([
+                'idUsu' => $usuario->idUsu,
+                'idAsi' => $idAsi,
+                'opinion' => $request->opinion,
+                'valoracion' => $request->valoracion,
+                'foto' => $fotoPath,
+                'idEve' => null
+            ]);
 
             Log::info('Comentario guardado exitosamente', ['idCom' => $comentario->idCom ?? 'nuevo']);
 

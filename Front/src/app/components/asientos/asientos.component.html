@@ -29,7 +29,7 @@
     <div *ngFor="let comentario of comentariosAsiento" class="imagen-comentario">
       <img [src]="'http://localhost/' + comentario.foto" [alt]="'Comentario de ' + comentario.usuario?.nombre">
       <div class="info-comentario">
-        <p class="usuario">{{comentario.usuario?.nombre}} {{comentario.usuario?.apellido}}</p>
+        <p class="usuario">{{comentario.nombre}} {{comentario.apellido}}</p>
         <p class="valoracion">⭐ {{comentario.valoracion}}</p>
       </div>
     </div>

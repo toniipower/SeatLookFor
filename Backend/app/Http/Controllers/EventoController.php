@@ -78,6 +78,7 @@ public function mostrar($id)
                         return [
                             'idUsu' => $u->idUsu,
                             'nombre' => $u->nombre,
+                            'apellido'=>$u->apellido,
                             'opinion' => $u->pivot->opinion,
                             'valoracion' => $u->pivot->valoracion,
                             'foto' => $u->pivot->foto,
@@ -206,7 +207,42 @@ public function guardar(Request $request)
         return redirect()->back()->with('error', 'Error al crear el evento.')->withInput();
     }
 }
+public function comentariosPorEvento($id)
+{
+    try {
+        // Obtener el evento con sus asientos y los usuarios que comentaron cada asiento
+        $evento = Evento::with(['asientos.usuariosComentaron'])->findOrFail($id);
 
+        // Recolectar todos los comentarios de los asientos del evento
+        $comentarios = $evento->asientos->flatMap(function ($asiento) {
+            return $asiento->usuariosComentaron->map(function ($usuario) use ($asiento) {
+                return [
+                    'idCom' => $usuario->pivot->idCom ?? null,
+                    'opinion' => $usuario->pivot->opinion,
+                    'valoracion' => $usuario->pivot->valoracion,
+                    'foto' => $usuario->pivot->foto,
+                    'idUsu' => $usuario->idUsu,
+                    'nombre' => $usuario->nombre,
+                    'apellido' => $usuario->apellido,
+                    'idAsi' => $asiento->idAsi,
+                    'zona' => $asiento->zona,
+                    'ejeX' => $asiento->ejeX,
+                    'ejeY' => $asiento->ejeY,
+                ];
+            });
+        });
+
+        return response()->json([
+            'idEve' => $evento->idEve, 
+            'comentarios' => $comentarios
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'No se pudieron cargar los comentarios del evento.',
+            'mensaje' => $e->getMessage()
+        ], 500);
+    }
+}
 
 
 

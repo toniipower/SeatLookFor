@@ -3,12 +3,19 @@ import { Evento } from "./evento.model";
 import { Asiento } from "./asiento.model";
 
 export interface EventoDetalle {
+
+  titulo: string;
+  fecha: string;
+  valoracion: number;
+  descripcion: string;
+  establecimiento: {
+    idEst: number;
+    nombre: string;
+    ubicacion: string;
+    imagen: string;
+    tipo: string;
+    asientos?: any[]; // puedes ajustar este tipo
+  };
   evento: Evento;
-  establecimiento: Establecimiento;
-  asientos: Asiento[];
-  // idEve: number;
-  // titulo: string;
-  // fecha: string; // Usa `Date` si conviertes la fecha en el front
-  // valoracion: number;
-  // descripcion: string;
+  asientos?: any[]; // o Asiento[], si tienes el modelo
 }

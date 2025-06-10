@@ -7,7 +7,8 @@ import { EventoService } from '../../../services/evento.service';
 import { AsientosComponent } from '../../asientos/asientos.component';
 import { CommonModule } from '@angular/common';
 import { Asiento } from '../../../models/asiento.model';
-// import { ComentarioFormComponent } from '../../comentario-form/comentario-form.component';
+import { Comentario } from '../../../models/comentario.model'; // 🔄 CAMBIO: importar modelo de comentario
+import { ComentarioService } from '../../../services/comentario.service'; // 🔄 CAMBIO: importar servicio de comentarios
 
 @Component({
   selector: 'eventos-personalizados',
@@ -23,9 +24,13 @@ export class EventosPersonalizadosComponent implements OnInit {
   asientosSeleccionados: Asiento[] = [];
   asientoSeleccionado: Asiento | null = null;
 
+  comentariosEvento: Comentario[] = []; // ✅ Siempre es un array
+
+
   constructor(
     private route: ActivatedRoute,
-    private eventoService: EventoService
+    private eventoService: EventoService,
+    private comentarioService: ComentarioService // 🔄 CAMBIO: inyectar servicio
   ) { }
 
   ngOnInit(): void {
@@ -35,12 +40,29 @@ export class EventosPersonalizadosComponent implements OnInit {
         next: (data) => {
           this.datosEvento = data;
           console.log(this.datosEvento);
+          console.log('Datos recibidos del evento:', data);
+
+
+          // 🔄 CAMBIO: cargar comentarios del evento   
+          this.cargarComentariosEvento(data.evento.idEve);
         },
         error: (err) => {
           console.error(err);
         }
       });
     }
+  }
+
+  // 🔄 CAMBIO: método para obtener comentarios del evento
+  private cargarComentariosEvento(idEvento: number): void {
+    this.comentarioService.getComentariosPorEvento(idEvento).subscribe({
+      next: (res: any) => {
+        this.comentariosEvento = res.comentarios;
+      },
+      error: (err) => {
+        console.error('Error al cargar comentarios del evento:', err);
+      }
+    });
   }
 
   onAsientosSeleccionados(asientos: Asiento[]) {
@@ -73,7 +95,6 @@ export class EventosPersonalizadosComponent implements OnInit {
   }
 
   onComentarioCreado() {
-    // Recargar los comentarios del asiento
     if (this.asientoSeleccionado) {
       this.eventoService.getEventoDetalle(Number(this.route.snapshot.paramMap.get('id'))).subscribe({
         next: (data) => {
@@ -91,4 +112,19 @@ export class EventosPersonalizadosComponent implements OnInit {
       });
     }
   }
+
+  getEstrellas(valoracion: number | string | undefined): number[] {
+  const val = Math.round(typeof valoracion === 'string' ? parseFloat(valoracion) : valoracion || 0);
+  return Array(val).fill(0);
+  }
+
+  getFotoComentario(foto?: string): string {
+    if (!foto) return 'assets/images/no-image.png'; // imagen por defecto
+    if (foto.startsWith('http')) return foto;
+    return `http://localhost/${foto}`; // ajusta la base URL si tu backend usa otra
+  }
+
+
+
+  
 }

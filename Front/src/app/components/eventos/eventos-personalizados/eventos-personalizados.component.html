@@ -63,94 +63,43 @@
                 </p>
             </div>
         </div>
-
-        <div class="comentarios">
+            <div class="comentarios">
             <h3>COMENTARIOS</h3>
-            <div class="caja-comentario">
+
+            <div *ngIf="comentariosEvento.length > 0; else sinComentarios">
+                <div class="caja-comentario" *ngFor="let comentario of comentariosEvento">
                 <div class="header-caja_comentario">
                     <div class="persona-comentario">
-                        <div class="perfil-comentario">
-                            <img src="images/profile.png" alt="foto perfil">
-                        </div>
-                        <div class="nombre-comentario">
-                            Antonio
-                        </div>
+                    <div class="nombre-comentario">
+                        {{ comentario?.nombre || comentario?.usuario?.nombre || 'Usuario' }}
+                        {{ comentario?.apellido || comentario?.usuario?.apellido || '' }}
                     </div>
-                    <div>
                     </div>
                 </div>
-                <div class="descripcion-comentario">
-                    <div class="valoracion-comentario">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
 
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
-                    </p>
+                <div class="descripcion-comentario" *ngIf="comentario?.opinion">
+                    <div class="valoracion-comentario">
+                    <ng-container *ngFor="let star of getEstrellas(comentario?.valoracion)">
+                        ⭐
+                    </ng-container>
+                    </div>
+                    <p>{{ comentario.opinion }}</p>
+
+                    <!-- ✅ Imagen del comentario debajo de la opinión -->
+                    <img
+                    *ngIf="comentario.foto"
+                    [src]="getFotoComentario(comentario.foto)"
+                    alt="imagen del comentario"
+                    class="imagen-comentario"
+                    />
+                </div>
                 </div>
             </div>
-            <div class="caja-comentario">
-                <div class="header-caja_comentario">
-                    <div class="persona-comentario">
-                        <div class="perfil-comentario">
-                            <img src="images/profile.png" alt="foto perfil">
-                        </div>
-                        <div class="nombre-comentario">
-                            Antonio
-                        </div>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-                <div class="descripcion-comentario">
-                    <div class="valoracion-comentario">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
 
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
-                    </p>
-                </div>
+            <ng-template #sinComentarios>
+                <p>No hay comentarios disponibles para este evento.</p>
+            </ng-template>
             </div>
-            <div class="caja-comentario">
-                <div class="header-caja_comentario">
-                    <div class="persona-comentario">
-                        <div class="perfil-comentario">
-                            <img src="images/profile.png" alt="foto perfil">
-                        </div>
-                        <div class="nombre-comentario">
-                            Antonio
-                        </div>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-                <div class="descripcion-comentario">
-                    <div class="valoracion-comentario">
-                        ⭐⭐⭐⭐⭐
-                    </div>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima ullam pariatur architecto iure
-                        tempore laudantium animi nihil a quis, asperiores blanditiis quod voluptatum natus recusandae.
-                        Pariatur quae ad esse eaque.
-                    </p>
-                </div>
-            </div>
-        </div>
     </div>
-    <app-footer></app-footer>
-</div>
+     
+<app-footer></app-footer>

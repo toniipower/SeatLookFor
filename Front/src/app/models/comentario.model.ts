@@ -6,6 +6,8 @@ export interface Comentario {
     idUsu: number;
     idAsi: number;
     nombre: string;
+    apellido:string;
+    idEve: number;
     usuario?: {
       nombre: string;
       apellido: string;

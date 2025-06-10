@@ -47,5 +47,17 @@ export class ComentarioService {
       withCredentials: true
     });
   }
+
+  /**
+   *  Cambiado por paco
+   */
+
+getComentariosPorEvento(idEvento: number): Observable<{ comentarios: Comentario[] }> {
+  return this.http.get<{ comentarios: Comentario[] }>(
+    `${this.apiUrl}/eventos/${idEvento}/comentarios`
+  );
+}
+
+
 } 
 

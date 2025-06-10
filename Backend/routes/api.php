@@ -42,3 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
  * Trae el evento, el establecimiento asignado y los asientos asignados
  */
 Route::get('/eventos/{id}', [EventoController::class, 'mostrar']);
+
+/**
+ * Trae los comentarios de un evento
+ */
+Route::get('/eventos/{id}/comentarios', [EventoController::class, 'comentariosPorEvento']);
