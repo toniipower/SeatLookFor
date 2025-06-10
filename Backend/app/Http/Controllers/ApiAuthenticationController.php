@@ -4,42 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Usuario;
 
 class ApiAuthenticationController extends Controller
 {
+    /**
+     * Login y generación de token Sanctum.
+     */
     public function login(Request $request)
     {
-        // Validar credenciales
         $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
+            'email'    => 'required|email',
+            'password' => 'required|string',
         ]);
 
-        // Intentar autenticación
+        // Intento de login
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Credenciales inválidas'
-            ], 401);
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
         }
 
+        /** @var Usuario $user */
         $user = Auth::user();
-
-        // Crear token de acceso con Sanctum
-        $token = $user->createToken('token-api')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login exitoso',
-            'token' => $token,
-            'user' => $user
+            'token'   => $token,
+            'user'    => $user,
         ]);
     }
 
+    /**
+     * Logout del usuario actual (revoca el token actual).
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Sesión cerrada correctamente'
+            'message' => 'Sesión cerrada exitosamente',
         ]);
     }
 }
