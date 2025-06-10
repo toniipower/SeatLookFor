@@ -21,7 +21,8 @@ return [
 'allowed_origins' => [
     'http://localhost:4200',
     'http://localhost',
-    'https://seatlook.duckdns.org',
+    'http://seatlookfor.duckdns.org',
+    'https://seatlookfor.duckdns.org',
     'http://34.205.74.0',
     'http://34.205.74.0:80',
     'http://34.205.74.0:4200'
