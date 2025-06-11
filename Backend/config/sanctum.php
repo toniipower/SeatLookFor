@@ -15,11 +15,8 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,localhost:4200,127.0.0.1,127.0.0.1:8000,::1,34.205.74.0,34.205.74.0:80,34.205.74.0:4200',
-        env('APP_URL') ? ','.parse_url(env('APP_URL'), PHP_URL_HOST) : ''
-    ))),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'seatlook.duckdns.org,seatlookadmin.duckdns.org,localhost')),
+
 
     /*
     |--------------------------------------------------------------------------

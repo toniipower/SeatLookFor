@@ -2,37 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Usuario;
+use Illuminate\Support\Facades\Hash;
 
 class ApiAuthenticationController extends Controller
 {
     /**
      * Login y generación de token Sanctum.
      */
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|string',
-        ]);
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        // Intento de login
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
-        }
+    $user = Usuario::where('email', $request->email)->first();
 
-        /** @var Usuario $user */
-        $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Login exitoso',
-            'token'   => $token,
-            'user'    => $user,
-        ]);
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Credenciales inválidas'], 401);
     }
+
+    $token = $user->createToken('token')->plainTextToken;
+
+    return response()->json([
+        'user' => $user,
+        'token' => $token
+    ]);
+}
 
     /**
      * Logout del usuario actual (revoca el token actual).
