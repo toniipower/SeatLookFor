@@ -8,9 +8,6 @@ import { RouterLink } from '@angular/router';
 import { AcortarDescripcionPipe } from './acortar-descripcion.pipe';
 
 
-
-
-
 @Component({
   selector: 'app-landing-page',
   imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink, AcortarDescripcionPipe],
