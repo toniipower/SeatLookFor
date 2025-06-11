@@ -32,12 +32,21 @@ export class AuthService {
   private initializeAuthState() {
     const storedUser = sessionStorage.getItem(this.USER_KEY);
     if (storedUser) {
-      const user = JSON.parse(storedUser);
-      this.currentUserSubject.next(user);
-      this.isAuthenticatedSubject.next(true);
-      // Solo intentamos obtener el usuario actual si hay uno en session storage
-      this.getCurrentUser().subscribe();
+      try {
+        const user = JSON.parse(storedUser);
+        this.currentUserSubject.next(user);
+        this.isAuthenticatedSubject.next(true);
+      } catch (error) {
+        console.error('Error al parsear usuario del session storage:', error);
+        this.clearSession();
+      }
     }
+  }
+
+  private clearSession() {
+    this.currentUserSubject.next(null);
+    this.isAuthenticatedSubject.next(false);
+    sessionStorage.removeItem(this.USER_KEY);
   }
 
 /*   getCSRFToken(): Observable<any> {
@@ -60,23 +69,19 @@ export class AuthService {
           { withCredentials: true }
         ).subscribe({
           next: response => {
-            this.currentUserSubject.next(response.user);
-            this.isAuthenticatedSubject.next(true);
-
             if (response.user.admin) {
-              // window.location.href = 'https://seatlookadmin.duckdns.org/establecimientos';
               window.location.href = 'http://localhost/establecimientos';
             } else {
-              // Guardar en session storage solo para usuarios no admin
+              this.currentUserSubject.next(response.user);
+              this.isAuthenticatedSubject.next(true);
               sessionStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
               this.router.navigate(['/']);
             }
           },
           error: error => {
             console.error('Error en login:', error);
-            this.currentUserSubject.next(null);
-            this.isAuthenticatedSubject.next(false);
-            sessionStorage.removeItem(this.USER_KEY);
+            this.clearSession();
+            throw error;
           }
         });
       })
@@ -84,9 +89,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.currentUserSubject.next(null);
-    this.isAuthenticatedSubject.next(false);
-    sessionStorage.removeItem(this.USER_KEY);
+    this.clearSession();
     this.router.navigate(['/']);
   }
 
@@ -102,9 +105,7 @@ export class AuthService {
         }
       }),
       catchError(error => {
-        this.currentUserSubject.next(null);
-        this.isAuthenticatedSubject.next(false);
-        sessionStorage.removeItem(this.USER_KEY);
+        this.clearSession();
         return throwError(() => error);
       })
     );
@@ -134,10 +135,13 @@ export class AuthService {
           next: (response: AuthResponse) => {
             this.currentUserSubject.next(response.user);
             this.isAuthenticatedSubject.next(true);
+            sessionStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
             this.router.navigate(['/']);
           },
           error: (error) => {
             console.error('Error en registro:', error);
+            this.clearSession();
+            throw error;
           }
         });
       })

@@ -5,38 +5,37 @@ import { ComentarioService } from '../../services/comentario.service';
 
 @Component({
   selector: 'app-comentario-form',
-  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   template: `
-    <div class="formulario-comentario" *ngIf="asientoSeleccionado">
+    <div class="comment-form" *ngIf="asientoSeleccionado">
       <h3>Añadir comentario para el asiento {{asientoSeleccionado.zona}} - {{asientoSeleccionado.ejeX}}-{{asientoSeleccionado.ejeY}}</h3>
       <form [formGroup]="comentarioForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
+        <div class="comment-form__group">
           <label for="opinion">Opinión:</label>
           <textarea id="opinion" formControlName="opinion" rows="4"></textarea>
-          <div class="error" *ngIf="comentarioForm.get('opinion')?.errors?.['required'] && comentarioForm.get('opinion')?.touched">
+          <div class="comment-form__error" *ngIf="comentarioForm.get('opinion')?.errors?.['required'] && comentarioForm.get('opinion')?.touched">
             La opinión es requerida
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="comment-form__group">
           <label for="valoracion">Valoración:</label>
-          <div class="estrellas">
+          <div class="comment-form__stars">
             <span *ngFor="let estrella of [1,2,3,4,5]" 
                   (click)="setValoracion(estrella)"
-                  [class.activa]="estrella <= comentarioForm.get('valoracion')?.value">
+                  [class.comment-form__star--active]="estrella <= comentarioForm.get('valoracion')?.value">
               ⭐
             </span>
           </div>
-          <div class="error" *ngIf="comentarioForm.get('valoracion')?.errors?.['required'] && comentarioForm.get('valoracion')?.touched">
+          <div class="comment-form__error" *ngIf="comentarioForm.get('valoracion')?.errors?.['required'] && comentarioForm.get('valoracion')?.touched">
             La valoración es requerida
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="comment-form__group">
           <label for="foto">Foto del asiento:</label>
           <input type="file" id="foto" (change)="onFileSelected($event)" accept="image/*">
-          <div class="preview" *ngIf="previewUrl">
+          <div class="comment-form__preview" *ngIf="previewUrl">
             <img [src]="previewUrl" alt="Vista previa">
           </div>
         </div>
@@ -48,7 +47,7 @@ import { ComentarioService } from '../../services/comentario.service';
     </div>
   `,
   styles: [`
-    .formulario-comentario {
+    .comment-form {
       background: white;
       padding: 20px;
       border-radius: 8px;
@@ -56,7 +55,7 @@ import { ComentarioService } from '../../services/comentario.service';
       margin-top: 20px;
     }
 
-    .form-group {
+    .comment-form__group {
       margin-bottom: 15px;
     }
 
@@ -73,27 +72,27 @@ import { ComentarioService } from '../../services/comentario.service';
       border-radius: 4px;
     }
 
-    .estrellas {
+    .comment-form__stars {
       display: flex;
       gap: 5px;
       font-size: 24px;
       cursor: pointer;
     }
 
-    .estrellas span {
+    .comment-form__stars span {
       opacity: 0.3;
       transition: opacity 0.3s;
     }
 
-    .estrellas span.activa {
+    .comment-form__star--active {
       opacity: 1;
     }
 
-    .preview {
+    .comment-form__preview {
       margin-top: 10px;
     }
 
-    .preview img {
+    .comment-form__preview img {
       max-width: 200px;
       max-height: 150px;
       border-radius: 4px;
@@ -113,7 +112,7 @@ import { ComentarioService } from '../../services/comentario.service';
       cursor: not-allowed;
     }
 
-    .error {
+    .comment-form__error {
       color: red;
       font-size: 12px;
       margin-top: 5px;

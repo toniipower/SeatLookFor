@@ -49,37 +49,34 @@
     --shadows-box: 11px 14px 4px var(--primary-color-tr);
   }
 
-
   /* template generico */
+  .layout {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header"
+      "content"
+      "footer";
+    min-height: 100vh;
+    min-width: fit-content;
+    background-color: var(--background-color);
+  }
 
-  .vista {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "header"
-    "content"
-    "footer";
-  min-height: 100vh;
-  min-width: fit-content;
-  background-color: var(--background-color);
+  app-navbar {
+    color: #e0e0e0;
+  }
 
-}
+  app-eventos-card {
+    grid-area: content;
+    text-align: center;
+    min-width: 100%;
+    margin: auto;
+    max-width: 90%;
+  }
 
-app-navbar {
-  color: #e0e0e0;
-}
-
-app-eventos-card {
-  grid-area: content;
-  /* color: white; */
-  text-align: center;
-  min-width: 100%;
-  margin: auto;
-  max-width: 90%;
-}
-app-footer {
-  grid-area: footer;
-  color: white;
-  text-align: center;
-}
+  app-footer {
+    grid-area: footer;
+    color: white;
+    text-align: center;
+  }
 

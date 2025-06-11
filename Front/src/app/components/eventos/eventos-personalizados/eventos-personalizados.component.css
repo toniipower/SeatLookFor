@@ -1,4 +1,18 @@
-.reserva {
+.event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 25px 0;
+  gap: 25px;
+  flex-grow: 1;
+  margin-right: 350px;
+  margin-left: auto;
+  margin-right: calc(350px + (100% - 1200px) / 2);
+  max-width: 900px;
+}
+
+.event__reservation {
   position: fixed;
   top: 120px;
   right: 50px;
@@ -15,21 +29,7 @@
   max-width: 900px;
 }
 
-.contenido {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 25px 0;
-  gap: 25px;
-  flex-grow: 1;
-  margin-right: 350px;
-  margin-left: auto;
-  margin-right: calc(350px + (100% - 1200px) / 2);
-  max-width: 900px;
-}
-
-.mapa {
+.event__map {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -45,7 +45,7 @@
   order: 2;
 }
 
-.titulo {
+.event__title {
   padding: 15px 20px;
   background-color: rgb(255, 255, 255);
   width: 90%;
@@ -57,35 +57,34 @@
   order: 1;
 }
 
-.titulo p {
+.event__title-text {
   margin: 0;
   font-size: 2em;
   font-weight: bold;
   color: #2c3e50;
 }
 
-.informacion {
+.event__info {
   background-color: var(--font-color-light);
   min-height: 100px;
   border-radius: var(--rounded);
   box-shadow: var(--shadows-box);
   overflow: hidden;
   text-align: center;
-  /* padding: 35px; */
   width: 90%;
   max-width: 900px;
   box-sizing: border-box;
   order: 4;
 }
 
-.informacion img {
+.event__info-image {
   width: -webkit-fill-available;
   max-width: 100%;
   height: auto;
   border-radius: 8px;
 }
 
-.comentarios {
+.event__comments {
   border-radius: var(--rounded);
   background-color: var(--font-color-light);
   padding: 50px;
@@ -97,13 +96,12 @@
   order: 5;
 }
 
-h3 {
+.event__comments-title {
   color: var(--font-color-dark);
   margin: 15px 0;
-
 }
 
-button {
+.event__button {
   background-color: var(--dorado);
   color: #000000;
   box-shadow: 3px 3px 2px var(--dorado);
@@ -117,12 +115,12 @@ button {
   transition: all 0.3s;
 }
 
-button:hover {
+.event__button:hover {
   background-color: var(--dorado);
   box-shadow: 0 0 8px var(--dorado);
 }
 
-.caja-comentario {
+.event__comment {
   background-color: var(--secondary-color);
   border-radius: 8px;
   padding: 15px;
@@ -133,18 +131,18 @@ button:hover {
   text-align: left;
 }
 
-.header-caja_comentario {
+.event__comment-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.persona-comentario {
+.event__comment-user {
   display: flex;
   align-items: center;
 }
 
-.perfil-comentario img {
+.event__comment-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -152,12 +150,12 @@ button:hover {
   object-fit: cover;
 }
 
-.nombre-comentario {
+.event__comment-name {
   font-weight: 550;
   color: #ececec;
 }
 
-.imagen-comentario {
+.event__comment-image {
   margin-top: 10px;
   max-width: 100%;
   height: auto;
@@ -165,207 +163,196 @@ button:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-
-.valoracion-comentario {
+.event__comment-rating {
   margin-bottom: 5px;
 }
 
 @media (max-width: 1234px) {
-  .reserva {
+  .event__reservation {
     position: static; 
     width: 95%;
     margin: 0 auto 25px auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .contenido {
+  .event {
     margin-right: auto;
     margin-left: auto;
     width: 95%;
     max-width: none;
   }
 
-  .mapa {
+  .event__map {
     width: 100%;
     min-height: 350px;
     padding: 15px;
   }
 
-  .informacion,
-  .comentarios {
+  .event__info,
+  .event__comments {
     width: 100%;
   }
 }
 
 @media (max-width: 768px) {
-  .contenido {
+  .event {
     padding: 15px 0;
     gap: 15px;
     width: 100%;
     margin: 0;
   }
 
-  .titulo {
+  .event__title {
     width: 100%;
     padding: 10px 15px;
     border-radius: 0;
   }
 
-  .titulo p {
+  .event__title-text {
     font-size: 1.6em;
   }
 
-  .mapa {
+  .event__map {
     min-height: 300px;
     padding: 10px;
     width: 100%;
     border-radius: 0;
   }
 
-  .reserva {
+  .event__reservation {
     padding: 15px;
     width: 100%;
     border-radius: 0;
   }
 
-  .informacion,
-  .comentarios {
+  .event__info,
+  .event__comments {
     padding: 15px;
     width: 100%;
     border-radius: 0;
   }
 
-  .caja-comentario {
+  .event__comment {
     padding: 10px;
     margin: 10px 0;
   }
 
-  .perfil-comentario img {
+  .event__comment-avatar {
     width: 30px;
     height: 30px;
   }
 
-  .nombre-comentario {
+  .event__comment-name {
     font-size: 0.9rem;
-  }
-
-  .descripcion-comentario p {
-    font-size: 0.85rem;
-  }
-
-  button {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .contenido {
+  .event {
     padding: 10px 0;
     gap: 10px;
   }
 
-  .titulo p {
+  .event__title-text {
     font-size: 1.2em;
   }
 
-  .mapa {
+  .event__map {
     min-height: 200px;
     padding: 5px;
   }
 
-  .reserva {
+  .event__reservation {
     padding: 10px;
   }
 
-  .informacion,
-  .comentarios {
+  .event__info,
+  .event__comments {
     padding: 10px;
   }
 
-  .caja-comentario {
+  .event__comment {
     padding: 8px;
   }
 
-  .perfil-comentario img {
+  .event__comment-avatar {
     width: 25px;
     height: 25px;
   }
 
-  .nombre-comentario {
+  .event__comment-name {
     font-size: 0.8rem;
   }
 
-  .descripcion-comentario p {
+  .event__comment-rating {
     font-size: 0.75rem;
   }
 
-  button {
+  .event__button {
     padding: 6px 12px;
     font-size: 0.8rem;
   }
 }
 
 @media (max-width: 674px) {
-  .contenido {
+  .event {
     padding: 5px 0;
     gap: 5px;
     min-width: 320px;
   }
 
-  .titulo {
+  .event__title {
     padding: 5px 10px;
   }
 
-  .titulo p {
+  .event__title-text {
     font-size: 1.1em;
   }
 
-  .mapa {
+  .event__map {
     min-height: 180px;
     padding: 5px;
   }
 
-  .reserva {
+  .event__reservation {
     padding: 8px;
   }
 
-  .informacion,
-  .comentarios {
+  .event__info,
+  .event__comments {
     padding: 8px;
   }
 
-  .caja-comentario {
+  .event__comment {
     padding: 6px;
     margin: 8px 0;
   }
 
-  .perfil-comentario img {
+  .event__comment-avatar {
     width: 20px;
     height: 20px;
   }
 
-  .nombre-comentario {
+  .event__comment-name {
     font-size: 0.75rem;
   }
 
-  .descripcion-comentario p {
+  .event__comment-rating {
     font-size: 0.7rem;
   }
 
-  button {
+  .event__button {
     padding: 5px 10px;
     font-size: 0.75rem;
   }
 
-  .reserva li {
+  .event__reservation li {
     padding: 5px;
     margin-bottom: 5px;
     font-size: 0.8rem;
   }
 
-  .btn-eliminar {
+  .event__btn-eliminar {
     width: 20px;
     height: 20px;
     font-size: 10px;
@@ -373,30 +360,30 @@ button:hover {
 }
 
 @media (max-width: 320px) {
-  .contenido {
+  .event {
     min-width: 280px;
   }
 
-  .titulo p {
+  .event__title-text {
     font-size: 1em;
   }
 
-  .mapa {
+  .event__map {
     min-height: 150px;
   }
 
-  .reserva li {
+  .event__reservation li {
     font-size: 0.7rem;
   }
 }
 
-.reserva ul {
+.event__reservation ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.reserva li {
+.event__reservation li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -406,7 +393,7 @@ button:hover {
     border-radius: 4px;
 }
 
-.btn-eliminar {
+.event__btn-eliminar {
     background-color: #ff4444;
     color: white;
     border: none;
@@ -424,6 +411,6 @@ button:hover {
     transform: translateY(-50%);
 }
 
-.btn-eliminar:hover {
+.event__btn-eliminar:hover {
     background-color: #cc0000;
 }

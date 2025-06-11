@@ -1,11 +1,11 @@
-<p class="escenario">ESCENARIO</p>
+<p class="seats__stage">ESCENARIO</p>
 <div *ngIf="asientos?.length">
-  <div class="mapa-asientos">
+  <div class="seats">
     <div *ngFor="let asiento of asientos; let i = index" 
-         class="asiento" 
-         [ngClass]="{'libre': asiento.estado === 'libre', 
-                    'ocupado': asiento.estado === 'ocupado',
-                    'seleccionado': estaSeleccionado(asiento)}"
+         class="seats__seat" 
+         [ngClass]="{'seats__seat--free': asiento.estado === 'libre', 
+                    'seats__seat--occupied': asiento.estado === 'ocupado',
+                    'seats__seat--selected': estaSeleccionado(asiento)}"
          [style.gridColumn]="asiento.ejeX - 2"
          [style.gridRow]="asiento.ejeY" 
          [title]="'Zona: ' + asiento.zona + ', Precio: ' + asiento.precio"
@@ -24,33 +24,34 @@
 </div>
 
 <!-- Tooltip con imágenes de comentarios -->
-<div class="tooltip-imagen" *ngIf="mostrarTooltip" 
+<div class="seats__tooltip" *ngIf="mostrarTooltip" 
      [style.left.px]="tooltipX" 
      [style.top.px]="tooltipY"
      (mouseenter)="mouseEntraTooltip()"
      (mouseleave)="mouseSaleTooltip()">
-  <div class="tooltip-contenido">
-    <div class="carrusel">
-      <button class="btn-navegacion anterior" 
+  <div class="seats__tooltip-content">
+    <div class="seats__carousel">
+      <button class="seats__nav-button" 
               (click)="anteriorImagen()" 
               *ngIf="comentariosAsiento.length > 1">❮</button>
       
-      <div class="imagen-comentario">
+      <div class="seats__comment-image">
         <img [src]="'http://localhost/' + comentariosAsiento[imagenActual].foto" 
              [alt]="'Comentario de ' + comentariosAsiento[imagenActual].usuario?.nombre">
-        <div class="info-comentario">
+        <div class="seats__comment-info">
           <p class="usuario">{{comentariosAsiento[imagenActual].nombre}} {{comentariosAsiento[imagenActual].apellido}}</p>
           <p class="valoracion">⭐ {{comentariosAsiento[imagenActual].valoracion}}</p>
         </div>
       </div>
 
-      <button class="btn-navegacion siguiente" 
+      <button class="seats__nav-button" 
               (click)="siguienteImagen()" 
               *ngIf="comentariosAsiento.length > 1">❯</button>
     </div>
-    <div class="indicadores" *ngIf="comentariosAsiento.length > 1">
+    <div class="seats__indicators" *ngIf="comentariosAsiento.length > 1">
       <span *ngFor="let comentario of comentariosAsiento; let i = index" 
-            [class.activo]="i === imagenActual"
+            class="seats__indicator"
+            [class.seats__indicator--active]="i === imagenActual"
             (click)="imagenActual = i">
         ●
       </span>
