@@ -38,7 +38,7 @@ export class ReservaService {
 
   crearReserva(reserva: Reserva): Observable<Reserva> {
     return this.http.post<Reserva>(
-      `${this.apiUrl}/reservas`,
+      `${this.apiUrl}`,
       reserva,
       { headers: this.getHeaders() }
     );
