@@ -9,7 +9,7 @@ import { EventoDetalle } from '../models/evento-detalle.model';
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost/api/eventos'; 
+  private apiUrl = 'https://seatlookadmin.duckdns.org/api/eventos'; 
 
   constructor(private http: HttpClient) {}
 
