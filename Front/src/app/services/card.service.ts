@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
 import { Evento } from '../models/evento.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardService {
-  private apiUrl = 'http://localhost/api/recientes/3';
+  // private apiUrl = 'https://seatlookadmin.duckdns.org/api/recientes/3';
+  private apiUrl = `${environment.apiUrl}/recientes/3`;
 
   constructor(private http: HttpClient) {}
 

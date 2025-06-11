@@ -122,9 +122,10 @@ export class EventosPersonalizadosComponent implements OnInit {
   }
 
   getFotoComentario(foto?: string): string {
-    if (!foto) return 'assets/images/no-image.png'; // imagen por defecto
+    if (!foto) return 'assets/images/no-image.png';
     if (foto.startsWith('http')) return foto;
-    return `http://localhost/${foto}`; // ajusta la base URL si tu backend usa otra
+    // return `http://seatlookfor.duckdns.org/${foto}`;
+    return `http://localhost/${foto}`; 
   }
 
   confirmarReserva() {

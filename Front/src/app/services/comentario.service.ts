@@ -8,7 +8,8 @@ import { Comentario } from '../models/comentario.model';
   providedIn: 'root'
 })
 export class ComentarioService {
-  private apiUrl = 'http://localhost/api';
+  // private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) { }
 

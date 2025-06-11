@@ -13,7 +13,8 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  // private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  private apiUrl = 'http://localhost:8000/api';
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
@@ -26,8 +27,13 @@ export class AuthService {
     this.getCurrentUser().subscribe();
   }
 
-  getCSRFToken(): Observable<any> {
+/*   getCSRFToken(): Observable<any> {
     return this.http.get('https://seatlookadmin.duckdns.org/sanctum/csrf-cookie', {
+      withCredentials: true
+    });
+  } */
+  getCSRFToken(): Observable<any> {
+    return this.http.get('http://localhost:8000/sanctum/csrf-cookie', {
       withCredentials: true
     });
   }
@@ -45,7 +51,8 @@ export class AuthService {
             this.isAuthenticatedSubject.next(true);
 
             if (response.user.admin) {
-              window.location.href = 'https://seatlookadmin.duckdns.org/establecimientos';
+              // window.location.href = 'https://seatlookadmin.duckdns.org/establecimientos';
+              window.location.href = 'http://localhost:8000/establecimientos';
             } else {
               this.router.navigate(['/']);
             }
