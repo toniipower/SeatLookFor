@@ -90,7 +90,7 @@
 }
 
 .submit-button:hover {
-  background-color: var(--secondary-color-tr);
+  box-shadow: 0 0 10px var(--accent-color);
 }
 
 .submit-button:disabled {

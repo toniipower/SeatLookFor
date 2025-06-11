@@ -60,6 +60,7 @@
 }
 
 .pagination-controls {
+  color: var(--dorado);
   margin: 20px;
   display: flex;
   justify-content: center;

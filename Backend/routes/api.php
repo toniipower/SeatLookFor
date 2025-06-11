@@ -15,6 +15,7 @@ Route::get('/test', fn () => response()->json(['message' => 'API funcionando']))
 // Login / Logout
 Route::post('/login', [ApiAuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [ApiAuthenticationController::class, 'logout']);
+Route::post('/register', [AuthController::class, 'register']);
 
 // Si usas cookies con frontend tipo SPA (Vue/React)
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
