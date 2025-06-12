@@ -185,14 +185,11 @@ export class ResumenReservaComponent implements OnInit {
     }
 
     // Crear una única reserva con todos los asientos
-    const reserva: Reserva = {
-      // precio: this.calcularSubtotal(),
-      // descuento: this.calcularDescuento(),
+    const reserva = {
+      totalPrecio: this.calcularTotal(),
       fechaReserva: this.fechaReserva.toISOString().split('T')[0],
       idAsientos: this.asientosSeleccionados.map(asiento => asiento.idAsi),
-      // idUsu: usuario.idUsu,
-      idEve: this.idEvento,
-      totalPrecio: this.calcularTotal()
+      idEve: this.idEvento
     };
 
     console.log('Datos de la reserva a enviar:', reserva);
@@ -200,7 +197,37 @@ export class ResumenReservaComponent implements OnInit {
     // Crear la reserva
     this.reservaService.crearReserva(reserva).subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
+        if (!response.body) {
+          throw new Error('No se recibió el PDF');
+        }
+
+        // Crear un blob con la respuesta
+        const blob = new Blob([response.body], { type: 'application/pdf' });
+        
+        // Crear un enlace para descargar el PDF
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        
+        // Obtener el nombre del archivo del header Content-Disposition
+        const contentDisposition = response.headers.get('content-disposition');
+        let filename = 'entrada.pdf';
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+          if (filenameMatch && filenameMatch[1]) {
+            filename = filenameMatch[1].replace(/['"]/g, '');
+          }
+        }
+        
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        
+        // Limpiar
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+        
+        // Limpiar asientos y redirigir
         this.reservaService.limpiarAsientosSeleccionados();
         this.router.navigate(['/usuario']);
       },
