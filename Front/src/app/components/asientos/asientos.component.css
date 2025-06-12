@@ -1,4 +1,4 @@
-.mapa-asientos {
+.seats {
     display: grid;
     grid-template-columns: repeat(12, 50px);
     /* grid-template-rows: repeat(12, 50px); */
@@ -10,7 +10,7 @@
     position: relative;
 }
 
-.asiento {
+.seats__seat {
     width: fit-content;
     min-width: 50px;
     height: 50px;
@@ -25,27 +25,27 @@
     transition: 0.3s;
 }
 
-.asiento.libre {
+.seats__seat--free {
     background-color: #90EE90;
 }
 
-.asiento.ocupado {
+.seats__seat--occupied {
     background-color: #FF6C47;
     cursor: not-allowed;
 }
 
-.asiento.seleccionado {
+.seats__seat--selected {
     background-color: #D4AF37;
     border: 2px solid #b6931f;
     transform: scale(1.05);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
-.asiento:hover:not(.ocupado) {
+.seats__seat:hover:not(.seats__seat--occupied) {
     transform: scale(1.1);
 }
 
-.tooltip-imagen {
+.seats__tooltip {
     position: fixed;
     z-index: 1000;
     background: white;
@@ -55,17 +55,17 @@
     pointer-events: auto;
 }
 
-.tooltip-contenido {
+.seats__tooltip-content {
     position: relative;
 }
 
-.carrusel {
+.seats__carousel {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.btn-navegacion {
+.seats__nav-button {
     background: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
@@ -80,15 +80,15 @@
     transition: background-color 0.3s;
 }
 
-.btn-navegacion:hover {
+.seats__nav-button:hover {
     background: rgba(0, 0, 0, 0.7);
 }
 
-.imagen-comentario {
+.seats__comment-image {
     flex: 1;
 }
 
-.imagen-comentario img {
+.seats__comment-image img {
     max-width: 200px;
     max-height: 150px;
     border-radius: 4px;
@@ -96,31 +96,24 @@
     margin: 0 auto;
 }
 
-.info-comentario {
+.seats__comment-info {
     margin-top: 8px;
     text-align: center;
 }
 
-.indicadores {
+.seats__indicators {
     display: flex;
     justify-content: center;
     gap: 8px;
     margin-top: 10px;
 }
 
-.indicadores span {
+.seats__indicator {
     cursor: pointer;
-    color: #ccc;
-    font-size: 12px;
-    transition: color 0.3s;
 }
 
-.indicadores span.activo {
-    color: #333;
-}
-
-.indicadores span:hover {
-    color: #666;
+.seats__indicator--active {
+    color: #D4AF37;
 }
 
 .acciones {

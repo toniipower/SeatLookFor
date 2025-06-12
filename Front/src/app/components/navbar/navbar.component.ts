@@ -39,15 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.auth.logout().subscribe({
-      next: () => {
-        this.isUserMenuOpen = false;
-        this.router.navigate(['/']);
-      },
-      error: (error) => {
-        console.error('Error al cerrar sesión:', error);
-      }
-    });
+    this.auth.logout();
   }
 
   navigateToUserOrRegister() {

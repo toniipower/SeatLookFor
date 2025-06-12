@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html lang="es"
-    x-data="{ mostrarMenu: window.innerWidth > 960 }"
-    x-init="window.addEventListener('resize', () => mostrarMenu = window.innerWidth > 960)">
+    x-data="{ 
+        mostrarMenu: window.innerWidth > 960,
+        isMobile: window.innerWidth <= 960
+    }"
+    x-init="
+        window.addEventListener('resize', () => {
+            isMobile = window.innerWidth <= 960;
+            if (!isMobile) {
+                mostrarMenu = true;
+            } else {
+                mostrarMenu = false;
+            }
+        })
+    ">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,8 +36,10 @@
 <body class="bg-gray-100">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <div class="bg-gray-900 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out"
+        <div class="bg-gray-900 text-white w-64 space-y-6 py-7 px-2 fixed md:relative inset-y-0 left-0 transform transition duration-200 ease-in-out"
+             :class="{ '-translate-x-full': !mostrarMenu && isMobile }"
              x-show="mostrarMenu"
+             @click.away="if (isMobile) mostrarMenu = false"
              x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="-translate-x-full"
              x-transition:enter-end="translate-x-0"

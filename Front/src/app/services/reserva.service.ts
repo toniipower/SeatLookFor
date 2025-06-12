@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Asiento } from '../models/asiento.model';
 import { Reserva } from '../models/reserva.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
-  private apiUrl = 'http://localhost/api';
+  // private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  private apiUrl = `${environment.apiUrl}/reservas`;
   private asientosSeleccionados = new BehaviorSubject<Asiento[]>([]);
   asientosSeleccionados$ = this.asientosSeleccionados.asObservable();
 
@@ -34,11 +36,15 @@ export class ReservaService {
     this.asientosSeleccionados.next([]);
   }
 
-  crearReserva(reserva: Reserva): Observable<Reserva> {
-    return this.http.post<Reserva>(
-      `${this.apiUrl}/reservas`,
+  crearReserva(reserva: Reserva): Observable<HttpResponse<Blob>> {
+    return this.http.post(
+      `${this.apiUrl}`,
       reserva,
-      { headers: this.getHeaders() }
+      { 
+        headers: this.getHeaders(),
+        observe: 'response',
+        responseType: 'blob'
+      }
     );
   }
 }

@@ -5,10 +5,10 @@ import { ComentarioService } from '../../services/comentario.service';
 import { ComentarioFormComponent } from '../comentario-form/comentario-form.component';
 import { Comentario } from '../../models/comentario.model';
 import { ReservaService } from '../../services/reserva.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asientos',
-  standalone: true,
   imports: [CommonModule, ComentarioFormComponent],
   templateUrl: './asientos.component.html',
   styleUrl: './asientos.component.css'
@@ -28,7 +28,8 @@ export class AsientosComponent implements OnInit {
 
   constructor(
     private comentarioService: ComentarioService,
-    private reservaService: ReservaService
+    private reservaService: ReservaService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -62,6 +63,11 @@ export class AsientosComponent implements OnInit {
 
     this.asientosSeleccionadosChange.emit(this.asientosSeleccionados);
     this.reservaService.setAsientosSeleccionados(this.asientosSeleccionados);
+    
+    // Redirigir a la página de resumen de reserva
+    if (this.asientosSeleccionados.length > 0) {
+      this.router.navigate(['/resumen-reserva']);
+    }
   }
 
   estaSeleccionado(asiento: Asiento): boolean {

@@ -58,6 +58,11 @@ public function mostrar($id)
                 'fecha' => $evento->fecha,
                 'valoracion' => $evento->valoracion,
                 'descripcion' => $evento->descripcion,
+                'tipo' => $evento->tipo,
+                'categoria' => $evento->categoria,
+                'duracion' => $evento->duracion,
+                'ubicacion' => $evento->ubicacion,
+                'portada' => $evento->portada,
             ],
             'establecimiento' => [
                 'idEst' => $evento->establecimiento->idEst,

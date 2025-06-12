@@ -8,9 +8,6 @@ import { RouterLink } from '@angular/router';
 import { AcortarDescripcionPipe } from './acortar-descripcion.pipe';
 
 
-
-
-
 @Component({
   selector: 'app-landing-page',
   imports: [NavbarComponent, FooterComponent, CommonModule, RouterLink, AcortarDescripcionPipe],
@@ -38,7 +35,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   fetchCards() {
-    const baseUrl = 'http://localhost'; // O usa environment.backendUrl
+    const baseUrl = 'http://localhost'; 
 
     this.cardService.getCards().subscribe(
       (data) => {
