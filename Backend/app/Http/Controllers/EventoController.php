@@ -145,7 +145,7 @@ public function guardar(Request $request)
                 'titulo' => 'required|string|max:255',
                 'descripcion' => 'required|string',
                 'fecha' => 'required|date',
-                'hora' => 'required',
+                'duracion' => 'required|date_format:H:i',
                 'establecimiento_id' => 'required|exists:establecimiento,idEst',
                 'tipo' => 'required|in:Teatro,Orquesta,Musical,Concierto',
                 'categoria' => 'required|in:Drama,Familiar,Clásica,Musical,Barroco,Fantasía,Suspenso,Comedia',
@@ -171,7 +171,7 @@ public function guardar(Request $request)
         $evento->tipo = $request->tipo;
         $evento->categoria = $request->categoria;
         $evento->ubicacion = 'Por determinar';
-        $evento->duracion = '01:00:00';
+        $evento->duracion = $request->duracion;
 
         if ($request->hasFile('imagen')) {
             $imagen = $request->file('imagen');

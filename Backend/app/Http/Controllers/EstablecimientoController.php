@@ -53,6 +53,7 @@ public function guardar(Request $request)
         'nombre' => 'required|string|max:255',
         'ubicacion' => 'required|string|max:255',
         'imagen' => 'required|string|max:255',
+        
     ]);
 
     // Crear el establecimiento
@@ -78,16 +79,17 @@ public function guardar(Request $request)
   
         
         
-        // Crear zonas si no existen aún
-        foreach ($zonas as $zonaNombre) {
-  
-
-        Zona::firstOrCreate(
-            ["nombre" => $zonaNombre,   
-             'idEst' => $establecimiento->idEst],
-          
-        );
+   foreach ($zonas as $zonaNombre) {
+    if (strlen($zonaNombre) > 5) {
+        return back()->withErrors(['zona' => "La zona '$zonaNombre' no puede tener más de 5 caracteres."])->withInput();
     }
+
+    Zona::firstOrCreate([
+        'nombre' => $zonaNombre,
+        'idEst' => $establecimiento->idEst,
+    ]);
+}
+
 
     // Guardar los asientos
     foreach ($asientos as $item) {

@@ -59,6 +59,18 @@
         <div class="mb-6">
             <h2 class="text-2xl font-bold mb-4">Crear Establecimiento</h2>
 
+
+                @if($errors->any())
+                    <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium">Nombre</label>
@@ -87,7 +99,6 @@
             <select id="modo" class="border p-2 rounded">
                 <option value="add">Añadir asientos</option>
                 <option value="move">Mover</option>
-                <option value="stage">Colocar escenario</option>
             </select>
 
             <button id="deshacer"
@@ -197,8 +208,8 @@
             let y = Math.round((e.clientY - rect.top - offsetY) / 50) * 50 + 5;
             el.style.left = `${x}px`;
             el.style.top = `${y}px`;
-            el.dataset.x = x;
-            el.dataset.y = y;
+            el.dataset.x = x/50;
+            el.dataset.y = y/50;
         });
 
         document.addEventListener('mouseup', () => {
@@ -209,8 +220,8 @@
                     history.push({
                         tipo: 'move',
                         element: el,
-                        oldX: originalX,
-                        oldY: originalY
+                        oldX: originalX/50,
+                        oldY: originalY/50
                     });
                 }
             }

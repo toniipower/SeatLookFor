@@ -9,6 +9,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
+    public const HOME = '/dashboard'; // o '/admin', etc.
     public function boot()
     {
         $this->routes(function () {

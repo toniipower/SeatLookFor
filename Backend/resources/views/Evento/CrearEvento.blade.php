@@ -39,8 +39,8 @@
                 <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" class="w-full border rounded" required>
             </div>
             <div>
-                <label for="hora">Hora</label>
-                <input type="time" name="hora" id="hora" value="{{ old('hora') }}" class="w-full border rounded" required>
+                <label for="duracion">Duracion</label>
+                <input type="time" name="duracion" id="duracion" value="{{ old('duracion') }}" class="w-full border rounded" required>
             </div>
         </div>
 
