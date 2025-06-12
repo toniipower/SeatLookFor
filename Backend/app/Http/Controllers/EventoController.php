@@ -249,10 +249,62 @@ public function comentariosPorEvento($id)
 
 
 
-    public function visualizar (Request $request){
-
-        
+public function ver($id)
+{
+    try {
+        $evento = Evento::with(['establecimiento', 'ReservaDeEventos'])->findOrFail($id);
+        return view('Evento.mostrarEvento', compact('evento'));
+    } catch (\Exception $e) {
+        Log::error('Error al cargar vista del evento: ' . $e->getMessage());
+        return redirect()->route('eventos.listado')->withErrors(['error' => 'No se pudo mostrar el evento.']);
     }
+}
+
+
+public function eliminar($id)
+{
+    try {
+        $evento = Evento::with('ReservaDeEventos')->findOrFail($id);
+
+        // Eliminar primero las reservas asociadas
+        foreach ($evento->ReservaDeEventos as $reserva) {
+            $reserva->delete();
+        }
+
+        // Luego desvincular los asientos del evento
+        $evento->asientos()->detach();
+
+        // Finalmente eliminar el evento
+        $evento->delete();
+
+        return redirect()->route('eventos.listado')->with('success', 'Evento y reservas eliminados correctamente.');
+    } catch (\Exception $e) {
+        Log::error('Error al eliminar el evento: ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'No se pudo eliminar el evento.']);
+    }
+}
+
+public function cambiarEstado(Request $request, $id)
+{
+    try {
+        $evento = Evento::findOrFail($id);
+
+        $nuevoEstado = $request->input('estado');
+        if (!in_array($nuevoEstado, ['activo', 'finalizado'])) {
+            return redirect()->back()->withErrors(['error' => 'Estado inválido.']);
+        }
+
+        $evento->estado = $nuevoEstado;
+        $evento->save();
+
+        return redirect()->back()->with('success', 'Estado del evento actualizado correctamente.');
+    } catch (\Exception $e) {
+        Log::error('Error al cambiar estado del evento: ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'No se pudo cambiar el estado del evento.']);
+    }
+}
+
+
 }
 
     

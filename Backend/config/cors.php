@@ -13,7 +13,7 @@ return [
 |
 */
 
-'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout'],
+'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout','user'],
 
 'allowed_methods' => ['*'],
 
@@ -21,10 +21,11 @@ return [
 
 'allowed_origins' => [
     'http://localhost:4200',
+    'http://localhost',
     'http://34.205.74.0',
     'http://34.205.74.0:80',
     'http://34.205.74.0:4200',
-    'https://seatlook.duckdns.org', // <-- añade esta línea
+    'https://seatlook.duckdns.org', 
 ],
 
 

@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 
 class Authenticate extends Middleware
 {
-    protected function redirectTo(Request $request): ?string
-    {
-        if ($request->expectsJson()) {
-            abort(response()->json(['message' => 'No autenticado.'], 401));
-        }
+  protected function redirectTo(Request $request): ?string
+{
 
-        return route('login');
+   
+    if (!$request->expectsJson()) {
+        return 'http://localhost:4200/login';
     }
+
+    return null;
+}
+
 }

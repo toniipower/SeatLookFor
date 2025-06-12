@@ -23,10 +23,21 @@ Route::get('/debug-routes', function() {
     dd($routes->toArray());
 });
 
-// Rutas públicas
-Route::post('/', function () {
-    return redirect()->route('login');
+Route::middleware(['web', 'auth'])->get('/test-auth', function () {
+    return auth()->check() ? 'Autenticado' : 'No autenticado';
 });
+
+
+// Rutas públicas
+Route::get('/login', function () {
+    return redirect('http://localhost:4200/login');
+})->name('login');
+
+
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
 /* // Rutas de autenticación
 require __DIR__.'/auth.php'; */
@@ -43,7 +54,10 @@ require __DIR__.'/auth.php'; */
     /************************************************************************************* */
     /*                              Establecimiento
     /************************************************************************************* */
+    Route::middleware(['web','auth'])->group(function () {
     Route::get('/establecimientos', [EstablecimientoController::class, 'listar'])->name('establecimiento.listado');
+
+    });
     Route::get('/establecimientos/crear', function () {
         return view('Establecimiento.Crear');
     })->name('establecimientos.crear');
@@ -51,6 +65,7 @@ require __DIR__.'/auth.php'; */
     Route::post('/establecimientos/asientos', [EstablecimientoController::class, 'guardarAsientos'])->name('establecimientos.asientos.guardar');
     Route::get('/establecimientos/{idEst}', [EstablecimientoController::class, 'mostrar'])->name('establecimiento.mostrar');
     Route::post('/establecimientos/{id}/eliminar', [EstablecimientoController::class, 'eliminar'])->name('establecimiento.eliminar');
+    Route::post('/establecimientos/eliminar/{id}', [EstablecimientoController::class, 'eliminar'])->name('establecimiento.eliminar');
 
     
     /************************************************************************************* */
@@ -59,11 +74,14 @@ require __DIR__.'/auth.php'; */
     Route::get('/eventos', [EventoController::class, 'listar'])->name('eventos.listado');
     Route::get('/eventos/crear', [EventoController::class, 'formularioCrear'])->name('eventos.crear');
     Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
-    Route::get('/eventos/{idEve}', [EventoController::class, 'mostrar'])->name('eventos.mostrar');
+    Route::get('/eventos/ver/{idEve}', [EventoController::class, 'ver'])->name('eventos.ver');
     Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');
+    Route::post('/eventos/eliminar/{id}', [EventoController::class, 'eliminar'])->name('eventos.eliminar');
+    Route::post('/eventos/estado/{id}', [EventoController::class, 'cambiarEstado'])->name('eventos.estado');
+
 /* }); */
 
-Route::post('/login', function (Request $request) {
+/* Route::post('/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
 
     if (!Auth::attempt($credentials)) {
@@ -74,14 +92,7 @@ Route::post('/login', function (Request $request) {
         'message' => 'Login correcto',
         'user' => Auth::user()
     ]);
-});
+}); */
 
 
-
-Route::get('/eventos', [EventoController::class, 'listar'])->name('eventos.listado');
-Route::get('/eventos/crear', [EventoController::class, 'formularioCrear'])->name('eventos.crear');
-Route::post('/eventos/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
-Route::get('/eventos/{idEve}', [EventoController::class, 'mostrar'])->name('eventos.mostrar');
-Route::get('/zonas-por-establecimiento/{idEst}', [EventoController::class, 'obtenerZonas'])->name('zonas.porEstablecimiento');
-
-
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);

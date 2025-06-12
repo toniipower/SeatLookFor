@@ -1,25 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"
-    x-data="{
-    mostrarMenu: window.innerWidth > 960,
-    abiertoFicheros: false,
-    abiertoGastos: false,
-    abiertoOperaciones: false,
-    abiertoContabilidad: false,
-    abiertoClientes: false,
-    toggle(que) {
-        const estadoActual = this[que];
-        this.abiertoFicheros = false;
-        this.abiertoGastos = false;
-        this.abiertoOperaciones = false;
-        this.abiertoContabilidad = false;
-        this.abiertoClientes = false;
-        this[que] = !estadoActual;
-    }
-}"
-
+    x-data="{ mostrarMenu: window.innerWidth > 960 }"
     x-init="window.addEventListener('resize', () => mostrarMenu = window.innerWidth > 960)">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +32,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="translate-x-0"
              x-transition:leave-end="-translate-x-full">
-            
+
             <!-- Logo -->
             <div class="flex items-center justify-center mb-8">
                 <img src="{{ asset('images/logo.png') }}" alt="SeatLook Logo" class="h-12 w-auto">
@@ -132,7 +114,7 @@
 
                     <!-- Right side buttons -->
                     <div class="flex items-center space-x-4">
-                        <form method="POST" {{-- action={{ route('logout') }} --}}>
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="text-gray-500 hover:text-gray-600 flex items-center space-x-2">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -26,15 +26,6 @@ class EstablecimientoController extends Controller
     return view('Establecimiento.listadoEstablecimiento', compact('establecimientos'));
     }
 
-    /**
-     * Elimina un establecimiento
-     */
-    public function eliminar(Establecimiento $establecimiento)
-    {
-        $establecimiento->delete();
-        return to_route("Establecimiento.listar");
-        
-    }
 
 /*         public function guardarAsientos(Request $request)
     {
@@ -89,9 +80,7 @@ public function guardar(Request $request)
         
         // Crear zonas si no existen aún
         foreach ($zonas as $zonaNombre) {
-        dump($zonaNombre);
- dump(['nombre' => $zonaNombre,
-        'idEst' => $establecimiento->idEst]);
+  
 
         Zona::firstOrCreate(
             ["nombre" => $zonaNombre,   
@@ -128,8 +117,36 @@ public function guardar(Request $request)
  */
 public function mostrar($idEst)
 {
-    $establecimiento = Establecimiento::with('Asientos')->findOrFail($idEst);
+    $establecimiento = Establecimiento::with(['asientos', 'eventos'])->findOrFail($idEst);
 
     return view('Establecimiento.mostrarEstablecimiento', compact('establecimiento'));
 }
+
+
+public function eliminar($id)
+{
+    try {
+        $establecimiento = Establecimiento::with(['asientos.usuariosComentaron', 'eventos'])->findOrFail($id);
+
+        // Si hay eventos asociados, no permitir borrar
+        if ($establecimiento->eventos->count() > 0) {
+            return redirect()->back()->withErrors(['error' => 'No se puede eliminar el establecimiento porque tiene eventos asociados.']);
+        }
+
+        foreach ($establecimiento->asientos as $asiento) {
+            $asiento->usuariosComentaron()->detach();
+            $asiento->eventos()->detach();
+            $asiento->delete();
+        }
+
+        $establecimiento->delete();
+
+        return redirect()->route('establecimiento.listado')->with('success', 'Establecimiento y sus asientos fueron eliminados correctamente.');
+    } catch (\Exception $e) {
+        \Log::error('Error al eliminar el establecimiento: ' . $e->getMessage());
+        return redirect()->back()->withErrors(['error' => 'No se pudo eliminar el establecimiento.']);
+    }
+}
+
+
 }
