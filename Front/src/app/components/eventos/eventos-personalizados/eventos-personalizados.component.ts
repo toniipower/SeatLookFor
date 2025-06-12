@@ -13,7 +13,6 @@ import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'eventos-personalizados',
-  standalone: true,
   imports: [NavbarComponent, FooterComponent, AsientosComponent, CommonModule, RouterModule],
   templateUrl: './eventos-personalizados.component.html',
   styleUrl: './eventos-personalizados.component.css'

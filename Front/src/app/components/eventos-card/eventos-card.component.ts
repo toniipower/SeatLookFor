@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-eventos-card',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './eventos-card.component.html',
   styleUrl: './eventos-card.component.css'

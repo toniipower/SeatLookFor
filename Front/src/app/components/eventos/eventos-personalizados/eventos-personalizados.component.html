@@ -25,7 +25,7 @@
 
         <div class="event__map">
             <app-asientos *ngIf="datosEvento"
-                [asientos]="datosEvento?.asientos || []"
+                [asientos]="datosEvento.asientos || []"
                 (asientosSeleccionadosChange)="onAsientosSeleccionados($event)">
             </app-asientos>
         </div>
@@ -36,26 +36,25 @@
             </div>
             <div class="event__info-name">
                 <h3>{{datosEvento?.establecimiento?.nombre }}</h3>
+                <p class="event__info-location">📍 {{datosEvento?.establecimiento?.ubicacion }}</p>
             </div>
             <div class="event__info-content">
-                <p>Seccion de informacion sobre de evento</p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, dicta vitae id omnis sed quasi
-                    inventore tempora aut! Tempora repellendus, molestiae consectetur voluptas laborum soluta et! Nesciunt
-                    laboriosam porro magnam.
-                    Consectetur voluptatum, perferendis doloremque sapiente eius enim cumque dolores, fugiat, culpa
-                    temporibus nihil obcaecati natus provident ipsum deserunt saepe quis reprehenderit repellendus iure
-                    qui mollitia exercitationem quaerat. Excepturi, nihil quos.
-                    Quos minus voluptatum quibusdam repellat ut. Impedit quis dicta corrupti amet? Nobis cupiditate
-                    rerum similique quidem accusantium, consequatur excepturi doloremque eum aut dolorem quis voluptas, iure
-                    blanditiis! Autem, reiciendis velit!
-                    Quaerat explicabo perspiciatis suscipit neque nisi commodi, earum nihil adipisci ipsa quis
-                    necessitatibus ducimus? Iste, ipsum. Dolor cupiditate nisi iure, nemo rerum harum cumque explicabo?
-                    Fugit laudantium unde excepturi quis.
-                    Hic sint rem sit quasi doloremque fugiat qui architecto ea at. Velit corporis, id dicta aut hic
-                    facere tenetur temporibus sequi. Similique quas placeat soluta rerum quaerat corporis ea quam!
-                    lorem*2
-                </p>
+                <div class="event__info-section">
+                    <h4>Detalles del Evento</h4>
+                    <p><strong>Título:</strong> {{datosEvento?.evento?.titulo }}</p>
+                    <p><strong>Fecha:</strong> {{datosEvento?.evento?.fecha | date:'dd/MM/yyyy'}}</p>
+                    <p><strong>Duración:</strong> {{datosEvento?.evento?.duracion }}</p>
+                    <p><strong>Categoría:</strong> {{datosEvento?.evento?.categoria | titlecase }}</p>
+                    <p><strong>Tipo:</strong> {{datosEvento?.evento?.tipo | titlecase }}</p>
+                </div>
+                <div class="event__info-section">
+                    <h4>Sinopsis</h4>
+                    <p>{{datosEvento?.evento?.descripcion }}</p>
+                </div>
+                <div class="event__info-section">
+                    <h4>Ubicación del Evento</h4>
+                    <p>{{datosEvento?.establecimiento?.ubicacion }}</p>
+                </div>
             </div>
         </div>
         <div class="event__comments">
