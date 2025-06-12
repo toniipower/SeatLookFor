@@ -24,7 +24,6 @@ public function crearReserva(Request $request)
     ]);
 
     $usuario = $request->user();
-
     $reservas = [];
 
     DB::beginTransaction();
@@ -47,14 +46,22 @@ public function crearReserva(Request $request)
         return response()->json(['error' => 'Error al crear reservas.'], 500);
     }
 
-    // Generar el PDF
-    $pdf = Pdf::loadView('pdf.entrada', ['reservas' => $reservas, 'usuario' => $usuario]);
-    $filename = 'entrada_' . now()->timestamp . '.pdf';
-    Storage::put('public/entradas/' . $filename, $pdf->output());
+    // Cargar datos relacionados
+    $evento = \App\Models\Evento::with('establecimiento')->findOrFail($validated['idEve']);
+    $asientos = \App\Models\Asiento::whereIn('idAsi', $validated['idAsientos'])->get();
 
-    return response()->json([
-        'message' => 'Reservas creadas con éxito',
-        'pdf_url' => asset('storage/entradas/' . $filename),
-    ], 201);
+    // Generar el PDF
+    $pdf = Pdf::loadView('pdf.entrada', [
+        'reservas' => $reservas,
+        'usuario' => $usuario,
+        'evento' => $evento,
+        'establecimiento' => $evento->establecimiento,
+        'asientos' => $asientos,
+    ]);
+
+    $filename = 'entrada_' . now()->timestamp . '.pdf';
+
+    // DEVOLVER PDF PARA DESCARGA DIRECTA
+    return $pdf->download($filename);
 }
 }

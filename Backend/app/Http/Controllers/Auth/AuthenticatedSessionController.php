@@ -36,6 +36,15 @@ class AuthenticatedSessionController extends Controller
     ]);
 }
 
+
+
+public function logueoBack(LoginRequest $request)
+{
+    $request->authenticate();
+    $request->session()->regenerate();
+
+    return redirect()->intended(RouteServiceProvider::HOME);
+}
 public function destroy(Request $request)
 {
     Auth::guard('web')->logout();
@@ -43,6 +52,16 @@ public function destroy(Request $request)
     $request->session()->regenerateToken();
 
     return response()->json(['message' => 'Logout correcto']);
+}
+
+
+public function logout(Request $request)
+{
+    Auth::guard('web')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login'); // O puedes redirigir a la página principal con "/"
 }
 
 }

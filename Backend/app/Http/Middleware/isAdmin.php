@@ -24,7 +24,7 @@ class isAdmin
         }
 
         // Si es admin, continúa al panel de administración
-        if ($user->isAdmin()) {
+        if ($user->admin) {
             return $next($request);
         }
 
