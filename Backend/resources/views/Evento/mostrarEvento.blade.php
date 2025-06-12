@@ -40,6 +40,10 @@
                     <p class="text-gray-600 mb-2"><span class="font-semibold">Valoración:</span></p>
                     <p class="text-gray-800">{{ $evento->valoracion ?? 'Sin valoración' }}</p>
                 </div>
+                <div>
+                    <p class="text-gray-600 mb-2"><span class="font-semibold">Reservas realizadas:</span></p>
+                    <p class="text-gray-800">{{ $evento->ReservaDeEventos->count() }}</p>
+                </div>
             </div>
         </div>
 
@@ -56,31 +60,34 @@
                                 height: 40px;
                                 left: {{ $asiento->ejeX * 50 + 5 }}px;
                                 top: {{ $asiento->ejeY * 50 + 5 }}px;
-                                background-color: {{ $asiento->estado === 'ocupado' ? '#9ca3af' : '#22c55e' }};
-                            "
-                            title="Zona: {{ $asiento->zona }} | Precio: €{{ number_format($asiento->precio, 2) }}"
-                        >
+                                background-color: {{ $asiento->estado === 'ocupado' ? '#9ca3af' : '#22c55e' }};">
                             {{ $asiento->zona }}
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cambiar Estado del Evento</h2>
+            <form action="{{ route('eventos.estado', $evento->idEve) }}" method="POST" class="flex items-center gap-4">
+                @csrf
+                <select name="estado" class="border rounded px-3 py-2 text-gray-700">
+                    <option value="activo" {{ $evento->estado === 'activo' ? 'selected' : '' }}>Activo</option>
+                    <option value="finalizado" {{ $evento->estado === 'finalizado' ? 'selected' : '' }}>Finalizado</option>
+                </select>
+                <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+                    Actualizar Estado
+                </button>
+            </form>
+        </div>
 
-        <!-- COMENTARIOS -->
-        @if($evento->comentarios->count() > 0)
-            <div class="bg-white rounded-lg shadow-lg p-6">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Comentarios</h2>
-                <div class="space-y-4">
-                    @foreach($evento->comentarios as $comentario)
-                        <div class="border-b pb-4">
-                            <p class="text-gray-800">{{ $comentario->contenido }}</p>
-                            <p class="text-sm text-gray-500 mt-2">{{ $comentario->fecha }}</p>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endif
+
+        <form action="{{ route('eventos.eliminar', $evento->idEve) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.');">
+                @csrf
+                <button type="submit" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">
+                    Eliminar evento
+                </button>
+            </form>
 
         <!-- BOTONES DE ACCIÓN -->
         <div class="mt-12 flex justify-center space-x-4">
@@ -88,10 +95,6 @@
                class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-semibold">
                 ← Volver al listado
             </a>
-            <a href="{{ route('eventos.crear') }}"
-               class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition font-semibold">
-                Crear nuevo evento
-            </a>
         </div>
     </div>
-</x-layout.nav> 
+</x-layout.nav>

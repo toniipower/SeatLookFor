@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 
@@ -23,33 +24,44 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        Log::info('Intentando autenticar usuario');
-        
-        $request->authenticate();
-        $request->session()->regenerate();
 
-        $user = Auth::user();
-        Log::info('Usuario autenticado:', ['id' => $user->id, 'admin' => $user->admin]);
+  public function store(LoginRequest $request)
+{
+    $request->authenticate();
+    $request->session()->regenerate();
 
-        if ($user->admin) {
-            Log::info('Usuario es admin, redirigiendo a establecimiento');
-            return redirect()->route('establecimiento.listado');
-        } else {
-            Log::info('Usuario normal, redirigiendo a landing page');
-            return redirect('/');
-        }
-    }
+    return response()->json([
+        'message' => 'Login correcto',
+        'user' => Auth::user()
+    ]);
+}
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('http://localhost:4200/');
-    }
+
+
+public function logueoBack(LoginRequest $request)
+{
+    $request->authenticate();
+    $request->session()->regenerate();
+
+    return redirect()->intended(RouteServiceProvider::HOME);
+}
+public function destroy(Request $request)
+{
+    Auth::guard('web')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return response()->json(['message' => 'Logout correcto']);
+}
+
+
+public function logout(Request $request)
+{
+    Auth::guard('web')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect('/login'); // O puedes redirigir a la página principal con "/"
+}
+
 }

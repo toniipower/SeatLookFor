@@ -9,7 +9,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($eventos as $evento)
-                <a href="{{ route('eventos.mostrar', $evento->idEve) }}" class="block group">
+                <a href="{{ route('eventos.ver', $evento->idEve) }}" class="block group">
                     <div class="bg-white shadow-md hover:shadow-xl transition rounded-xl overflow-hidden">
                         @if($evento->portada)
                             <img src="{{ $evento->portada }}" alt="{{ $evento->titulo }}" class="object-cover w-full h-48 group-hover:scale-105 transition-transform">

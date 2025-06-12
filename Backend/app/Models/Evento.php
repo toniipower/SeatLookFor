@@ -43,8 +43,7 @@ class Evento extends Model
 
         public function asientos()
         {
-            return $this->belongsToMany(Asiento::class, 'asientos_evento', 'idEve', 'idAsi')
-                        ->withPivot('precio');
+            return $this->belongsToMany(Asiento::class, 'asientos_evento', 'idEve', 'idAsi')->withPivot('precio');
         }
 
 }
