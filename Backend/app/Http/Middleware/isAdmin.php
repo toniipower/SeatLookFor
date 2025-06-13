@@ -14,24 +14,24 @@ class isAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-               $user = Auth::user();
+   
+	public function handle(Request $request, Closure $next): Response
+{
+    $user = Auth::user();
 
-        // Si no está autenticado, regresa un error
-        if (!$user) {
-            return response()->json(['error' => 'No autenticado.'], 401);
-        }
-
-        // Si es admin, continúa al panel de administración
-        if ($user->admin) {
-            return $next($request);
-        }
-
-        // Si no es admin, redirige a la aplicación Angular
-        return response()->json(['redirect' => '/angular-app'], 403);
+    if (!$user) {
+        return $request->expectsJson()
+            ? response()->json(['error' => 'No autenticado.'], 401)
+            : redirect()->route('login');
     }
 
-    
+    if ($user->admin) {
+        return $next($request);
+    }
+
+    return $request->expectsJson()
+        ? response()->json(['error' => 'Acceso denegado.'], 403)
+        : redirect('/'); // o una vista de "acceso denegado"
+}    
     
 }

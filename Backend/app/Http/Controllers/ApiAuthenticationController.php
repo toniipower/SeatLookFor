@@ -2,46 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Usuario;
 
 class ApiAuthenticationController extends Controller
 {
-    /**
-     * Login y generación de token Sanctum.
-     */
-public function login(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    $user = Usuario::where('email', $request->email)->first();
+        $user = Usuario::where('email', $request->email)->first();
 
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json(['message' => 'Credenciales inválidas'], 401);
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
+        }
+
+        $token = $user->createToken('angular-spa')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
-    $token = $user->createToken('token')->plainTextToken;
-
-    return response()->json([
-        'user' => $user,
-        'token' => $token
-    ]);
-}
-
-    /**
-     * Logout del usuario actual (revoca el token actual).
-     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Sesión cerrada exitosamente',
-        ]);
+        return response()->json(['message' => 'Sesión cerrada']);
+    }
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 }

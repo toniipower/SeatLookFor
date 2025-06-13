@@ -63,7 +63,7 @@ Route::get('/login', function () {
         Route::post('/establecimientos/guardar', [EstablecimientoController::class, 'guardar'])->name('establecimiento.guardar');
         Route::post('/establecimientos/asientos', [EstablecimientoController::class, 'guardarAsientos'])->name('establecimientos.asientos.guardar');
         Route::get('/establecimientos/{idEst}', [EstablecimientoController::class, 'mostrar'])->name('establecimiento.mostrar');
-        Route::post('/establecimientos/{id}/eliminar', [EstablecimientoController::class, 'eliminar'])->name('establecimiento.eliminar');
+       // Route::post('/establecimientos/{id}/eliminar', [EstablecimientoController::class, 'eliminar'])->name('establecimiento.eliminar');
         Route::post('/establecimientos/eliminar/{id}', [EstablecimientoController::class, 'eliminar'])->name('establecimiento.eliminar');
         
         
@@ -90,15 +90,19 @@ Route::get('/login', function () {
         
     });
         
+	//Route::get('/admin/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('admin.login');
+
+
         // Ruta para mostrar el formulario de login
         Route::get('/login', [AuthenticatedSessionController::class, 'create'])
         ->middleware('guest')
         ->name('login');
         
         // Ruta para procesar el login
-        Route::post('/login', [AuthenticatedSessionController::class, 'logueoBack'])
-        ->middleware('guest');
+        Route::post('/admin/login', [AuthenticatedSessionController::class, 'logueoBack'])
+        ->middleware('guest')->name('admin.login');
         
         Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])
         ->middleware('auth')
         ->name('logout');
+	

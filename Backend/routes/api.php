@@ -12,11 +12,6 @@ use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 // Ruta de prueba
 Route::get('/test', fn () => response()->json(['message' => 'API funcionando']));
 
-// Login / Logout
-Route::post('/login', [ApiAuthenticationController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [ApiAuthenticationController::class, 'logout']);
-Route::post('/register', [AuthController::class, 'register']);
-
 // Si usas cookies con frontend tipo SPA (Vue/React)
 Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
@@ -36,3 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/reservas', [ReservaController::class, 'crearReserva']);
 });
+
+
+Route::post('/login', [ApiAuthenticationController::class, 'login']);
+Route::post('/logout', [ApiAuthenticationController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('/user', [ApiAuthenticationController::class, 'user'])->middleware('auth:sanctum');

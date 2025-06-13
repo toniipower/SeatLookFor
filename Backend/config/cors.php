@@ -25,7 +25,8 @@ return [
     'http://34.205.74.0',
     'http://34.205.74.0:80',
     'http://34.205.74.0:4200',
-    'https://seatlook.duckdns.org', 
+    'https://seatlook.duckdns.org',
+    'https://seatlookadmin.duckdns.org'
 ],
 
 
@@ -41,3 +42,4 @@ return [
 'supports_credentials' => true,
 
 ];
+

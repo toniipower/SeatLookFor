@@ -46,6 +46,7 @@ public function logueoBack(LoginRequest $request)
 
     return redirect()->intended(RouteServiceProvider::HOME);
 }
+
 public function destroy(Request $request)
 {
     Auth::guard('web')->logout();
