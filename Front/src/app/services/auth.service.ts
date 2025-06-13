@@ -1,114 +1,100 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
 
 interface AuthResponse {
   user: Usuario;
-  message: string;
+  token: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // private apiUrl = 'https://seatlookadmin.duckdns.org/api';
-  private apiUrl = 'http://localhost/api';
-  private url = 'http://localhost:4200';
+  private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
   private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
-  private readonly USER_KEY = 'currentUser';
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    this.initializeAuthState();
+    this.restoreSession();
   }
 
-  private initializeAuthState() {
-    const storedUser = sessionStorage.getItem(this.USER_KEY);
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser);
-        this.currentUserSubject.next(user);
-        this.isAuthenticatedSubject.next(true);
-      } catch (error) {
-        console.error('Error al parsear usuario del session storage:', error);
-        this.clearSession();
-      }
+  private restoreSession() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.getCurrentUser().subscribe({
+        next: user => {
+          this.currentUserSubject.next(user);
+          this.isAuthenticatedSubject.next(true);
+        },
+        error: () => {
+          this.logout().subscribe(); // token inválido
+        }
+      });
     }
   }
 
-  private clearSession() {
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.token);
+        this.currentUserSubject.next(response.user);
+        this.isAuthenticatedSubject.next(true);
+
+        if (response.user.admin) {
+          window.location.href = 'https://seatlookadmin.duckdns.org/establecimientos';
+        } else {
+          this.router.navigate(['/']);
+        }
+      })
+    );
+  }
+/*
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      tap(() => {
+        localStorage.removeItem('token');
+        this.currentUserSubject.next(null);
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigate(['/']);
+      })
+    );
+  }*/
+
+logout(): void {
+    this.clearSession();
+    this.router.navigate(['/']);
+  }
+
+private clearSession() {
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
     sessionStorage.removeItem(this.USER_KEY);
   }
 
-/*   getCSRFToken(): Observable<any> {
-    return this.http.get('https://seatlookadmin.duckdns.org/sanctum/csrf-cookie', {
-      withCredentials: true
-    });
-  } */
-  getCSRFToken(): Observable<any> {
-    return this.http.get('http://localhost/sanctum/csrf-cookie', {
-      withCredentials: true
-    });
-  }
-
-  login(email: string, password: string): Observable<any> {
-    return this.getCSRFToken().pipe(
-      tap(() => {
-        this.http.post<AuthResponse>(
-          `${this.apiUrl}/login`,
-          { email, password },
-          { withCredentials: true }
-        ).subscribe({
-          next: response => {
-            if (response.user.admin) {
-              window.location.href = 'http://localhost/establecimientos';
-            } else {
-              this.currentUserSubject.next(response.user);
-              this.isAuthenticatedSubject.next(true);
-              sessionStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-              this.router.navigate(['/']);
-            }
-          },
-          error: error => {
-            console.error('Error en login:', error);
-            this.clearSession();
-            throw error;
-          }
-        });
-      })
-    );
-  }
-
-  logout(): void {
-    this.clearSession();
-    this.router.navigate(['/']);
-  }
-
   getCurrentUser(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/user`, {
-      withCredentials: true
-    }).pipe(
-      tap(user => {
-        this.currentUserSubject.next(user);
-        this.isAuthenticatedSubject.next(true);
-        if (!user.admin) {
-          sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));
-        }
-      }),
-      catchError(error => {
-        this.clearSession();
-        return throwError(() => error);
-      })
-    );
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
 
   isLoggedIn(): boolean {
@@ -125,27 +111,22 @@ export class AuthService {
   }
 
   register(nombre: string, apellido: string, email: string, password: string): Observable<any> {
-    return this.getCSRFToken().pipe(
-      tap(() => {
-        this.http.post<AuthResponse>(
-          `${this.apiUrl}/register`,
-          { nombre, apellido, email, password, password_confirmation: password },
-          { withCredentials: true }
-        ).subscribe({
-          next: (response: AuthResponse) => {
-            this.currentUserSubject.next(response.user);
-            this.isAuthenticatedSubject.next(true);
-            sessionStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-            this.router.navigate(['/']);
-          },
-          error: (error) => {
-            console.error('Error en registro:', error);
-            this.clearSession();
-            throw error;
-          }
-        });
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/register`,
+      {
+        nombre,
+        apellido,
+        email,
+        password,
+        password_confirmation: password
+      }
+    ).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.token);
+        this.currentUserSubject.next(response.user);
+        this.isAuthenticatedSubject.next(true);
+        this.router.navigate(['/']);
       })
     );
   }
-  
 }
