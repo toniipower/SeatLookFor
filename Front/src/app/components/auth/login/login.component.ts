@@ -20,6 +20,8 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   loading = false;
+  rutaAdmin: string = "https://seatlookadmin.duckdns.org/login";
+  // rutaAdmin: string = "http://localhost/login";
 
   constructor(
     private fb: FormBuilder,

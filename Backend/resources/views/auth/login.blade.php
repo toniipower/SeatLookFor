@@ -47,6 +47,13 @@
                         Iniciar Sesión
                     </button>
                 </div>
+
+                <div class="mt-4 text-center">
+                    <a href="https://seatlook.duckdns.org/login" 
+                       class="text-indigo-600 hover:text-indigo-800 transition duration-300">
+                        Volver al login de usuario
+                    </a>
+                </div>
             </form>
         </div>
     </div>

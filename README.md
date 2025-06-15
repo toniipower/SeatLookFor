@@ -56,3 +56,17 @@ npm install && npm run build
 php artisan sail:install
 
 ./vendor/bin/sail up -d -->Debes  tener abierto docker
+
+```
+
+## Enlaces de Diseño (Figma)
+
+### UI Kits
+[UI Kits de SeatLookFor](https://www.figma.com/proto/ImMMo3FgZPSp6FfYw4JNMP/SeatLookFor?node-id=3027-141&p=f&t=Kvjn1FSMpw0egeMm-0&scaling=contain&content-scaling=fixed&page-id=0%3A1)
+
+### Wireframes
+- [Wireframe de Baja Fidelidad](https://www.figma.com/proto/ImMMo3FgZPSp6FfYw4JNMP/SeatLookFor?node-id=3261-604&p=f&t=Kvjn1FSMpw0egeMm-0&scaling=min-zoom&content-scaling=fixed&page-id=3261%3A594)
+- [Wireframe de Alta Fidelidad](https://www.figma.com/proto/ImMMo3FgZPSp6FfYw4JNMP/SeatLookFor?node-id=3261-652&p=f&t=oJVvSz3zhEM0c21j-1&scaling=min-zoom&content-scaling=fixed&page-id=3261%3A595&starting-point-node-id=3261%3A652)
+
+## Video de Review del Proyecto
+[Ver video de review](https://youtu.be/nXtgN2nFSh8)

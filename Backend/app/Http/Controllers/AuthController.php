@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Routing\Controller as BaseController;
-use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 
+/**
+ * @OA\Tag(
+ *     name="Autenticación",
+ *     description="API Endpoints para la gestión de autenticación"
+ * )
+ */
 class AuthController extends BaseController
 {
     public function __construct()
@@ -19,6 +25,64 @@ class AuthController extends BaseController
         // Quitamos el middleware web para el registro
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     operationId="login",
+     *     summary="Iniciar sesión",
+     *     description="Autentica a un usuario y devuelve un token de acceso",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="usuario@ejemplo.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login exitoso",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="idUsu", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="email", type="string", example="usuario@ejemplo.com"),
+     *                 @OA\Property(property="admin", type="boolean", example=false)
+     *             ),
+     *             @OA\Property(property="token", type="string", example="1|abcdef123456..."),
+     *             @OA\Property(property="message", type="string", example="Login exitoso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Credenciales inválidas",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Credenciales inválidas")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error de validación"),
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="El campo email es obligatorio")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         try {
@@ -85,6 +149,32 @@ class AuthController extends BaseController
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     operationId="logout",
+     *     summary="Cerrar sesión",
+     *     description="Cierra la sesión del usuario y revoca el token de acceso",
+     *     tags={"Autenticación"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout exitoso",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Logout exitoso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al cerrar sesión",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error al cerrar sesión")
+     *         )
+     *     )
+     * )
+     */
     public function logout(Request $request)
     {
         try {
@@ -112,6 +202,36 @@ class AuthController extends BaseController
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/user",
+     *     operationId="getUser",
+     *     summary="Obtener usuario actual",
+     *     description="Devuelve la información del usuario autenticado",
+     *     tags={"Autenticación"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Información del usuario",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="idUsu", type="integer", example=1),
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="email", type="string", example="usuario@ejemplo.com"),
+     *             @OA\Property(property="admin", type="boolean", example=false)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="No autenticado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="No autenticado")
+     *         )
+     *     )
+     * )
+     */
     public function user(Request $request)
     {
         try {
@@ -158,6 +278,59 @@ class AuthController extends BaseController
         return redirect()->route('establecimiento.listado');
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/register",
+     *     operationId="register",
+     *     summary="Registrar nuevo usuario",
+     *     description="Crea un nuevo usuario y devuelve un token de acceso",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre", "apellido", "email", "password", "password_confirmation"},
+     *             @OA\Property(property="nombre", type="string", maxLength=255, example="Juan"),
+     *             @OA\Property(property="apellido", type="string", maxLength=255, example="Pérez"),
+     *             @OA\Property(property="email", type="string", format="email", maxLength=255, example="usuario@ejemplo.com"),
+     *             @OA\Property(property="password", type="string", format="password", minLength=8, example="password123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", minLength=8, example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Usuario registrado exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Usuario registrado exitosamente"),
+     *             @OA\Property(property="user", type="object",
+     *                 @OA\Property(property="idUsu", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Juan"),
+     *                 @OA\Property(property="apellido", type="string", example="Pérez"),
+     *                 @OA\Property(property="email", type="string", example="usuario@ejemplo.com"),
+     *                 @OA\Property(property="admin", type="boolean", example=false)
+     *             ),
+     *             @OA\Property(property="token", type="string", example="1|abcdef123456...")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Error de validación"),
+     *             @OA\Property(
+     *                 property="errors",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="array",
+     *                     @OA\Items(type="string", example="El email ya está registrado")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         try {
@@ -179,9 +352,14 @@ class AuthController extends BaseController
 
             event(new Registered($usuario));
 
+            Auth::login($usuario);
+
+            $token = $usuario->createToken('auth-token')->plainTextToken;
+
             return response()->json([
                 'message' => 'Usuario registrado exitosamente',
-                'user' => $usuario
+                'user' => $usuario,
+                'token' => $token
             ], 201);
 
         } catch (ValidationException $e) {

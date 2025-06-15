@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comentario } from '../models/comentario.model';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComentarioService {
-  private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  // private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  private apiUrl = `${environment.apiUrlLocal}`;
 
   constructor(
     private http: HttpClient,

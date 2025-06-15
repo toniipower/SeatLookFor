@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 })
 export class EventoService {
   // private apiUrl = 'https://seatlookadmin.duckdns.org/api/eventos'; 
-  private apiUrl = `${environment.apiUrl}/eventos`;
+  private apiUrl = `${environment.apiUrlLocal}/eventos`;
 
   constructor(private http: HttpClient) {}
 

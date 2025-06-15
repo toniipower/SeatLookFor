@@ -23,7 +23,7 @@ import { ComentarioService } from '../../services/comentario.service';
           <div class="comment-form__stars">
             <span *ngFor="let estrella of [1,2,3,4,5]" 
                   (click)="setValoracion(estrella)"
-                  [class.comment-form__star--active]="estrella <= comentarioForm.get('valoracion')?.value">
+                  [class.comment-form__star--active]="comentarioForm.get('valoracion')?.value >= estrella">
               ⭐
             </span>
           </div>
@@ -81,11 +81,18 @@ import { ComentarioService } from '../../services/comentario.service';
 
     .comment-form__stars span {
       opacity: 0.3;
-      transition: opacity 0.3s;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .comment-form__stars span:hover {
+      opacity: 0.7;
     }
 
     .comment-form__star--active {
-      opacity: 1;
+      opacity: 1 !important;
+      transform: scale(1.1);
     }
 
     .comment-form__preview {
@@ -138,7 +145,8 @@ export class ComentarioFormComponent {
   }
 
   setValoracion(valor: number) {
-    this.comentarioForm.patchValue({ valoracion: valor });
+    this.comentarioForm.get('valoracion')?.setValue(valor);
+    this.comentarioForm.get('valoracion')?.markAsTouched();
   }
 
   private async compressImage(file: File): Promise<string> {
