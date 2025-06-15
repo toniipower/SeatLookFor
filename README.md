@@ -83,6 +83,9 @@ php artisan sail:install
 - [Wireframe de Baja Fidelidad](https://www.figma.com/proto/ImMMo3FgZPSp6FfYw4JNMP/SeatLookFor?node-id=3261-604&p=f&t=Kvjn1FSMpw0egeMm-0&scaling=min-zoom&content-scaling=fixed&page-id=3261%3A594)
 - [Wireframe de Alta Fidelidad](https://www.figma.com/proto/ImMMo3FgZPSp6FfYw4JNMP/SeatLookFor?node-id=3261-652&p=f&t=oJVvSz3zhEM0c21j-1&scaling=min-zoom&content-scaling=fixed&page-id=3261%3A595&starting-point-node-id=3261%3A652)
 
+### FigJam
+[FigJam de SeatLookFor](https://www.figma.com/board/hK2Am5sJmjC7Rc83VmBF1f/SeatLookFor?node-id=1-731&t=VQYImc6Rd39f3ank-1)
+
 ## Video de Review del Proyecto
 [Ver video de review](https://youtu.be/nXtgN2nFSh8)
 =======
