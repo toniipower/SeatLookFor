@@ -52,7 +52,7 @@
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Mapa de Asientos</h2>
             <div class="overflow-x-auto">
                 <div class="relative bg-white border rounded-xl shadow p-4 mx-auto" style="width: 1000px; height: 600px;">
-                    @foreach($evento->establecimiento->asientos as $asiento)
+                    @foreach($evento->asientos as $asiento)
                         <div
                             class="absolute text-[11px] font-semibold text-white flex items-center justify-center rounded-md shadow-sm"
                             style="
@@ -60,13 +60,15 @@
                                 height: 40px;
                                 left: {{ $asiento->ejeX * 50 + 5 }}px;
                                 top: {{ $asiento->ejeY * 50 + 5 }}px;
-                                background-color: {{ $asiento->estado === 'ocupado' ? '#9ca3af' : '#22c55e' }};">
+                                background-color: #22c55e;">
                             {{ $asiento->zona }}
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
+
+        <!-- CAMBIO DE ESTADO -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cambiar Estado del Evento</h2>
             <form action="{{ route('eventos.estado', $evento->idEve) }}" method="POST" class="flex items-center gap-4">
@@ -81,13 +83,13 @@
             </form>
         </div>
 
-
+        <!-- ELIMINAR EVENTO -->
         <form action="{{ route('eventos.eliminar', $evento->idEve) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.');">
-                @csrf
-                <button type="submit" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">
-                    Eliminar evento
-                </button>
-            </form>
+            @csrf
+            <button type="submit" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition font-semibold">
+                Eliminar evento
+            </button>
+        </form>
 
         <!-- BOTONES DE ACCIÓN -->
         <div class="mt-12 flex justify-center space-x-4">

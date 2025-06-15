@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -40,4 +41,46 @@ class ApiAuthenticationController extends Controller
     {
         return response()->json($request->user());
     }
+	
+
+	
+
+
+	    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
+            'email' => 'required|email|unique:usuario,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user = Usuario::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+	    'estado'=>true,
+        ]);
+
+        $token = $user->createToken('angular_spa')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Registro exitoso.',
+            'user' => $user,
+            'token' => $token,
+        ], 201);
+    }
+
+
+
+
+
+
+
+
 }

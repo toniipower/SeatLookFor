@@ -92,8 +92,8 @@
         <input type="hidden" name="asientos" id="inputAsientos">
 
         <div class="mb-4 flex flex-wrap items-center gap-4">
-            <label class="text-lg font-medium">Zona:</label>
-            <input type="text" id="zona" placeholder="Ej: Platea" class="p-2 border rounded w-40">
+            <label class="text-lg font-medium">Nombre de la Zona:</label>
+            <input type="text" id="zona" maxlength="5" placeholder="Máx. 5 caracteres" class="p-2 border rounded w-40">
 
             <label class="text-lg font-medium">Modo:</label>
             <select id="modo" class="border p-2 rounded">

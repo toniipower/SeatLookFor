@@ -257,14 +257,13 @@ public function comentariosPorEvento($id)
 public function ver($id)
 {
     try {
-        $evento = Evento::with(['establecimiento', 'ReservaDeEventos'])->findOrFail($id);
+        $evento = Evento::with(['establecimiento', 'ReservaDeEventos', 'asientos'])->findOrFail($id);
         return view('Evento.mostrarEvento', compact('evento'));
     } catch (\Exception $e) {
         Log::error('Error al cargar vista del evento: ' . $e->getMessage());
         return redirect()->route('eventos.listado')->withErrors(['error' => 'No se pudo mostrar el evento.']);
     }
 }
-
 
 public function eliminar($id)
 {
