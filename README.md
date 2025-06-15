@@ -19,6 +19,21 @@ SeatLookFor es una aplicación que permite a los usuarios subir imágenes de asi
 - **Base de datos**: MariaDB
 - **Despliegue**: AWS
 
+## Documentación de la API 📚
+
+La documentación de la API está disponible a través de Swagger UI. Para acceder a ella:
+
+1. Asegúrate de que el servidor Laravel esté en ejecución
+2. Accede a la siguiente URL en tu navegador:
+   ```
+   http://localhost:8000/api/documentation
+   ```
+
+El archivo JSON de la documentación se encuentra en:
+```
+Backend/storage/api-docs/api-docs.json
+```
+
 
 ## Equipo 👥
 
