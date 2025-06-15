@@ -176,7 +176,6 @@ app-navbar {
   transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   /* color: transparent; */
-
   padding: 0 0 2px 0;
 
 }
@@ -202,20 +201,14 @@ app-footer {
 
 .landing-page__title {
   font-size: 3em;
-  /* Ajusta el tamaño de la fuente */
   text-align: center;
   white-space: pre;
-  /* Esto ayuda a mantener los espacios, aunque con &nbsp; es menos crítico */
   color: aliceblue;
 }
 
 .landing-page__title-letter {
   display: inline-block;
-  /* Crucial para animar transformaciones */
   position: relative;
-  /* Si vas a usar transformaciones como translateY, es buena práctica */
-  /* Puedes añadir un margen pequeño si quieres más separación entre letras */
-  /* margin: 0 2px; */
 }
 
 .landing-page__spotlight-container {

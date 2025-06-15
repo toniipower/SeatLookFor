@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { Usuario } from '../models/usuario.model';
+import { environment } from '../../environments/environment';
 
 interface AuthResponse {
   user: Usuario;
@@ -13,7 +14,7 @@ interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://seatlookadmin.duckdns.org/api';
+  private apiUrl = `${environment.apiUrl}`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -25,21 +26,10 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    this.restoreSession();
-  }
-
-  private restoreSession() {
+    // Verificar si hay un token al iniciar
     const token = localStorage.getItem('token');
     if (token) {
-      this.getCurrentUser().subscribe({
-        next: user => {
-          this.currentUserSubject.next(user);
-          this.isAuthenticatedSubject.next(true);
-        },
-        error: () => {
-          this.logout().subscribe(); // token inválido
-        }
-      });
+      this.isAuthenticatedSubject.next(true);
     }
   }
 
@@ -58,29 +48,12 @@ export class AuthService {
       })
     );
   }
-/*
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, {
-      headers: this.getAuthHeaders()
-    }).pipe(
-      tap(() => {
-        localStorage.removeItem('token');
-        this.currentUserSubject.next(null);
-        this.isAuthenticatedSubject.next(false);
-        this.router.navigate(['/']);
-      })
-    );
-  }*/
 
-logout(): void {
-    this.clearSession();
-    this.router.navigate(['/']);
-  }
-
-private clearSession() {
+  logout(): void {
+    localStorage.removeItem('token');
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
-    sessionStorage.removeItem(this.USER_KEY);
+    this.router.navigate(['/']);
   }
 
   getCurrentUser(): Observable<Usuario> {

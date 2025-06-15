@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class CardService {
   // private apiUrl = 'https://seatlookadmin.duckdns.org/api/recientes/3';
-  private apiUrl = `${environment.apiUrl}/recientes/3`;
+  private apiUrl = `${environment.apiUrlLocal}/recientes/3`;
 
   constructor(private http: HttpClient) {}
 

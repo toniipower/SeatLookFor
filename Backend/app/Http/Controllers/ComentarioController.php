@@ -11,6 +11,69 @@ use Illuminate\Support\Str;
 
 class ComentarioController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/asientos/{idAsi}/comentarios",
+     *     operationId="comentarAsiento",
+     *     summary="Crear un comentario para un asiento",
+     *     description="Crea un nuevo comentario y valoración (0‑5) para el asiento indicado. El usuario debe estar autenticado.",
+     *     tags={"Comentarios"},
+     *
+     *     security={{"sanctum":{}}},
+     *
+     *     @OA\Parameter(
+     *         name="idAsi",
+     *         description="ID del asiento",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=17)
+     *     ),
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"opinion","valoracion"},
+     *             @OA\Property(property="opinion",   type="string", example="Muy cómodo 😍"),
+     *             @OA\Property(property="valoracion",type="number", format="float", minimum=0, maximum=5, example=4.5),
+     *             @OA\Property(property="foto",      type="string", nullable=true,
+     *                          description="Imagen en base64 con cabecera data URI",
+     *                          example="data:image/jpeg;base64,/9j/4AAQSkZJRgABA...")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Comentario guardado correctamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="mensaje", type="string", example="Comentario guardado correctamente"),
+     *             @OA\Property(
+     *                 property="comentario",
+     *                 type="object",
+     *                 @OA\Property(property="idCom", type="integer"),
+     *                 @OA\Property(property="opinion", type="string"),
+     *                 @OA\Property(property="valoracion", type="number"),
+     *                 @OA\Property(property="foto", type="string", nullable=true),
+     *                 @OA\Property(property="idUsu", type="integer"),
+     *                 @OA\Property(property="idAsi", type="integer"),
+     *                 @OA\Property(property="idEve", type="integer", nullable=true),
+     *                 @OA\Property(
+     *                     property="usuario",
+     *                     type="object",
+     *                     @OA\Property(property="idUsu", type="integer"),
+     *                     @OA\Property(property="nombre", type="string"),
+     *                     @OA\Property(property="apellido", type="string")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Usuario no autenticado"),
+     *     @OA\Response(response=404, description="El asiento no existe"),
+     *     @OA\Response(response=422, description="Error de validación"),
+     *     @OA\Response(response=500, description="Error interno")
+     * )
+     */
+
+
     public function comentar(Request $request, $idAsi)
     {
         try {
@@ -94,6 +157,50 @@ class ComentarioController extends Controller
             ], 500);
         }
     }
+    /**
+     * @OA\Get(
+     *     path="/api/asientos/{idAsi}/comentarios",
+     *     operationId="listarComentariosAsiento",
+     *     summary="Listar comentarios de un asiento",
+     *     tags={"Comentarios"},
+     *
+     *     @OA\Parameter(
+     *         name="idAsi",
+     *         description="ID del asiento",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=17)
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de comentarios",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="idCom", type="integer"),
+     *                 @OA\Property(property="opinion", type="string"),
+     *                 @OA\Property(property="valoracion", type="number"),
+     *                 @OA\Property(property="foto", type="string", nullable=true),
+     *                 @OA\Property(property="idUsu", type="integer"),
+     *                 @OA\Property(property="idAsi", type="integer"),
+     *                 @OA\Property(property="idEve", type="integer", nullable=true),
+     *                 @OA\Property(
+     *                     property="usuario",
+     *                     type="object",
+     *                     @OA\Property(property="idUsu", type="integer"),
+     *                     @OA\Property(property="nombre", type="string"),
+     *                     @OA\Property(property="apellido", type="string")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=404, description="El asiento no existe"),
+     *     @OA\Response(response=500, description="Error interno")
+     * )
+     */
+
 
     public function getComentarios($idAsi)
     {
@@ -116,3 +223,24 @@ class ComentarioController extends Controller
         }
     }
 }
+
+/**
+ * @OA\Schema(
+ *     schema="Comentario",
+ *     type="object",
+ *     @OA\Property(property="idCom", type="integer"),
+ *     @OA\Property(property="opinion", type="string"),
+ *     @OA\Property(property="valoracion", type="number"),
+ *     @OA\Property(property="foto", type="string", nullable=true),
+ *     @OA\Property(property="idUsu", type="integer"),
+ *     @OA\Property(property="idAsi", type="integer"),
+ *     @OA\Property(property="idEve", type="integer", nullable=true),
+ *     @OA\Property(
+ *         property="usuario",
+ *         type="object",
+ *         @OA\Property(property="idUsu", type="integer"),
+ *         @OA\Property(property="nombre", type="string"),
+ *         @OA\Property(property="apellido", type="string")
+ *     )
+ * )
+ */
