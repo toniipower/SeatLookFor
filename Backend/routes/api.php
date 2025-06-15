@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reservas', [ReservaController::class, 'crearReserva']);
 });
 
-
+Route::post('/register', [ApiAuthenticationController::class, 'register']);
 Route::post('/login', [ApiAuthenticationController::class, 'login']);
 Route::post('/logout', [ApiAuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/user', [ApiAuthenticationController::class, 'user'])->middleware('auth:sanctum');
