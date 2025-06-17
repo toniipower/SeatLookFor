@@ -149,6 +149,9 @@ php artisan sail:install
 ./vendor/bin/sail up -d -->Debes  tener abierto docker
 
 ```
+## Presentacion PDF
+
+[TGC.pdf](https://github.com/user-attachments/files/20769626/TGC.pdf)
 
 ## Enlaces de Diseño (Figma)
 
